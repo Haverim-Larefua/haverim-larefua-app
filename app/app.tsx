@@ -68,6 +68,7 @@ export const App: React.FunctionComponent<{}> = () => {
   }
 
   // otherwise, we're ready to render the app
+  
   return (
     <RootStoreProvider value={rootStore}>
       <BackButtonHandler canExit={canExit}>
