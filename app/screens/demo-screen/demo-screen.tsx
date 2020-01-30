@@ -88,6 +88,7 @@ export const DemoScreen: React.FunctionComponent<DemoScreenProps> = props => {
       console.tron.display({
         name: "DISPLAY",
         value: {
+          rootstore: props,
           numbers: 1,
           strings: "strings",
           booleans: true,
@@ -115,6 +116,7 @@ export const DemoScreen: React.FunctionComponent<DemoScreenProps> = props => {
       demo.getUser("1")
       // Let's do some async storage stuff
       await save("Cool Name", "Boaty McBoatface")
+      props.navigation.navigate('login')
     },
     [],
   )

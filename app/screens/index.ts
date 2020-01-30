@@ -1,2 +1,7 @@
 export * from "./welcome-screen/welcome-screen"
 export * from "./demo-screen/demo-screen"
+export * from "./login"
+export * from "./packageDelivery"
+export * from "./packagesList"
+export * from "./packageDeliveryConfirmation"
+export * from "./packagePickUp"

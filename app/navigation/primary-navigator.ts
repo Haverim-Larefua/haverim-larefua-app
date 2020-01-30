@@ -1,13 +1,21 @@
 import createNativeStackNavigator from "react-native-screens/createNativeStackNavigator"
 import {
-  WelcomeScreen,
-  DemoScreen,
+  LoginScreen,
+  PackageDeliveryConfirmationScreen,
+  PackageDeliveryScreen,
+  PackagePickUpScreen,
+  PackagesListScreen
 } from "../screens"
 
 export const PrimaryNavigator = createNativeStackNavigator(
   {
-    welcome: { screen: WelcomeScreen },
-    demo: { screen: DemoScreen },
+    // welcome: { screen: WelcomeScreen },
+    // demo: { screen: DemoScreen },
+    login: { screen: LoginScreen },
+    packageDeliveryConfirmation: { screen: PackageDeliveryConfirmationScreen },
+    packageDelivery: { screen: PackageDeliveryScreen },
+    packagePickUp: { screen: PackagePickUpScreen },
+    packagesList: { screen: PackagesListScreen },
   },
   {
     headerMode: "none",
