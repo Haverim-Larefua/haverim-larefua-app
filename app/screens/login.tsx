@@ -1,26 +1,47 @@
 import * as React from "react"
 import { StyleSheet, View } from "react-native"
 import { NavigationInjectedProps } from "react-navigation"
-import {Button, Checkbox, Icon, Screen, TextField} from "../components"
-import { spacing } from "../theme";
-import {Toggle} from "react-powerplug";
+import { Button, Checkbox, Icon, Screen, TextField } from "../components"
+import { spacing } from "../theme"
+import { Toggle } from "react-powerplug"
 
 export interface LoginProps extends NavigationInjectedProps<{}> {}
 
 export const LoginScreen: React.FunctionComponent<LoginProps> = props => {
   const goToNextPage = React.useMemo(() => () => props.navigation.navigate('packagesList'), [props.navigation])
-  return (
-    <View style={{ flex: 1 }}>
-      <Screen style={styles.container} preset="scroll" backgroundColor={'#fff'}>
-        <Icon style={styles.icon} icon="loginLogo" />
+
+  const renderLoginIcon = (): React.ReactElement => {
+    return <Icon style={styles.icon} icon="loginLogo" />
+  }
+  const renderTextFields = (): React.ReactElement => {
+    return (
+      <View>
         <TextField label={"שם משתמש.ת"} />
         <TextField style={styles.passwordTextField} label={"סיסמה"} />
-        <View style={styles.rememberMeContainer}>
-          <Toggle initial={false}>
-            {({ on, toggle }) => <Checkbox value={on} onToggle={toggle} text="זכור אותי" />}
-          </Toggle>
-        </View>
-        <Button text={'כניסה'} />
+      </View>
+    )
+  }
+
+  const renderCheckbox = (): React.ReactElement => {
+    return (
+      <View style={styles.rememberMeContainer}>
+        <Toggle initial={false}>
+          {({ on, toggle }) => <Checkbox value={on} onToggle={toggle} text="זכור אותי" />}
+        </Toggle>
+      </View>
+    )
+  }
+
+  const renderLoginButton = (): React.ReactElement => {
+    return <Button text={'כניסה'} onPress={() => goToNextPage()}/>
+  }
+  return (
+    <View style={styles.container}>
+      <Screen style={styles.screen} preset="scroll" backgroundColor={'#fff'}>
+        {renderLoginIcon()}
+        {renderTextFields()}
+        {renderCheckbox()}
+        {renderLoginButton()}
       </Screen>
     </View>
   )
@@ -28,8 +49,7 @@ export const LoginScreen: React.FunctionComponent<LoginProps> = props => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    paddingHorizontal: spacing.regularPadding
+    flex: 1
   },
   icon: {
     alignSelf: 'center',
@@ -42,8 +62,12 @@ const styles = StyleSheet.create({
   },
   rememberMeContainer: {
     flexDirection: 'row-reverse',
-    width: '100%',
-    marginBottom: spacing.bigSpacing
+    marginBottom: spacing.bigSpacing,
+    width: '100%'
+  },
+  screen: {
+    flex: 1,
+    paddingHorizontal: spacing.regularPadding
   }
 
-});
+})
