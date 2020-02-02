@@ -1,13 +1,11 @@
 import * as React from "react"
-import { StyleSheet, TextStyle, View} from "react-native"
+import { StyleSheet, View} from "react-native"
 import { NavigationInjectedProps } from "react-navigation"
-import {Button, Header, Icon, Screen, TextField} from "../components"
-import { color, spacing } from "../theme"
+import {Button, Icon, Screen, TextField} from "../components"
 
 export interface LoginProps extends NavigationInjectedProps<{}> {}
 
 export const LoginScreen: React.FunctionComponent<LoginProps> = props => {
-  const goBack = React.useMemo(() => () => props.navigation.goBack(null), [props.navigation])
   const goToNextPage = React.useMemo(() => () => props.navigation.navigate('packagesList'), [props.navigation])
   return (
     <View style={{ flex: 1 }}>

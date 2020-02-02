@@ -8,6 +8,7 @@ const BASE: TextStyle = {
   fontFamily: typography.primary,
   color: color.text,
   fontSize: 16,
+  textAlign: 'right'
 }
 
 /**
@@ -20,6 +21,11 @@ export const presets = {
    * The default text styles.
    */
   default: BASE,
+
+  /**
+   * A smaller piece of secondard information.
+   */
+  secondary: { ...BASE, fontSize: 14,} as TextStyle,
 
   /**
    * A bold version of the default text.
@@ -36,10 +42,6 @@ export const presets = {
    */
   fieldLabel: { ...BASE, fontSize: 13, color: color.dim } as TextStyle,
 
-  /**
-   * A smaller piece of secondard information.
-   */
-  secondary: { ...BASE, fontSize: 9, color: color.dim } as TextStyle,
 }
 
 /**
