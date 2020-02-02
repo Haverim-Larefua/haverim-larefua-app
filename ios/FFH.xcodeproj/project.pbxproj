@@ -38,6 +38,10 @@
 		35FF78A995B04C4FAD4F9FDC /* Montserrat-SemiBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7C98F4A4DB2740998029FA21 /* Montserrat-SemiBoldItalic.ttf */; };
 		A7147977C04B4C14BAACE787 /* Montserrat-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = EA138110C7594274BE7C20A9 /* Montserrat-Thin.ttf */; };
 		347FB19DC9F842B68D1D8830 /* Montserrat-ThinItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E639C58E9E4F4048B015C1BF /* Montserrat-ThinItalic.ttf */; };
+		9FFD4223E8F54BC0A686A337 /* Arimo-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BFA3505778FA4A0FB0BB51E2 /* Arimo-Bold.ttf */; };
+		AE1E28D6322443BA9A419905 /* Arimo-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 08086819688F4DF0B14C6C8D /* Arimo-BoldItalic.ttf */; };
+		3FE8F13789E54EC48A974A35 /* Arimo-Italic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E6875903127943ACA7080501 /* Arimo-Italic.ttf */; };
+		382732E71BE9466D923594A3 /* Arimo-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6B9C0B5315F94337B26A4BF8 /* Arimo-Regular.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,6 +107,10 @@
 		7C98F4A4DB2740998029FA21 /* Montserrat-SemiBoldItalic.ttf */ = {isa = PBXFileReference; name = "Montserrat-SemiBoldItalic.ttf"; path = "../app/theme/fonts/Montserrat-SemiBoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		EA138110C7594274BE7C20A9 /* Montserrat-Thin.ttf */ = {isa = PBXFileReference; name = "Montserrat-Thin.ttf"; path = "../app/theme/fonts/Montserrat-Thin.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 		E639C58E9E4F4048B015C1BF /* Montserrat-ThinItalic.ttf */ = {isa = PBXFileReference; name = "Montserrat-ThinItalic.ttf"; path = "../app/theme/fonts/Montserrat-ThinItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		BFA3505778FA4A0FB0BB51E2 /* Arimo-Bold.ttf */ = {isa = PBXFileReference; name = "Arimo-Bold.ttf"; path = "../app/theme/fonts/Arimo-Bold.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		08086819688F4DF0B14C6C8D /* Arimo-BoldItalic.ttf */ = {isa = PBXFileReference; name = "Arimo-BoldItalic.ttf"; path = "../app/theme/fonts/Arimo-BoldItalic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		E6875903127943ACA7080501 /* Arimo-Italic.ttf */ = {isa = PBXFileReference; name = "Arimo-Italic.ttf"; path = "../app/theme/fonts/Arimo-Italic.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		6B9C0B5315F94337B26A4BF8 /* Arimo-Regular.ttf */ = {isa = PBXFileReference; name = "Arimo-Regular.ttf"; path = "../app/theme/fonts/Arimo-Regular.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -256,6 +264,10 @@
 				7C98F4A4DB2740998029FA21 /* Montserrat-SemiBoldItalic.ttf */,
 				EA138110C7594274BE7C20A9 /* Montserrat-Thin.ttf */,
 				E639C58E9E4F4048B015C1BF /* Montserrat-ThinItalic.ttf */,
+				BFA3505778FA4A0FB0BB51E2 /* Arimo-Bold.ttf */,
+				08086819688F4DF0B14C6C8D /* Arimo-BoldItalic.ttf */,
+				E6875903127943ACA7080501 /* Arimo-Italic.ttf */,
+				6B9C0B5315F94337B26A4BF8 /* Arimo-Regular.ttf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -419,6 +431,10 @@
 				35FF78A995B04C4FAD4F9FDC /* Montserrat-SemiBoldItalic.ttf in Resources */,
 				A7147977C04B4C14BAACE787 /* Montserrat-Thin.ttf in Resources */,
 				347FB19DC9F842B68D1D8830 /* Montserrat-ThinItalic.ttf in Resources */,
+				9FFD4223E8F54BC0A686A337 /* Arimo-Bold.ttf in Resources */,
+				AE1E28D6322443BA9A419905 /* Arimo-BoldItalic.ttf in Resources */,
+				3FE8F13789E54EC48A974A35 /* Arimo-Italic.ttf in Resources */,
+				382732E71BE9466D923594A3 /* Arimo-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

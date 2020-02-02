@@ -73,6 +73,10 @@
 		<string>Montserrat-SemiBoldItalic.ttf</string>
 		<string>Montserrat-Thin.ttf</string>
 		<string>Montserrat-ThinItalic.ttf</string>
+		<string>Arimo-Bold.ttf</string>
+		<string>Arimo-BoldItalic.ttf</string>
+		<string>Arimo-Italic.ttf</string>
+		<string>Arimo-Regular.ttf</string>
 	</array>
 </dict>
 </plist>

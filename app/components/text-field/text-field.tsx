@@ -53,7 +53,7 @@ export const TextField: React.FunctionComponent<TextFieldProps> = props => {
 
   return (
     <View style={containerStyle}>
-      <Text preset="fieldLabel" tx={labelTx} text={label} />
+      <Text style={ { fontFamily: 'Arimo', fontSize: 14, color: color.text}} preset="fieldLabel" tx={labelTx} text={label} />
       <TextInput
         placeholder={actualPlaceholder}
         placeholderTextColor={color.palette.lighterGrey}
