@@ -18,6 +18,9 @@ const INPUT: TextStyle = {
   minHeight: 44,
   fontSize: 18,
   backgroundColor: color.palette.white,
+  borderWidth: 1,
+  borderRadius: 4,
+  borderColor: color.textFieldBorder
 }
 
 // currently we have no presets, but that changes quickly when you build your app.
