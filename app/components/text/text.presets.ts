@@ -25,7 +25,7 @@ export const presets = {
   /**
    * A smaller piece of secondard information.
    */
-  secondary: { ...BASE, fontSize: 14,} as TextStyle,
+  secondary: { ...BASE, fontSize: 14 } as TextStyle,
 
   /**
    * A bold version of the default text.
@@ -41,7 +41,7 @@ export const presets = {
    * Field labels that appear on forms above the inputs.
    */
   fieldLabel: { ...BASE, fontSize: 13, color: color.dim } as TextStyle,
-
+  buttonText: { ...BASE, color: color.palette.white }
 }
 
 /**

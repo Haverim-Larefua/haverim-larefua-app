@@ -1,7 +1,7 @@
 import * as React from "react"
-import { TouchableOpacity } from "react-native"
+import {StyleSheet, TouchableOpacity} from "react-native"
 import { Text } from "../"
-import { viewPresets, textPresets } from "./button.presets"
+import { viewPresets } from "./button.presets"
 import { ButtonProps } from "./button.props"
 import { mergeAll, flatten } from "ramda"
 
@@ -13,7 +13,7 @@ import { mergeAll, flatten } from "ramda"
 export function Button(props: ButtonProps) {
   // grab the props
   const {
-    preset = "primary",
+    preset = "button",
     tx,
     text,
     style: styleOverride,
@@ -22,12 +22,12 @@ export function Button(props: ButtonProps) {
     ...rest
   } = props
 
-  const viewStyle = mergeAll(flatten([viewPresets[preset] || viewPresets.primary, styleOverride]))
+  const viewStyle = mergeAll(flatten([viewPresets[preset] || viewPresets.button, styleOverride]))
   const textStyle = mergeAll(
-    flatten([textPresets[preset] || textPresets.primary, textStyleOverride]),
+    flatten([textStyleOverride]),
   )
 
-  const content = children || <Text tx={tx} text={text} style={textStyle} />
+  const content = children || <Text tx={tx} text={text} preset={'buttonText'} style={textStyle} />
 
   return (
     <TouchableOpacity style={viewStyle} {...rest}>
