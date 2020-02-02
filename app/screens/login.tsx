@@ -1,7 +1,7 @@
 import * as React from "react"
-import { StyleSheet, TextStyle, View} from "react-native"
+import { TextStyle, View, Text } from "react-native"
 import { NavigationInjectedProps } from "react-navigation"
-import {Button, Header, Icon, Screen, TextField} from "../components"
+import { Button, Header, Screen } from "../components"
 import { color, spacing } from "../theme"
 
 export interface LoginProps extends NavigationInjectedProps<{}> {}
@@ -12,8 +12,13 @@ export const LoginScreen: React.FunctionComponent<LoginProps> = props => {
   return (
     <View style={{ flex: 1 }}>
       <Screen preset="scroll" backgroundColor={'#fff'}>
-        <Icon style={styles.icon} icon="loginLogo" />
-        <TextField label={"שם משתמש.ת"} />
+        <Header
+          headerText="login page"
+          leftIcon="back"
+          onLeftPress={goBack}
+          style={HEADER}
+          titleStyle={HEADER_TITLE}
+        />
         <Button
           text="go to packages list page"
           onPress={goToNextPage}
@@ -23,9 +28,15 @@ export const LoginScreen: React.FunctionComponent<LoginProps> = props => {
   )
 }
 
-const styles = StyleSheet.create({
-  icon: {
-    alignSelf: 'center',
-    marginTop: 75
-  }
-});
+const HEADER: TextStyle = {
+  paddingTop: spacing[4],
+  paddingBottom: spacing[5] - 1,
+  paddingHorizontal: 5,
+}
+const HEADER_TITLE: TextStyle = {
+  fontSize: 12,
+  lineHeight: 15,
+  textAlign: "center",
+  letterSpacing: 1.5,
+  color: color.palette.black
+}
