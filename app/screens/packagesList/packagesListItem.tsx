@@ -14,8 +14,8 @@ export const PackagesListItem: React.FunctionComponent<PackagesListItemProps> = 
   return (
     <View style={[styles.container, props.style]}>
       <View style={styles.destinationContainer}>
-        <Text preset={'bold'} style={styles.nameStyle} text={`${packageData.receiver.firstName} ${packageData.receiver.lastName}`} />
-        <Text preset={'default'} text={`${packageData.destination.city}`} />
+        <Text preset={'bold'} style={styles.nameStyle} text={`${packageData.receiver.lastName} ${packageData.receiver.firstName}`} />
+        <Text style={styles.cityStyle} preset={'default'} text={`${packageData.destination.city}`} />
         <Text preset={'default'} text={`${packageData.destination.street} ${packageData.destination.number}/${packageData.destination.apartment}`} />
       </View>
       <PackageStatusTag status={packageData.status}/>
@@ -24,12 +24,14 @@ export const PackagesListItem: React.FunctionComponent<PackagesListItemProps> = 
 }
 
 const styles = StyleSheet.create({
+  cityStyle: {
+    marginBottom: 2
+  },
   container: {
     backgroundColor: color.palette.white,
     borderRadius: 4,
     flexDirection: 'row-reverse',
-    paddingVertical: spacing.mediumSpacing,
-      alignItems: 'center'
+    paddingVertical: spacing.mediumSpacing
   },
   destinationContainer: {
     flex: 1,

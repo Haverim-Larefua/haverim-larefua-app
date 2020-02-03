@@ -24,7 +24,9 @@ const styles = StyleSheet.create({
     paddingRight: 10
   },
   text: {
+    fontSize: 13,
     fontWeight: 'bold',
     marginVertical: 2,
+    textAlignVertical: 'top'
   }
 })

@@ -6,16 +6,22 @@ import { PackageData, PackageStatus } from "./types"
 import { PackagesListItem } from "./packagesListItem"
 import { color, spacing } from "../../theme"
 import { WelcomeUserView } from "./welcomeUserView"
+import {PackagesScreenHeader} from "./packagesScreenHeader";
 
 export interface PackagesListSProps extends NavigationInjectedProps<{}> {}
 
 export const PackagesListScreen: React.FunctionComponent<PackagesListSProps> = props => {
   // const goToNextPage = React.useMemo(() => () => props.navigation.navigate('packagePickUp'), [props.navigation])
+
+  const renderListHeader = (): React.ReactElement => {
+    return <WelcomeUserView numberOfPackages={4} userDetails={{ firstName: 'דניאל', lastName: 'כהן', id: '5' }}/>
+  }
+
   return (
     <View style={styles.container}>
+      <PackagesScreenHeader />
       <Screen preset="fixed" backgroundColor={color.transparent}>
-        <WelcomeUserView numberOfPackages={4} userDetails={{ firstName: 'דניאל', lastName: 'כהן', id: '5' }}/>
-        <FlatList keyExtractor={(packageData) => packageData.packageId} data={mockData} renderItem={(packageData) => {
+        <FlatList ListHeaderComponent={renderListHeader} style={styles.list} keyExtractor={(packageData) => packageData.packageId} data={mockData} renderItem={(packageData) => {
           return <PackagesListItem style={styles.rowStyle} packageData={packageData.item}/>
         }}/>
       </Screen>
@@ -25,12 +31,21 @@ export const PackagesListScreen: React.FunctionComponent<PackagesListSProps> = p
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: color.palette.lighterGrey,
+    backgroundColor: color.palette.lightGrey,
     flex: 1,
-    paddingHorizontal: 10,
   },
   rowStyle: {
-    marginBottom: spacing.smallSpacing
+    marginBottom: spacing.mediumSpacing,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.20,
+    shadowRadius: 1.41,
+  },
+  list: {
+    marginHorizontal: 10
   }
 })
 
