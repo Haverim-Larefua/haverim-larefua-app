@@ -1,22 +1,41 @@
 import * as React from "react"
 import { PackageData } from "./types"
-import { View } from "react-native"
+import {StyleProp, StyleSheet, View, ViewStyle} from "react-native"
 import { Text } from "../../components"
+import {color, spacing} from "../../theme";
+import {PackageStatusTag} from "./packageStatusTag";
 
 interface PackagesListItemProps {
     packageData: PackageData
+    style?: StyleProp<ViewStyle>
 }
 export const PackagesListItem: React.FunctionComponent<PackagesListItemProps> = props => {
+  const { packageData } = props
   return (
-    <View style={{ flexDirection: 'row-reverse' }}>
-      <View>
-        <Text preset={'bold'} style={{ fontSize: 18 }} text={`${props.packageData.receiver.firstName} ${props.packageData.receiver.lastName}`} />
-        <Text preset={'default'} text={`${props.packageData.destination.city}`} />
-        <Text preset={'default'} text={`${props.packageData.destination.street} ${props.packageData.destination.number}/${props.packageData.destination.apartment}`} />
+    <View style={[styles.container, props.style]}>
+      <View style={styles.destinationContainer}>
+        <Text preset={'bold'} style={styles.nameStyle} text={`${packageData.receiver.firstName} ${packageData.receiver.lastName}`} />
+        <Text preset={'default'} text={`${packageData.destination.city}`} />
+        <Text preset={'default'} text={`${packageData.destination.street} ${packageData.destination.number}/${packageData.destination.apartment}`} />
       </View>
-      <View>
-        <Text text={'בחלוקה'} />
-      </View>
+      <PackageStatusTag status={packageData.status}/>
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: color.palette.white,
+    borderRadius: 4,
+    flexDirection: 'row-reverse',
+    paddingVertical: spacing.mediumSpacing,
+      alignItems: 'center'
+  },
+  destinationContainer: {
+    flex: 1,
+    marginRight: spacing.halfPadding
+  },
+  nameStyle: {
+    fontSize: 18
+  }
+})

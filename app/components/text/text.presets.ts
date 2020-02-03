@@ -8,6 +8,7 @@ const BASE: TextStyle = {
   fontFamily: typography.primary,
   color: color.text,
   fontSize: 16,
+  lineHeight: 24,
   textAlign: 'right'
 }
 
@@ -40,7 +41,7 @@ export const presets = {
   /**
    * Field labels that appear on forms above the inputs.
    */
-  fieldLabel: { ...BASE, fontSize: 13, color: color.dim } as TextStyle,
+  tagLabel: { ...BASE, fontSize: 13, color: color.dim } as TextStyle,
   buttonText: { ...BASE, color: color.palette.white }
 }
 
