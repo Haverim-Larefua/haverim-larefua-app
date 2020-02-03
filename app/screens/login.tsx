@@ -2,7 +2,7 @@ import * as React from "react"
 import { StyleSheet, View } from "react-native"
 import { NavigationInjectedProps } from "react-navigation"
 import { Button, Checkbox, Icon, Screen, TextField } from "../components"
-import { spacing } from "../theme"
+import { color, spacing } from "../theme"
 import { Toggle } from "react-powerplug"
 
 export interface LoginProps extends NavigationInjectedProps<{}> {}
@@ -37,7 +37,7 @@ export const LoginScreen: React.FunctionComponent<LoginProps> = props => {
   }
   return (
     <View style={styles.container}>
-      <Screen style={styles.screen} preset="scroll" backgroundColor={'#fff'}>
+      <Screen preset="scroll" backgroundColor={color.palette.white}>
         {renderLoginIcon()}
         {renderTextFields()}
         {renderCheckbox()}
@@ -49,7 +49,9 @@ export const LoginScreen: React.FunctionComponent<LoginProps> = props => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    backgroundColor: color.palette.white,
+    flex: 1,
+    paddingHorizontal: spacing.regularPadding
   },
   icon: {
     alignSelf: 'center',
@@ -64,10 +66,5 @@ const styles = StyleSheet.create({
     flexDirection: 'row-reverse',
     marginBottom: spacing.bigSpacing,
     width: '100%'
-  },
-  screen: {
-    flex: 1,
-    paddingHorizontal: spacing.regularPadding
   }
-
 })
