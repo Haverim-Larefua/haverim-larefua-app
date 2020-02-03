@@ -1,15 +1,21 @@
 import * as React from "react"
+import { observer, useObserver } from 'mobx-react-lite'
 import { StyleSheet, View } from "react-native"
 import { NavigationInjectedProps } from "react-navigation"
 import { Button, Checkbox, Icon, Screen, TextField } from "../components"
 import { color, spacing } from "../theme"
 import { Toggle } from "react-powerplug"
+import { useStores } from "../models/root-store"
+import reactotron from "reactotron-react-native"
 
 export interface LoginProps extends NavigationInjectedProps<{}> {}
 
-export const LoginScreen: React.FunctionComponent<LoginProps> = props => {
+export const LoginScreen: React.FunctionComponent<LoginProps> = observer(props => {
   const goToNextPage = React.useMemo(() => () => props.navigation.navigate('packagesList'), [props.navigation])
-
+  // todo: delete store integration example after implementation
+  const store = useStores()
+  const changeStoreExample = () => store.packagesStore.packages[0].setName(new Date().toLocaleTimeString())
+  reactotron.log(store)
   const renderLoginIcon = (): React.ReactElement => {
     return <Icon style={styles.icon} icon="loginLogo" />
   }
@@ -17,6 +23,7 @@ export const LoginScreen: React.FunctionComponent<LoginProps> = props => {
     return (
       <View>
         <TextField label={"שם משתמש.ת"} />
+        {/* <TextField label={store.packagesStore.packages[0].name} /> */}
         <TextField style={styles.passwordTextField} label={"סיסמה"} />
       </View>
     )
@@ -35,7 +42,7 @@ export const LoginScreen: React.FunctionComponent<LoginProps> = props => {
   const renderLoginButton = (): React.ReactElement => {
     return <Button text={'כניסה'} onPress={() => goToNextPage()}/>
   }
-  return (
+  return useObserver(() => (
     <View style={styles.container}>
       <Screen preset="scroll" backgroundColor={color.palette.white}>
         {renderLoginIcon()}
@@ -44,8 +51,8 @@ export const LoginScreen: React.FunctionComponent<LoginProps> = props => {
         {renderLoginButton()}
       </Screen>
     </View>
-  )
-}
+  ))
+})
 
 const styles = StyleSheet.create({
   container: {
