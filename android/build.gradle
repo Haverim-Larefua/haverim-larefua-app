@@ -42,8 +42,8 @@ allprojects {
         maven { url 'https://jitpack.io' }
     }
 	publishing {
-		repositories {
-			maven {
+        publications {
+            maven(MavenPublication) {
 				url 'https://pkgs.dev.azure.com/Haverim-Lerefua/_packaging/Haverim-Lerefua/maven/v1'
 				name 'Haverim-Lerefua'
 				authentication(userName: "YaronGolan", password: "cudbhxblmzlwk44fg3uaylphvty6aw5ecapzgappzn4xnxphq56a")
@@ -51,3 +51,5 @@ allprojects {
 		}
 	}
 }
+
+
