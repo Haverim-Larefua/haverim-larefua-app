@@ -1,5 +1,7 @@
 import * as React from "react"
 import { observer, useObserver } from 'mobx-react-lite'
+import { firebase } from '@react-native-firebase/messaging';
+
 import { StyleSheet, View } from "react-native"
 import { NavigationInjectedProps } from "react-navigation"
 import { Button, Checkbox, Icon, Screen, TextField } from "../components"
@@ -11,6 +13,14 @@ import reactotron from "reactotron-react-native"
 export interface LoginProps extends NavigationInjectedProps<{}> {}
 
 export const LoginScreen: React.FunctionComponent<LoginProps> = observer(props => {
+  const fcm = async () => {
+    await firebase.messaging().registerForRemoteNotifications();
+    const fcmToken = await firebase.messaging().getToken();
+    const uid = firebase.auth().currentUser.uid;
+    reactotron.log(fcmToken)
+    reactotron.log(uid)
+  }
+
   const goToNextPage = React.useMemo(() => () => props.navigation.navigate('packagesList'), [props.navigation])
   // todo: delete store integration example after implementation
   const store = useStores()
@@ -40,7 +50,7 @@ export const LoginScreen: React.FunctionComponent<LoginProps> = observer(props =
   }
 
   const renderLoginButton = (): React.ReactElement => {
-    return <Button text={'כניסה'} onPress={() => goToNextPage()}/>
+    return <Button text={'כניסה'} onPress={async () => await fcm()}/>
   }
   return useObserver(() => (
     <View style={styles.container}>
