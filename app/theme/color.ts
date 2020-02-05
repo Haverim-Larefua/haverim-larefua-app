@@ -1,4 +1,10 @@
- import { palette } from "./palette"
+import { palette } from "./palette"
+import { PackageStatus } from "../screens/packagesList/types"
+
+export interface StatusTheme {
+   backgroundColor: string,
+   textColor: string
+ }
 
 /**
  * Roles for colors.  Prefer using these over the palette.  It makes it easier
@@ -62,4 +68,24 @@ export const color = {
    * white background
    */
   storybookTextColor: palette.black,
+}
+
+export const getThemeColorsByPackageStatus = (status: PackageStatus): StatusTheme => {
+  switch (status) {
+    case PackageStatus.ReadyForDelivery:
+      return {
+        backgroundColor: '#cff1f8',
+        textColor: '#0a6475'
+      }
+    case PackageStatus.InDelivery:
+      return {
+        backgroundColor: '#f2ebf8',
+        textColor: '#644087'
+      }
+    default:
+      return {
+        backgroundColor: '#def5d9',
+        textColor: '#2c9118'
+      }
+  }
 }

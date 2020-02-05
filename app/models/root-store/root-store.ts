@@ -7,7 +7,7 @@ import { PackagesStoreModel } from "../packages/PackagesStoreModel"
  */
 export const RootStoreModel = types.model("RootStore").props({
   navigationStore: types.optional(NavigationStoreModel, {}),
-  packagesStore: types.optional(PackagesStoreModel, {})
+  packagesStore: types.optional(PackagesStoreModel, { packages: [] })
 })
 
 /**

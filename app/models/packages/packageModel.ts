@@ -8,7 +8,7 @@ export const packageModel = types
     name: types.optional(types.string, "a"),
     category: types.maybe(types.string),
   })
-  .views(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
+  .views(self => ({}))
   .actions(self => ({
     setName(newName) {
       self.name = newName
