@@ -1,5 +1,5 @@
 import * as React from "react"
-import { FlatList, SafeAreaView, StyleSheet, View } from "react-native"
+import { FlatList, SafeAreaView, StyleSheet } from "react-native"
 import { NavigationInjectedProps } from "react-navigation"
 import { Screen } from "../../components"
 import { PackageData, PackageStatus } from "./types"
@@ -8,7 +8,7 @@ import { color, spacing } from "../../theme"
 import { WelcomeUserView } from "./welcomeUserView"
 import { PackagesScreenHeader } from "./packagesScreenHeader"
 import { useEffect, useState } from "react"
-import reactotron from "reactotron-react-native"
+import {PackagesSelectionHeader} from "./packagesSelectionHeader";
 
 export interface PackagesListSProps extends NavigationInjectedProps<{}> {}
 
@@ -74,6 +74,7 @@ export const PackagesListScreen: React.FunctionComponent<PackagesListSProps> = p
 
   return (
     <SafeAreaView style={styles.container}>
+      <PackagesSelectionHeader selectedPackagesNumber={4} />
       <PackagesScreenHeader />
       <Screen preset="fixed" backgroundColor={color.transparent}>
         <FlatList ListHeaderComponent={renderListHeader} style={styles.list} keyExtractor={(packageData) => packageData.packageId} data={mockData} renderItem={(packageData) => {
