@@ -19,11 +19,13 @@ export const PackagesListScreen: React.FunctionComponent<PackagesListSProps> = p
 
   useEffect(
     () => {
-      if (!isInSelectionMode) {
-        setSelectedPackages([])
+      if (selectedPackages.length === 0) {
+        isInSelectionMode && setIsInSelectionMode(false)
+      } else {
+        !isInSelectionMode && setIsInSelectionMode(true)
       }
     },
-    [isInSelectionMode]
+    [selectedPackages]
   )
 
   const isPackageSelected = (packageData: PackageData): boolean => {
@@ -31,7 +33,6 @@ export const PackagesListScreen: React.FunctionComponent<PackagesListSProps> = p
   }
 
   const addPackageToSelectedList = (packageData: PackageData) => {
-    reactotron.log(selectedPackages)
     const newSelectedPackagesList = Array.from(selectedPackages)
     newSelectedPackagesList.push(packageData.packageId)
     setSelectedPackages(newSelectedPackagesList)
@@ -46,7 +47,7 @@ export const PackagesListScreen: React.FunctionComponent<PackagesListSProps> = p
     }
   }
 
-  const changePackageSelectionMode = (packageData: PackageData) => {
+  const changePackageSelection = (packageData: PackageData) => {
     if (isPackageSelected(packageData)) {
       removePackageFromSelectedList(packageData)
     } else {
@@ -56,7 +57,7 @@ export const PackagesListScreen: React.FunctionComponent<PackagesListSProps> = p
 
   const onPackagePress = (packageData: PackageData) => {
     if (isInSelectionMode) {
-      changePackageSelectionMode(packageData)
+      changePackageSelection(packageData)
       return
     }
 
@@ -64,8 +65,7 @@ export const PackagesListScreen: React.FunctionComponent<PackagesListSProps> = p
   }
 
   const onPackageLongPress = (packageData: PackageData) => {
-    !setIsInSelectionMode && setIsInSelectionMode(true)
-    changePackageSelectionMode(packageData)
+    changePackageSelection(packageData)
   }
 
   const renderListHeader = (): React.ReactElement => {
