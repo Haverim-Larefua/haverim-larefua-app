@@ -184,7 +184,7 @@ PODS:
   - React-jsinspector (0.61.2)
   - react-native-safe-area-context (0.6.2):
     - React
-  - react-native-splash-screen (3.1.1):
+  - react-native-splash-screen (3.2.0):
     - React
   - React-RCTActionSheet (0.61.2):
     - React-Core/RCTActionSheetHeaders (= 0.61.2)
@@ -362,7 +362,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: 8909917ff7d8f21a57e443a866fd8d4560e50c65
   React-jsinspector: 111d7d342b07a904c400592e02a2b958f1098b60
   react-native-safe-area-context: a1d322930b8c5d04ebeb77cc47cc97575ad27203
-  react-native-splash-screen: 353334c5ae82d8c74501ea7cbb916cb7cb20c8bf
+  react-native-splash-screen: 200d11d188e2e78cea3ad319964f6142b6384865
   React-RCTActionSheet: 89b037c0fb7d2671607cb645760164e7e0c013f6
   React-RCTAnimation: e3cefa93c38c004c318f7ec04b883eb14b8b8235
   React-RCTBlob: d26ac0e313fbf14e7203473fd593ccaaeee8329e

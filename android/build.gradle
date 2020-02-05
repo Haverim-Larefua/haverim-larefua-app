@@ -30,10 +30,29 @@ allprojects {
             // Android JSC is installed from npm
             url("$rootDir/../node_modules/jsc-android/dist")
         }
-
+		maven {
+			url 'https://pkgs.dev.azure.com/Haverim-Lerefua/_packaging/Haverim-Lerefua/maven/v1'
+			name 'Haverim-Lerefua'
+			authentication {
+				basic(BasicAuthentication)
+			}
+		}
         google()
         jcenter()
         maven { url 'https://jitpack.io' }
     }
+//	publishing {
+//        publications {
+//            maven(MavenPublication) {
+//				url 'https://pkgs.dev.azure.com/Haverim-Lerefua/_packaging/Haverim-Lerefua/maven/v1'
+//				name 'Haverim-Lerefua'
+//				authentication(userName: "YaronGolan", password: "cudbhxblmzlwk44fg3uaylphvty6aw5ecapzgappzn4xnxphq56a")
+//			}
+//		}
+//	}
 }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master

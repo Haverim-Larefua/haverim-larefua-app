@@ -14,9 +14,9 @@ export interface Address {
 }
 
 export enum PackageStatus {
-    ReadyForDelivery,
-    InDelivery,
-    Delivered
+    ReadyForDelivery = 'מוכנה לחלוקה',
+    InDelivery = 'בחלוקה',
+    Delivered = 'הגיעה ליעד'
 }
 
 export interface Person {
