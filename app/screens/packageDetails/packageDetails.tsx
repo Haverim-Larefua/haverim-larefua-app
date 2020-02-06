@@ -41,6 +41,3 @@ export const PackageDetailsScreen: React.FunctionComponent<NavigationInjectedPro
   )
 }
 
-const styles = StyleSheet.create({
-
-})
