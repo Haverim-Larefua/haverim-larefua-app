@@ -12,13 +12,6 @@ export const PackagePickUpScreen: React.FunctionComponent<PackagePickUpProps> = 
   return (
     <View style={{ flex: 1 }}>
       <Screen preset="scroll" backgroundColor={'#fff'}>
-        <Header
-          headerText="PackagePickUpScreen"
-          leftIcon="back"
-          onLeftPress={goBack}
-          style={HEADER}
-          titleStyle={HEADER_TITLE}
-        />
         <Button
           text="go to package delivery screen"
           onPress={goToNextPage}
