@@ -3,11 +3,11 @@ import { packageModel } from "./packageModel"
 import { withEnvironment } from "../extensions"
 
 export const PackagesStoreModel = types
-  .model("Question")
+  .model("packages")
   .props({
-    packages: types.optional(types.array(packageModel), [{id: '123', done: false}])
+    packages: types.optional(types.array(packageModel), [{id: '5', done: false}])
   })
-  .views(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
+  .views(self => ({}))
   .extend(withEnvironment)
   .actions(self => ({
     setName(newName) {
