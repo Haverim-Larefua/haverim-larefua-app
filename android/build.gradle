@@ -33,9 +33,7 @@ allprojects {
 		maven {
 			url 'https://pkgs.dev.azure.com/Haverim-Lerefua/_packaging/Haverim-Lerefua/maven/v1'
 			name 'Haverim-Lerefua'
-			authentication {
-				basic(BasicAuthentication)
-			}
+			authentication(userName: "YaronGolan", password: "cudbhxblmzlwk44fg3uaylphvty6aw5ecapzgappzn4xnxphq56a")
 		}
         google()
         jcenter()
