@@ -1,7 +1,5 @@
 import * as React from "react"
 import { observer, useObserver } from 'mobx-react-lite'
-import { firebase } from '@react-native-firebase/messaging';
-
 import { StyleSheet, View } from "react-native"
 import { NavigationInjectedProps } from "react-navigation"
 import { Button, Checkbox, Icon, Screen, TextField } from "../components"
@@ -13,22 +11,10 @@ import reactotron from "reactotron-react-native"
 export interface LoginProps extends NavigationInjectedProps<{}> {}
 
 export const LoginScreen: React.FunctionComponent<LoginProps> = observer(props => {
-  const fcm = async () => {
-    await firebase.messaging().registerForRemoteNotifications();
-    const fcmToken = await firebase.messaging().getToken();
-    // const uid = firebase.auth().currentUser.uid;
-    firebase.messaging().onMessage(async (remoteMessage) => {
-      console.log('FCM Message Data:', remoteMessage.data);
-
-    });
-    console.log(fcmToken)
-    // reactotron.log(uid)
-  }
-
   const goToNextPage = React.useMemo(() => () => props.navigation.navigate('packagesList'), [props.navigation])
   // todo: delete store integration example after implementation
   const store = useStores()
-  const changeStoreExample = () => store.packagesStore.packages[0].setName(new Date().toLocaleTimeString())
+  // const changeStoreExample = () => store.packagesStore.packages[0].setName(new Date().toLocaleTimeString())
   reactotron.log(store)
   const renderLoginIcon = (): React.ReactElement => {
     return <Icon style={styles.icon} icon="loginLogo" />
@@ -54,7 +40,7 @@ export const LoginScreen: React.FunctionComponent<LoginProps> = observer(props =
   }
 
   const renderLoginButton = (): React.ReactElement => {
-    return <Button text={'כניסה'} onPress={async () => await fcm()}/>
+    return <Button text={'כניסה'} onPress={async () => goToNextPage()}/>
   }
   return useObserver(() => (
     <View style={styles.container}>

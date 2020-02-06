@@ -93,6 +93,7 @@
 		7E029FFCEF964553B0226120 /* Montserrat-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-BlackItalic.ttf"; path = "../app/theme/fonts/Montserrat-BlackItalic.ttf"; sourceTree = "<group>"; };
 		883D6F984D829C4782498CBB /* libPods-FFHTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FFHTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		903CB40123E9910D005683BA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		90E70CDE23EC3B940079D57D /* FFH.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = FFH.entitlements; path = FFH/FFH.entitlements; sourceTree = "<group>"; };
 		96299D5C5C742AF90B6562F4 /* Pods-FFHTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FFHTests.release.xcconfig"; path = "Target Support Files/Pods-FFHTests/Pods-FFHTests.release.xcconfig"; sourceTree = "<group>"; };
 		9706B371A0010F322AA4331D /* libPods-FFH-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FFH-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F421934CBD97C6FF816F7A5 /* Pods-FFHTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FFHTests.debug.xcconfig"; path = "Target Support Files/Pods-FFHTests/Pods-FFHTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -170,6 +171,7 @@
 		13B07FAE1A68108700A75B9A /* FFH */ = {
 			isa = PBXGroup;
 			children = (
+				90E70CDE23EC3B940079D57D /* FFH.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -739,6 +741,7 @@
 			baseConfigurationReference = 7BE397FC1808D42EED2E6FFB /* Pods-FFH.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = FFH/FFH.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -763,6 +766,7 @@
 			baseConfigurationReference = CBE8DFD80BF50A7665156559 /* Pods-FFH.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = FFH/FFH.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
