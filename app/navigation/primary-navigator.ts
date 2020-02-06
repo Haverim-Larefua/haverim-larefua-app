@@ -12,7 +12,7 @@ export const PrimaryNavigator = createNativeStackNavigator(
     // demo: { screen: DemoScreen },
     login: { screen: LoginScreen },
     packagesList: { screen: PackagesListScreen },
-    PackageDetails: { screen: PackageDetailsScreen },
+    packageDetails: { screen: PackageDetailsScreen },
     deliveryConfirmation: { screen: PackageDeliveryConfirmationScreen }
   },
   {

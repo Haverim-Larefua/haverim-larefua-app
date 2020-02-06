@@ -13,7 +13,6 @@ import { PackagesSelectionHeader } from "./packagesSelectionHeader"
 export interface PackagesListSProps extends NavigationInjectedProps<{}> {}
 
 export const PackagesListScreen: React.FunctionComponent<PackagesListSProps> = props => {
-  const goToNextPage = React.useMemo(() => () => props.navigation.navigate('packagePickUp'), [props.navigation])
   const [selectedPackages, setSelectedPackages] = useState<string[]>([])
   const [isInSelectionMode, setIsInSelectionMode] = useState(false)
   const selectionHeaderHeight = 75
@@ -84,8 +83,7 @@ export const PackagesListScreen: React.FunctionComponent<PackagesListSProps> = p
       changePackageSelection(packageData)
       return
     }
-
-    goToNextPage()
+    props.navigation.navigate('packageDetails', { packageData })
   }
 
   const onPackageLongPress = (packageData: PackageData) => {

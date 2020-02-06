@@ -1,7 +1,7 @@
 import { palette } from "./palette"
 import { PackageStatus } from "../screens/packagesList/types"
 
-export interface StatusTheme {
+export interface ThemeColors {
    backgroundColor: string,
    textColor: string
  }
@@ -70,7 +70,7 @@ export const color = {
   storybookTextColor: palette.black,
 }
 
-export const getThemeColorsByPackageStatus = (status: PackageStatus): StatusTheme => {
+export const getThemeColorsByPackageStatus = (status: PackageStatus): ThemeColors => {
   switch (status) {
     case PackageStatus.ReadyForDelivery:
       return {

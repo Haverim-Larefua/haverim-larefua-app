@@ -21,7 +21,7 @@ export function Text(props: TextProps) {
   const style = mergeAll(flatten([presets[preset] || presets.default, styleOverride]))
 
   return (
-    <ReactNativeText {...rest} style={[presets[preset], styleOverride]}>
+    <ReactNativeText {...rest} style={style}>
       {content}
     </ReactNativeText>
   )
