@@ -1,10 +1,10 @@
 import * as React from "react"
-import { SafeAreaView, StyleSheet, View } from "react-native"
-import { Button, Screen, Text } from "../../components"
-import { PackageData } from "../packagesList/types"
-import { PackageStatusHeader } from "./packageStatusHeader"
-import { NavigationInjectedProps } from "react-navigation"
-import { color } from "../../theme"
+import {SafeAreaView, View} from "react-native"
+import {Button, Screen, Text} from "../../components"
+import {PackageData, PackageStatus} from "../packagesList/types"
+import {PackageStatusHeader} from "./packageStatusHeader"
+import {NavigationInjectedProps} from "react-navigation"
+import {color} from "../../theme"
 
 interface PackageDetailsScreenProps {
     packageData: PackageData
@@ -34,10 +34,12 @@ export const PackageDetailsScreen: React.FunctionComponent<NavigationInjectedPro
         <Text text={'פרטים נוספים'} />
         <Text text={'יש שער גדול והקוד הוא 7364. יש בחצר כלב אז אם הוא ישן נא לא להעיר אותו'}/>
       </View>
-      <SafeAreaView>
-        <Button style={{ marginHorizontal: 12, marginBottom: 12 }} text={'מסירת חבילה'} />
-      </SafeAreaView>
+      {
+        packageData.status !== PackageStatus.Delivered &&
+            <SafeAreaView>
+              <Button style={{ marginHorizontal: 12, marginBottom: 12 }} text={packageData.status === PackageStatus.ReadyForDelivery ? 'איסוף חבילה' : 'מסירת חבילה'} />
+            </SafeAreaView>
+      }
     </Screen>
   )
 }
-
