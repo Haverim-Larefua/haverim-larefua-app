@@ -16,7 +16,8 @@ export const PackagesListScreen: React.FunctionComponent<PackagesListSProps> = p
   const goToNextPage = React.useMemo(() => () => props.navigation.navigate('packagePickUp'), [props.navigation])
   const [selectedPackages, setSelectedPackages] = useState<string[]>([])
   const [isInSelectionMode, setIsInSelectionMode] = useState(false)
-  const animationHeight = new Animated.Value(0)
+  const selectionHeaderHeight = 75
+  const selectionHeaderAnimationHeight = new Animated.Value(0)
 
   useEffect(
     () => {
@@ -38,15 +39,15 @@ export const PackagesListScreen: React.FunctionComponent<PackagesListSProps> = p
   }, [isInSelectionMode])
 
   const hideSelectionHeaderWithAnimation = () => {
-    Animated.timing(animationHeight, {
+    Animated.timing(selectionHeaderAnimationHeight, {
       toValue: 0,
       easing: Easing.linear
     }).start()
   }
 
   const showSelectionHeaderWithAnimation = () => {
-    Animated.timing(animationHeight, {
-      toValue: 70,
+    Animated.timing(selectionHeaderAnimationHeight, {
+      toValue: selectionHeaderHeight,
       easing: Easing.linear
     }).start()
   }
@@ -97,8 +98,11 @@ export const PackagesListScreen: React.FunctionComponent<PackagesListSProps> = p
 
   const renderSelectionModeHeader = (): React.ReactElement => {
     return (
-      <Animated.View style={ { ...styles.selectionModeHeader, height: animationHeight }}>
-        <PackagesSelectionHeader selectedPackagesNumber={selectedPackages.length} />
+      <Animated.View style={ { ...styles.selectionModeHeader, height: selectionHeaderAnimationHeight, hidden: !isInSelectionMode }}>
+        <PackagesSelectionHeader
+          onExitPress={() => setSelectedPackages([])}
+          onApprovePress={() => {}}
+          selectedPackagesNumber={selectedPackages.length} />
       </Animated.View>
     )
   }
