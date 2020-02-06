@@ -16,9 +16,13 @@ export const LoginScreen: React.FunctionComponent<LoginProps> = observer(props =
   const fcm = async () => {
     await firebase.messaging().registerForRemoteNotifications();
     const fcmToken = await firebase.messaging().getToken();
-    const uid = firebase.auth().currentUser.uid;
-    reactotron.log(fcmToken)
-    reactotron.log(uid)
+    // const uid = firebase.auth().currentUser.uid;
+    firebase.messaging().onMessage(async (remoteMessage) => {
+      console.log('FCM Message Data:', remoteMessage.data);
+
+    });
+    console.log(fcmToken)
+    // reactotron.log(uid)
   }
 
   const goToNextPage = React.useMemo(() => () => props.navigation.navigate('packagesList'), [props.navigation])
