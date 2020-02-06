@@ -1,5 +1,5 @@
 import * as React from "react"
-import { Animated, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import { Button, Icon, Text } from "../../components"
 interface PackagesSelectionHeader {
     selectedPackagesNumber: number
@@ -8,16 +8,14 @@ export const PackagesSelectionHeader: React.FunctionComponent<PackagesSelectionH
   const { selectedPackagesNumber } = props
 
   return (
-    <Animated.View>
-      <View style={styles.container}>
-        <Button text={'איסוף חבילות'}/>
-        <Text preset={'bold'} style={styles.text}>
-          <Text style={styles.innerText} text={`${selectedPackagesNumber}`} />
-          <Text style={styles.innerText} text={' חבילות סומנו'} />
-        </Text>
-        <Icon icon={'close'} />
-      </View>
-    </Animated.View>
+    <View style={styles.container}>
+      <Button text={'איסוף חבילות'}/>
+      <Text preset={'bold'} style={styles.text}>
+        <Text style={styles.innerText} text={`${selectedPackagesNumber}`} />
+        <Text style={styles.innerText} text={' חבילות סומנו'} />
+      </Text>
+      <Icon icon={'close'} />
+    </View>
   )
 }
 
@@ -27,11 +25,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row-reverse',
     padding: 10
   },
+  innerText: {
+    textAlign: 'left'
+  },
   text: {
     flex: 1,
     marginLeft: 5
-  },
-    innerText: {
-      textAlign: 'left'
-    }
+  }
 })

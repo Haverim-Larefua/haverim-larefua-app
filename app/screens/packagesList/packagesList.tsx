@@ -1,5 +1,5 @@
 import * as React from "react"
-import { FlatList, SafeAreaView, StyleSheet } from "react-native"
+import { Animated, Easing, FlatList, SafeAreaView, StyleSheet } from "react-native"
 import { NavigationInjectedProps } from "react-navigation"
 import { Screen } from "../../components"
 import { PackageData, PackageStatus } from "./types"
@@ -8,7 +8,7 @@ import { color, spacing } from "../../theme"
 import { WelcomeUserView } from "./welcomeUserView"
 import { PackagesScreenHeader } from "./packagesScreenHeader"
 import { useEffect, useState } from "react"
-import {PackagesSelectionHeader} from "./packagesSelectionHeader";
+import { PackagesSelectionHeader } from "./packagesSelectionHeader"
 
 export interface PackagesListSProps extends NavigationInjectedProps<{}> {}
 
@@ -16,6 +16,7 @@ export const PackagesListScreen: React.FunctionComponent<PackagesListSProps> = p
   const goToNextPage = React.useMemo(() => () => props.navigation.navigate('packagePickUp'), [props.navigation])
   const [selectedPackages, setSelectedPackages] = useState<string[]>([])
   const [isInSelectionMode, setIsInSelectionMode] = useState(false)
+  const animationHeight = new Animated.Value(0)
 
   useEffect(
     () => {
@@ -27,6 +28,28 @@ export const PackagesListScreen: React.FunctionComponent<PackagesListSProps> = p
     },
     [selectedPackages]
   )
+
+  useEffect(() => {
+    if (isInSelectionMode) {
+      showSelectionHeaderWithAnimation()
+    } else {
+      hideSelectionHeaderWithAnimation()
+    }
+  }, [isInSelectionMode])
+
+  const hideSelectionHeaderWithAnimation = () => {
+    Animated.timing(animationHeight, {
+      toValue: 0,
+      easing: Easing.linear
+    }).start()
+  }
+
+  const showSelectionHeaderWithAnimation = () => {
+    Animated.timing(animationHeight, {
+      toValue: 70,
+      easing: Easing.linear
+    }).start()
+  }
 
   const isPackageSelected = (packageData: PackageData): boolean => {
     return selectedPackages.includes(packageData.packageId, 0)
@@ -72,14 +95,36 @@ export const PackagesListScreen: React.FunctionComponent<PackagesListSProps> = p
     return <WelcomeUserView numberOfPackages={4} userDetails={{ firstName: 'דניאל', lastName: 'כהן', id: '5' }}/>
   }
 
+  const renderSelectionModeHeader = (): React.ReactElement => {
+    return (
+      <Animated.View style={ { ...styles.selectionModeHeader, height: animationHeight }}>
+        <PackagesSelectionHeader selectedPackagesNumber={selectedPackages.length} />
+      </Animated.View>
+    )
+  }
+
+  const renderPackagesList = (): React.ReactElement => {
+    return (
+      <FlatList ListHeaderComponent={renderListHeader} style={styles.list} keyExtractor={(packageData) => packageData.packageId} data={mockData} renderItem={(packageDataItem) => {
+        return renderPackageListItem(packageDataItem.item)
+      }}/>
+    )
+  }
+
+  const renderPackageListItem = (packageData: PackageData): React.ReactElement => {
+    return (
+      <PackagesListItem onPress={() => onPackagePress(packageData)}
+        onLongPress={ () => onPackageLongPress(packageData)}
+        showSelectedStyle={isPackageSelected(packageData)}
+        style={styles.rowStyle} packageData={packageData}/>)
+  }
+
   return (
     <SafeAreaView style={styles.container}>
-      <PackagesSelectionHeader selectedPackagesNumber={4} />
-      <PackagesScreenHeader />
       <Screen preset="fixed" backgroundColor={color.transparent}>
-        <FlatList ListHeaderComponent={renderListHeader} style={styles.list} keyExtractor={(packageData) => packageData.packageId} data={mockData} renderItem={(packageData) => {
-          return <PackagesListItem onPress={() => onPackagePress(packageData.item)} onLongPress={ () => onPackageLongPress(packageData.item)} showSelectedStyle={isPackageSelected(packageData.item)} style={styles.rowStyle} packageData={packageData.item}/>
-        }}/>
+        {renderSelectionModeHeader()}
+        <PackagesScreenHeader />
+        {renderPackagesList()}
       </Screen>
     </SafeAreaView>
   )
@@ -102,6 +147,12 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.20,
     shadowRadius: 1.41,
+  },
+  selectionModeHeader: {
+    backgroundColor: color.palette.white,
+    position: 'absolute',
+    width: '100%',
+    zIndex: 5
   }
 })
 
