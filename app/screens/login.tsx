@@ -40,7 +40,7 @@ export const LoginScreen: React.FunctionComponent<LoginProps> = observer(props =
   }
 
   const renderLoginButton = (): React.ReactElement => {
-    return <Button text={'כניסה'} onPress={async () => goToNextPage()}/>
+    return <Button text={'כניסה'} onPress={() => goToNextPage()}/>
   }
   return useObserver(() => (
     <View style={styles.container}>
