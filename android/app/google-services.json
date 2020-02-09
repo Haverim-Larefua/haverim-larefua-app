@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "522649098617",
+    "firebase_url": "https://ffh-mobile-ed933.firebaseio.com",
+    "project_id": "ffh-mobile-ed933",
+    "storage_bucket": "ffh-mobile-ed933.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:522649098617:android:02b8daa6fa0455f5f6b7a8",
+        "android_client_info": {
+          "package_name": "com.ffh"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "522649098617-cjmq5c1s9gljc7e9t7s8nfg916uddvan.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5WUfe7E0HY5tEcWjZSpKWlvOF0w9lGFk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "522649098617-cjmq5c1s9gljc7e9t7s8nfg916uddvan.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "522649098617-abbgie93v1k7598iokf3q3ictqkj6mc0.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "il.org.haverim.rn"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

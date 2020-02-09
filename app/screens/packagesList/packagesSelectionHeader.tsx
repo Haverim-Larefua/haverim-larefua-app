@@ -45,13 +45,15 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     flexDirection: 'row-reverse',
-    padding: 10
+    marginVertical: 4,
+    padding: 10,
   },
   innerText: {
     textAlign: 'left'
   },
   text: {
     flex: 1,
-    marginLeft: 5
+    marginLeft: 5,
+    textAlign: 'left'
   }
 })
