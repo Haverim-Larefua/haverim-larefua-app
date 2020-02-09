@@ -14,7 +14,7 @@ export const LoginScreen: React.FunctionComponent<LoginProps> = observer(props =
   const goToNextPage = React.useMemo(() => () => props.navigation.navigate('packagesList'), [props.navigation])
   // todo: delete store integration example after implementation
   const store = useStores()
-  const changeStoreExample = () => store.packagesStore.packages[0].setName(new Date().toLocaleTimeString())
+  // const changeStoreExample = () => store.packagesStore.packages[0].setName(new Date().toLocaleTimeString())
   reactotron.log(store)
   const renderLoginIcon = (): React.ReactElement => {
     return <Icon style={styles.icon} icon="loginLogo" />
