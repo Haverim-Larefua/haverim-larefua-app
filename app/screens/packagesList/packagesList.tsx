@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react"
-import { Animated, Easing, FlatList, SafeAreaView, StyleSheet } from "react-native"
+import { Animated, Easing, FlatList, SafeAreaView, StyleSheet, View } from "react-native"
 import { NavigationInjectedProps } from "react-navigation"
-import { Screen } from "../../components"
 import { PackageData, PackageStatus } from "./types"
 import { PackagesListItem } from "./packagesListItem"
 import { color, spacing } from "../../theme"
@@ -112,11 +111,11 @@ export const PackagesListScreen: React.FunctionComponent<PackagesListSProps> = p
 
   return (
     <SafeAreaView style={styles.container}>
-      <Screen backgroundColor={color.transparent} style={{ overflow: 'hidden' }}>
+      <View style={{ overflow: 'hidden', flex: 1 }}>
         {renderSelectionModeHeader()}
         <PackagesScreenHeader />
         {renderPackagesList()}
-      </Screen>
+      </View>
     </SafeAreaView>
   )
 }
@@ -127,7 +126,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   list: {
-    marginHorizontal: 10
+    paddingHorizontal: 10
   },
   rowStyle: {
     marginBottom: spacing.mediumSpacing,
