@@ -1,4 +1,4 @@
-import * as React from "react"
+import React, { useEffect, useState } from "react"
 import { Animated, Easing, FlatList, SafeAreaView, StyleSheet } from "react-native"
 import { NavigationInjectedProps } from "react-navigation"
 import { Screen } from "../../components"
@@ -7,7 +7,6 @@ import { PackagesListItem } from "./packagesListItem"
 import { color, spacing } from "../../theme"
 import { WelcomeUserView } from "./welcomeUserView"
 import { PackagesScreenHeader } from "./packagesScreenHeader"
-import { useEffect, useState } from "react"
 import { PackagesSelectionHeader } from "./packagesSelectionHeader"
 
 export interface PackagesListSProps extends NavigationInjectedProps<{}> {}
@@ -16,7 +15,7 @@ export const PackagesListScreen: React.FunctionComponent<PackagesListSProps> = p
   const [selectedPackages, setSelectedPackages] = useState<string[]>([])
   const [isInSelectionMode, setIsInSelectionMode] = useState(false)
   const selectionHeaderHeight = 75
-  const selectionHeaderAnimationHeight = new Animated.Value(0)
+  const [selectionHeaderAnimationHeight] = useState(new Animated.Value(-selectionHeaderHeight))
 
   useEffect(
     () => {
@@ -30,24 +29,14 @@ export const PackagesListScreen: React.FunctionComponent<PackagesListSProps> = p
   )
 
   useEffect(() => {
-    if (isInSelectionMode) {
-      showSelectionHeaderWithAnimation()
-    } else {
-      hideSelectionHeaderWithAnimation()
-    }
+    toggleSelectionHeaderWithAnimation()
   }, [isInSelectionMode])
 
-  const hideSelectionHeaderWithAnimation = () => {
+  const toggleSelectionHeaderWithAnimation = () => {
     Animated.timing(selectionHeaderAnimationHeight, {
-      toValue: 0,
-      easing: Easing.linear
-    }).start()
-  }
-
-  const showSelectionHeaderWithAnimation = () => {
-    Animated.timing(selectionHeaderAnimationHeight, {
-      toValue: selectionHeaderHeight,
-      easing: Easing.linear
+      toValue: isInSelectionMode ? 0 : -selectionHeaderHeight,
+      easing: Easing.linear,
+      duration: 300,
     }).start()
   }
 
@@ -96,7 +85,7 @@ export const PackagesListScreen: React.FunctionComponent<PackagesListSProps> = p
 
   const renderSelectionModeHeader = (): React.ReactElement => {
     return (
-      <Animated.View style={ { ...styles.selectionModeHeader, height: selectionHeaderAnimationHeight, hidden: !isInSelectionMode }}>
+      <Animated.View style={ { ...styles.selectionModeHeader, top: selectionHeaderAnimationHeight }}>
         <PackagesSelectionHeader
           onExitPress={() => setSelectedPackages([])}
           onApprovePress={() => {}}
@@ -123,7 +112,7 @@ export const PackagesListScreen: React.FunctionComponent<PackagesListSProps> = p
 
   return (
     <SafeAreaView style={styles.container}>
-      <Screen preset="fixed" backgroundColor={color.transparent}>
+      <Screen backgroundColor={color.transparent} style={{ overflow: 'hidden' }}>
         {renderSelectionModeHeader()}
         <PackagesScreenHeader />
         {renderPackagesList()}
@@ -152,8 +141,10 @@ const styles = StyleSheet.create({
   },
   selectionModeHeader: {
     backgroundColor: color.palette.white,
+    left: 0,
     position: 'absolute',
-    width: '100%',
+    right: 0,
+    top: 0,
     zIndex: 5
   }
 })
