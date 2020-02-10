@@ -1,5 +1,5 @@
 import * as React from "react"
-import { PackageData } from "./types"
+import { PackageData, PackageStatus } from "./types"
 import { StyleProp, StyleSheet, TouchableOpacity, View, ViewStyle } from "react-native"
 import { Text } from "../../components"
 import { color, spacing } from "../../theme"
@@ -19,16 +19,16 @@ export const PackagesListItem: React.FunctionComponent<PackagesListItemProps> = 
   const renderReceiverDetails = (): React.ReactElement => {
     return (
       <View style={styles.destinationContainer}>
-        <Text preset={'bold'} style={styles.nameStyle} text={`${packageData.receiver.lastName} ${packageData.receiver.firstName}`} />
-        <Text style={styles.cityStyle} preset={'default'} text={`${packageData.destination.city}`} />
-        <Text preset={'default'} text={`${packageData.destination.street} ${packageData.destination.number}/${packageData.destination.apartment}`} />
+        <Text preset={'bold'} style={styles.nameStyle} text={`${packageData.customerName}`} />
+        <Text style={styles.cityStyle} preset={'default'} text={`${packageData.address}`} />
+        {/* <Text preset={'default'} text={`${packageData.destination.street} ${packageData.destination.number}/${packageData.destination.apartment}`} /> */}
       </View>
     )
   }
   return (
     <TouchableOpacity onPress={onPress} onLongPress={onLongPress} style={[styles.container, props.style, { borderColor }]}>
       {renderReceiverDetails()}
-      <PackageStatusTag status={packageData.status}/>
+      <PackageStatusTag status={PackageStatus[packageData.parcelTrackingStatus]}/>
     </TouchableOpacity>
   )
 }

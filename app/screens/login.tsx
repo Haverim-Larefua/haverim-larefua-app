@@ -1,4 +1,4 @@
-import * as React from "react"
+import React, { useState } from "react"
 import { observer, useObserver } from 'mobx-react-lite'
 import { StyleSheet, View } from "react-native"
 import { NavigationInjectedProps } from "react-navigation"
@@ -6,25 +6,40 @@ import { Button, Checkbox, Icon, Screen, TextField } from "../components"
 import { color, spacing } from "../theme"
 import { Toggle } from "react-powerplug"
 import { useStores } from "../models/root-store"
-import reactotron from "reactotron-react-native"
 
 export interface LoginProps extends NavigationInjectedProps<{}> {}
 
 export const LoginScreen: React.FunctionComponent<LoginProps> = observer(props => {
+  const [username, setUserName] = useState<string>(__DEV__ ? 'meirav' : '')
+  const [password, setPassword] = useState<string>(__DEV__ ? '123456' : '')
+
   const goToNextPage = React.useMemo(() => () => props.navigation.navigate('packagesList'), [props.navigation])
-  // todo: delete store integration example after implementation
-  const store = useStores()
-  // const changeStoreExample = () => store.packagesStore.packages[0].setName(new Date().toLocaleTimeString())
-  reactotron.log(store)
-  const renderLoginIcon = (): React.ReactElement => {
-    return <Icon style={styles.icon} icon="loginLogo" />
+
+  const { profileModel: { login } } = useStores()
+  const loginSequence = async () => {
+    const loginReq = await login(username, password)
+    if (loginReq.ok) {
+      goToNextPage()
+    }
   }
+
   const renderTextFields = (): React.ReactElement => {
     return (
       <View>
-        <TextField label={"שם משתמש.ת"} />
+        <TextField
+          value={username}
+          inputStyle={{ paddingHorizontal: 5 }}
+          onChangeText={(val) => setUserName(val)}
+          label={"שם משתמש.ת"}
+        />
         {/* <TextField label={store.packagesStore.packages[0].name} /> */}
-        <TextField style={styles.passwordTextField} label={"סיסמה"} />
+        <TextField
+          inputStyle={{ paddingHorizontal: 5 }}
+          secureTextEntry
+          onChangeText={(val) => setPassword(val)}
+          value={password}
+          style={styles.passwordTextField}
+          label={"סיסמה"} />
       </View>
     )
   }
@@ -39,16 +54,13 @@ export const LoginScreen: React.FunctionComponent<LoginProps> = observer(props =
     )
   }
 
-  const renderLoginButton = (): React.ReactElement => {
-    return <Button text={'כניסה'} onPress={() => goToNextPage()}/>
-  }
   return useObserver(() => (
     <View style={styles.container}>
       <Screen preset="scroll" backgroundColor={color.palette.white}>
-        {renderLoginIcon()}
+        <Icon style={styles.icon} icon="loginLogo" />
         {renderTextFields()}
         {renderCheckbox()}
-        {renderLoginButton()}
+        <Button text={'כניסה'} onPress={() => loginSequence()}/>
       </Screen>
     </View>
   ))

@@ -1,9 +1,11 @@
 export interface PackageData {
-    packageId: string
+    id: string
     destination: Address
-    status: PackageStatus
-    receiver: Person,
-    messenger: Person
+    parcelTrackingStatus: PackageStatus
+    customerName: string
+    address: string
+    city: string
+    comments: string
 }
 
 export interface Address {
@@ -14,13 +16,13 @@ export interface Address {
 }
 
 export enum PackageStatus {
-    ReadyForDelivery = 'מוכנה לחלוקה',
+    ready = 'מוכנה לחלוקה',
     InDelivery = 'בחלוקה',
     Delivered = 'נמסרה'
 }
 
-export interface Person {
+/* export interface Person {
     firstName: string,
     lastName: string,
     id: string
-}
+} */

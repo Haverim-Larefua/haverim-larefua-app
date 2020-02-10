@@ -15,7 +15,7 @@ export const PackageDetailsScreen: React.FunctionComponent<NavigationInjectedPro
   const renderFullNameView = (): React.ReactElement => {
     return (
       <View style={styles.fullNameView}>
-        <Text preset={'header'} text={`${packageData.receiver.lastName} ${packageData.receiver.firstName}`} />
+        <Text preset={'header'} text={`${packageData.customerName}`} />
       </View>
     )
   }
@@ -34,7 +34,7 @@ export const PackageDetailsScreen: React.FunctionComponent<NavigationInjectedPro
   const renderApproveButton = (): React.ReactElement => {
     return (
       <SafeAreaView style={{ flex: 1, justifyContent: 'flex-end' }}>
-        <Button style={{ marginHorizontal: 12, marginBottom: 12 }} text={packageData.status === PackageStatus.ReadyForDelivery ? 'איסוף חבילה' : 'מסירת חבילה'} />
+        <Button style={{ marginHorizontal: 12, marginBottom: 12 }} text={packageData.parcelTrackingStatus === PackageStatus.ready ? 'איסוף חבילה' : 'מסירת חבילה'} />
       </SafeAreaView>
     )
   }
@@ -44,10 +44,10 @@ export const PackageDetailsScreen: React.FunctionComponent<NavigationInjectedPro
       <PackageStatusHeader packageData={packageData}/>
       {renderFullNameView()}
       {renderDetailsView('טלפון', false, '0524897564')}
-      {renderDetailsView(packageData.destination.city, false, `${packageData.destination.street} ${packageData.destination.number}/${packageData.destination.apartment}`)}
-      {renderDetailsView('פרטים נוספים', true, 'יש שער גדול והקוד הוא 7364. יש בחצר כלב אז אם הוא ישן נא לא להעיר אותו')}
+      {renderDetailsView(packageData.city, false, `${packageData.address}`)}
+      {renderDetailsView('פרטים נוספים', true, packageData.comments)}
       {
-        packageData.status !== PackageStatus.Delivered &&
+        packageData.parcelTrackingStatus !== PackageStatus.Delivered &&
         renderApproveButton()
       }
     </Screen>

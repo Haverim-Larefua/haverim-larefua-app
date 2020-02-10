@@ -44,6 +44,21 @@ export class Api {
     })
   }
 
+  setTokenHeader(token) {
+    this.apisauce.setHeader('Authorization', `Bearer ${token}`)
+  }
+
+  async login(username: string, password: string) {
+    const response: ApiResponse<any> = await this.apisauce.post(`/auth/user`, { username, password })
+    return response
+  }
+
+  async getPackages(userId: string) {
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    const response: ApiResponse<any> = await this.apisauce.get(`parcels/user/${userId}`, { last_statuses: 'ready' })
+    return response
+  }
+
   /**
    * Gets a list of users.
    */
