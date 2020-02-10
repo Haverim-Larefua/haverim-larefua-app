@@ -1,17 +1,18 @@
 import * as React from "react"
-import {SafeAreaView, View} from "react-native"
-import {Button, Screen, Text} from "../../components"
-import {PackageData, PackageStatus} from "../packagesList/types"
-import {PackageStatusHeader} from "./packageStatusHeader"
-import {NavigationInjectedProps} from "react-navigation"
-import {color} from "../../theme"
+import { SafeAreaView, View } from "react-native"
+import { Button, Screen, Text } from "../../components"
+import { PackageData, PackageStatus } from "../packagesList/types"
+import { PackageStatusHeader } from "./packageStatusHeader"
+import { NavigationInjectedProps } from "react-navigation"
+import { color } from "../../theme"
 
 interface PackageDetailsScreenProps {
     packageData: PackageData
 }
 
 export const PackageDetailsScreen: React.FunctionComponent<NavigationInjectedProps<PackageDetailsScreenProps>> = props => {
-  const packageData = props.navigation.state.params.packageData
+  const { navigation } = props
+  const packageData = navigation.getParam('packageData')
   return (
     <Screen preset="fixed" >
       <PackageStatusHeader packageData={packageData}/>
@@ -37,7 +38,12 @@ export const PackageDetailsScreen: React.FunctionComponent<NavigationInjectedPro
       {
         packageData.status !== PackageStatus.Delivered &&
             <SafeAreaView>
-              <Button style={{ marginHorizontal: 12, marginBottom: 12 }} text={packageData.status === PackageStatus.ReadyForDelivery ? 'איסוף חבילה' : 'מסירת חבילה'} />
+              <Button
+                style={{ marginHorizontal: 12, marginBottom: 12 }} text={packageData.status === PackageStatus.ReadyForDelivery ? 'איסוף חבילה' : 'מסירת חבילה'}
+                onPress={() => {
+                  navigation.navigate('deliveryConfirmation', { packageData })
+                }}
+              />
             </SafeAreaView>
       }
     </Screen>

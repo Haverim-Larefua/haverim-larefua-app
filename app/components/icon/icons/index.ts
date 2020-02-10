@@ -5,7 +5,8 @@ export const icons = {
   checkboxOff: require("./checkBox/checkbox-off.png"),
   checkboxOn: require("./checkBox/checkbox-on.png"),
   box: require("./packagesList/package.png"),
-  close: require("./packagesList/closeIcon.png")
+  close: require("./packagesList/closeIcon.png"),
+  rightArrow: require("./rightArrow/rightArrow.png")
 }
 
 export type IconTypes = keyof typeof icons
