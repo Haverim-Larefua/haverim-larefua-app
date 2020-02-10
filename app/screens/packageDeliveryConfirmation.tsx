@@ -28,8 +28,8 @@ export const PackageDeliveryConfirmationScreen: React.FunctionComponent<PackageD
 }
 
 const HEADER: TextStyle = {
-  paddingTop: spacing[4],
-  paddingBottom: spacing[5] - 1,
+  paddingTop: 30,
+  paddingBottom: 30,
   paddingHorizontal: 5,
 }
 const HEADER_TITLE: TextStyle = {

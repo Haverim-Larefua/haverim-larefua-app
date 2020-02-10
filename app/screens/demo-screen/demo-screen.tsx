@@ -11,11 +11,11 @@ export const heart = require("./heart.png")
 const FULL: ViewStyle = { flex: 1 }
 const CONTAINER: ViewStyle = {
   backgroundColor: color.transparent,
-  paddingHorizontal: spacing[4],
+  paddingHorizontal: spacing.halfPadding,
 }
 const DEMO: ViewStyle = {
-  paddingVertical: spacing[4],
-  paddingHorizontal: spacing[4],
+  paddingVertical: spacing.halfPadding,
+  paddingHorizontal: spacing.halfPadding,
   backgroundColor: "#5D2555",
 }
 const BOLD: TextStyle = { fontWeight: "bold" }
@@ -25,8 +25,8 @@ const DEMO_TEXT: TextStyle = {
   letterSpacing: 2,
 }
 const HEADER: TextStyle = {
-  paddingTop: spacing[3],
-  paddingBottom: spacing[5] - 1,
+  paddingTop: spacing.bigSpacing,
+  paddingBottom: 29,
   paddingHorizontal: 0,
 }
 const HEADER_TITLE: TextStyle = {
@@ -41,16 +41,16 @@ const TITLE: TextStyle = {
   fontSize: 28,
   lineHeight: 38,
   textAlign: "center",
-  marginBottom: spacing[5],
+  marginBottom: spacing.regularPadding,
 }
 const TAGLINE: TextStyle = {
   color: "#BAB6C8",
   fontSize: 15,
   lineHeight: 22,
-  marginBottom: spacing[4] + spacing[1],
+  marginBottom: 23,
 }
 const IGNITE: ImageStyle = {
-  marginVertical: spacing[6],
+  marginVertical: spacing.halfPadding,
   alignSelf: "center",
 }
 const LOVE_WRAPPER: ViewStyle = {
@@ -64,7 +64,7 @@ const LOVE: TextStyle = {
   lineHeight: 22,
 }
 const HEART: ImageStyle = {
-  marginHorizontal: spacing[2],
+  marginHorizontal: spacing.mediumSpacing,
   width: 10,
   height: 10,
   resizeMode: "contain",
@@ -73,7 +73,7 @@ const HINT: TextStyle = {
   color: "#BAB6C8",
   fontSize: 12,
   lineHeight: 15,
-  marginVertical: spacing[2],
+  marginVertical: spacing.mediumSpacing,
 }
 
 export interface DemoScreenProps extends NavigationInjectedProps<{}> {}

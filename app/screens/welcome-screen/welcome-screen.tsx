@@ -8,7 +8,7 @@ const bowserLogo = require("./bowser.png")
 const FULL: ViewStyle = { flex: 1 }
 const CONTAINER: ViewStyle = {
   backgroundColor: color.transparent,
-  paddingHorizontal: spacing[4],
+  paddingHorizontal: spacing.halfPadding,
 }
 const TEXT: TextStyle = {
   color: color.palette.white,
@@ -16,8 +16,8 @@ const TEXT: TextStyle = {
 }
 const BOLD: TextStyle = { fontWeight: "bold" }
 const HEADER: TextStyle = {
-  paddingTop: spacing[3],
-  paddingBottom: spacing[4] + spacing[1],
+  paddingTop: spacing.bigSpacing,
+  paddingBottom: 19,
   paddingHorizontal: 0,
 }
 const HEADER_TITLE: TextStyle = {
@@ -47,7 +47,7 @@ const ALMOST: TextStyle = {
 }
 const BOWSER: ImageStyle = {
   alignSelf: "center",
-  marginVertical: spacing[5],
+  marginVertical: spacing.regularPadding,
   maxWidth: "100%",
 }
 const CONTENT: TextStyle = {
@@ -55,11 +55,11 @@ const CONTENT: TextStyle = {
   color: "#BAB6C8",
   fontSize: 15,
   lineHeight: 22,
-  marginBottom: spacing[5],
+  marginBottom: spacing.regularPadding,
 }
 const CONTINUE: ViewStyle = {
-  paddingVertical: spacing[4],
-  paddingHorizontal: spacing[4],
+  paddingVertical: spacing.halfPadding,
+  paddingHorizontal: spacing.halfPadding,
   backgroundColor: "#5D2555",
 }
 const CONTINUE_TEXT: TextStyle = {
@@ -70,8 +70,8 @@ const CONTINUE_TEXT: TextStyle = {
 }
 const FOOTER: ViewStyle = { backgroundColor: "#20162D" }
 const FOOTER_CONTENT: ViewStyle = {
-  paddingVertical: spacing[4],
-  paddingHorizontal: spacing[4],
+  paddingVertical: spacing.halfPadding,
+  paddingHorizontal: spacing.halfPadding,
 }
 
 export interface WelcomeScreenProps extends NavigationInjectedProps<{}> {}

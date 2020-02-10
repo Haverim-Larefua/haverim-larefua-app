@@ -5,14 +5,14 @@ import { spacing } from "../../theme"
 
 const BULLET_ITEM: ViewStyle = {
   flexDirection: "row",
-  marginTop: spacing[4],
-  paddingBottom: spacing[4],
+  marginTop: spacing.halfPadding,
+  paddingBottom: spacing.halfPadding,
   borderBottomWidth: 1,
   borderBottomColor: "#3A3048",
 }
 const BULLET_CONTAINER: ViewStyle = {
-  marginRight: spacing[4] - 1,
-  marginTop: spacing[2],
+  marginRight: 14,
+  marginTop: spacing.mediumSpacing,
 }
 const BULLET: ImageStyle = {
   width: 8,

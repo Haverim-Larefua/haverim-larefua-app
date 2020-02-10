@@ -7,7 +7,7 @@ import { mergeAll, flatten } from "ramda"
 
 const ROOT: ViewStyle = {
   flexDirection: "row-reverse",
-  paddingVertical: spacing[1],
+  paddingVertical: spacing.smallSpacing,
 }
 
 const LABEL: TextStyle = { paddingRight: spacing.mediumSpacing }
