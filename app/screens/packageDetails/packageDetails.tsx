@@ -34,7 +34,13 @@ export const PackageDetailsScreen: React.FunctionComponent<NavigationInjectedPro
   const renderApproveButton = (): React.ReactElement => {
     return (
       <SafeAreaView style={{ flex: 1, justifyContent: 'flex-end' }}>
-        <Button style={{ marginHorizontal: 12, marginBottom: 12 }} text={packageData.status === PackageStatus.ReadyForDelivery ? 'איסוף חבילה' : 'מסירת חבילה'} />
+        <Button
+          style={{ marginHorizontal: 12, marginBottom: 12 }}
+          text={packageData.status === PackageStatus.ReadyForDelivery ? 'איסוף חבילה' : 'מסירת חבילה'}
+          onPress={() => {
+            props.navigation.navigate('deliveryConfirmation', { packageData })
+          }}
+        />
       </SafeAreaView>
     )
   }

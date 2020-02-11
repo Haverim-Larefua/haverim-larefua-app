@@ -57,6 +57,7 @@ buck-out/
 
 # CocoaPods
 /ios/Pods/
+/ios/Podfile.lock
 
 # Bowser-specific items
 # You can safely replace everything above this comment with whatever is
