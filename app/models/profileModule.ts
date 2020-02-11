@@ -1,5 +1,6 @@
 import { types, getRoot } from "mobx-state-tree"
 import { withEnvironment } from "./extensions"
+import { getFcmTokenFlow } from "../utils/firebaseUtils"
 
 export const profileModel = types
   .model("profile")
@@ -18,15 +19,24 @@ export const profileModel = types
     },
   }))
   .actions(self => ({
+    async setPushToken() {
+      const firebaseToken = await getFcmTokenFlow()
+      if (firebaseToken) {
+        await self.environment.api.updatePushToken(self.profile.id, firebaseToken)
+      }
+    }
+  }))
+  .actions(self => ({
     async login(user: string, pass: string) {
       const response = await self.environment.api.login(user, pass)
       if (response.ok) {
         self.environment.api.setTokenHeader(response.data.token)
         self.setProfile(response.data.user)
         self.setToken(response.data.token)
+        await self.setPushToken()
         const root = getRoot(self)
         // @ts-ignore
-        const packagesResponse = await root.packagesStore.getPackagesWithStatusReady()
+        const packagesResponse = await root.packagesStore.getAllPackages()
         return packagesResponse
       }
       return response

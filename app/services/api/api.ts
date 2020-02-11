@@ -2,6 +2,7 @@ import { ApisauceInstance, create, ApiResponse } from "apisauce"
 import { getGeneralApiProblem } from "./api-problem"
 import { ApiConfig, DEFAULT_API_CONFIG } from "./api-config"
 import * as Types from "./api.types"
+import { PackageStatusAPI } from "../../screens/packagesList/types"
 
 /**
  * Manages all requests to the API.
@@ -53,9 +54,19 @@ export class Api {
     return response
   }
 
+  async updatePushToken(userId: string, token: string) {
+    const response: ApiResponse<any> = await this.apisauce.put(`/push-token/update/${userId}`, token)
+    return response
+  }
+
   async getPackages(userId: string) {
     // eslint-disable-next-line @typescript-eslint/camelcase
-    const response: ApiResponse<any> = await this.apisauce.get(`parcels/user/${userId}`, { last_statuses: 'ready' })
+    const response: ApiResponse<any> = await this.apisauce.get(`parcels/user/${userId}`, { last_statuses: 'ready,distribution,delivered' })
+    return response
+  }
+
+  async updatePackagesStatus(packages: string[], userId: string, newStatus: PackageStatusAPI) {
+    const response: ApiResponse<any> = await this.apisauce.put(`parcels/user/${userId}/${newStatus}`, { parcels: packages })
     return response
   }
 

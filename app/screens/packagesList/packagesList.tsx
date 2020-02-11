@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { Animated, Easing, FlatList, SafeAreaView, StyleSheet, View } from "react-native"
 import { NavigationInjectedProps } from "react-navigation"
-import { PackageData } from "./types"
+import { PackageData, PackageStatusAPI } from "./types"
 import { PackagesListItem } from "./packagesListItem"
 import { color, spacing } from "../../theme"
 import { WelcomeUserView } from "./welcomeUserView"
@@ -9,6 +9,7 @@ import { PackagesScreenHeader } from "./packagesScreenHeader"
 import { PackagesSelectionHeader } from "./packagesSelectionHeader"
 import { useStores } from "../../models/root-store"
 import reactotron from "reactotron-react-native"
+import { Text } from "../../components"
 
 export interface PackagesListSProps extends NavigationInjectedProps<{}> {}
 
@@ -17,13 +18,14 @@ export const PackagesListScreen: React.FunctionComponent<PackagesListSProps> = p
   const [isInSelectionMode, setIsInSelectionMode] = useState(false)
   const selectionHeaderHeight = 75
   const [selectionHeaderAnimationHeight] = useState(new Animated.Value(-selectionHeaderHeight))
-  const { packagesStore: { packages }, profileModel: { profile } } = useStores()
+  const { packagesStore: { packages, updatePackagesStatus }, profileModel: { profile } } = useStores()
   useEffect(
     () => {
       if (selectedPackages.length === 0) {
         isInSelectionMode && setIsInSelectionMode(false)
       } else {
         !isInSelectionMode && setIsInSelectionMode(true)
+        reactotron.log(selectedPackages)
       }
     },
     [selectedPackages]
@@ -76,6 +78,12 @@ export const PackagesListScreen: React.FunctionComponent<PackagesListSProps> = p
     props.navigation.navigate('packageDetails', { packageData })
   }
 
+  const onPackagesStatusChange = async() => {
+    await updatePackagesStatus(selectedPackages, PackageStatusAPI.distribution)
+    setSelectedPackages([])
+    toggleSelectionHeaderWithAnimation()
+  }
+
   const onPackageLongPress = (packageData: PackageData) => {
     changePackageSelection(packageData)
   }
@@ -83,8 +91,8 @@ export const PackagesListScreen: React.FunctionComponent<PackagesListSProps> = p
   const renderListHeader = (): React.ReactElement => {
     // todo: change params to data from server under profile store
     //  (currently no such data available in /auth api) so undefined will be shown
-    const { name, lastName } = profile
-    return <WelcomeUserView numberOfPackages={packages.length} userDetails={{ firstName: name, lastName: lastName, id: '5' }}/>
+    const { firstName, lastName } = profile
+    return <WelcomeUserView numberOfPackages={packages.length} userDetails={{ firstName: firstName, lastName: lastName, id: '5' }}/>
   }
 
   const renderSelectionModeHeader = (): React.ReactElement => {
@@ -92,7 +100,7 @@ export const PackagesListScreen: React.FunctionComponent<PackagesListSProps> = p
       <Animated.View style={ { ...styles.selectionModeHeader, top: selectionHeaderAnimationHeight }}>
         <PackagesSelectionHeader
           onExitPress={() => setSelectedPackages([])}
-          onApprovePress={() => {}}
+          onApprovePress={() => onPackagesStatusChange()}
           selectedPackagesNumber={selectedPackages.length} />
       </Animated.View>
     )
@@ -103,7 +111,7 @@ export const PackagesListScreen: React.FunctionComponent<PackagesListSProps> = p
       <FlatList
         ListHeaderComponent={renderListHeader}
         style={styles.list}
-        keyExtractor={(packageData) => packageData.id}
+        keyExtractor={(packageData) => packageData.id.toString()}
         data={packages}
         renderItem={(packageDataItem) => {
           return renderPackageListItem(packageDataItem.item)
@@ -113,7 +121,6 @@ export const PackagesListScreen: React.FunctionComponent<PackagesListSProps> = p
   }
 
   const renderPackageListItem = (packageData: PackageData): React.ReactElement => {
-    reactotron.log(packageData)
     return (
       <PackagesListItem onPress={() => onPackagePress(packageData)}
         onLongPress={ () => onPackageLongPress(packageData)}
@@ -122,7 +129,7 @@ export const PackagesListScreen: React.FunctionComponent<PackagesListSProps> = p
         packageData={packageData}
       />)
   }
-
+console.log(packages)
   return (
     <SafeAreaView style={styles.container}>
       <View style={{ overflow: 'hidden', flex: 1 }}>

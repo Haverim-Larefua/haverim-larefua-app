@@ -1,17 +1,22 @@
 import * as React from "react"
 import { SafeAreaView, StyleSheet, View } from "react-native"
 import { Button, Screen, Text } from "../../components"
-import { PackageData, PackageStatus } from "../packagesList/types"
+import { PackageData, PackageStatus, PackageStatusAPI } from "../packagesList/types"
 import { PackageStatusHeader } from "./packageStatusHeader"
 import { NavigationInjectedProps } from "react-navigation"
 import { color } from "../../theme"
+import { useStores } from "../../models/root-store"
+import reactotron from "reactotron-react-native"
+import { observer } from "mobx-react-lite"
 
 interface PackageDetailsScreenProps {
     packageData: PackageData
 }
 
-export const PackageDetailsScreen: React.FunctionComponent<NavigationInjectedProps<PackageDetailsScreenProps>> = props => {
+export const PackageDetailsScreen: React.FunctionComponent<NavigationInjectedProps<PackageDetailsScreenProps>> = observer(props => {
   const packageData = props.navigation.state.params.packageData
+  const { packagesStore: { updatePackagesStatus } } = useStores()
+
   const renderFullNameView = (): React.ReactElement => {
     return (
       <View style={styles.fullNameView}>
@@ -31,14 +36,26 @@ export const PackageDetailsScreen: React.FunctionComponent<NavigationInjectedPro
     )
   }
 
+  const onApproveButtonPress = async() => {
+    if (PackageStatusAPI[packageData.parcelTrackingStatus] === PackageStatusAPI.ready) {
+      await updatePackagesStatus([packageData.id], PackageStatusAPI.distribution)
+      props.navigation.navigate('packagesList')
+    } else {
+      reactotron.log('asd')
+      // todo go to signature page
+    }
+  }
   const renderApproveButton = (): React.ReactElement => {
     return (
       <SafeAreaView style={{ flex: 1, justifyContent: 'flex-end' }}>
-        <Button style={{ marginHorizontal: 12, marginBottom: 12 }} text={packageData.parcelTrackingStatus === PackageStatus.ready ? 'איסוף חבילה' : 'מסירת חבילה'} />
+        <Button
+          style={{ marginHorizontal: 12, marginBottom: 12 }}
+          onPress={() => onApproveButtonPress()}
+          text={PackageStatus[packageData.parcelTrackingStatus] === PackageStatus.ready ? 'איסוף חבילה' : 'מסירת חבילה'}
+        />
       </SafeAreaView>
     )
   }
-
   return (
     <Screen preset="fixed" >
       <PackageStatusHeader packageData={packageData}/>
@@ -47,12 +64,12 @@ export const PackageDetailsScreen: React.FunctionComponent<NavigationInjectedPro
       {renderDetailsView(packageData.city, false, `${packageData.address}`)}
       {renderDetailsView('פרטים נוספים', true, packageData.comments)}
       {
-        packageData.parcelTrackingStatus !== PackageStatus.Delivered &&
+        (PackageStatus[packageData.parcelTrackingStatus] !== PackageStatus.delivered) &&
         renderApproveButton()
       }
     </Screen>
   )
-}
+})
 
 const styles = StyleSheet.create({
   detailsView: {

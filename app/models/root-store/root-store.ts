@@ -9,7 +9,7 @@ import { profileModel } from "../profileModule"
 export const RootStoreModel = types.model("RootStore").props({
   navigationStore: types.optional(NavigationStoreModel, {}),
   packagesStore: types.optional(PackagesStoreModel, { packages: [] }),
-  profileModel: types.optional(profileModel, { })
+  profileModel: types.optional(profileModel, { token: '', profile: {} })
 })
 
 /**

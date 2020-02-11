@@ -17,8 +17,14 @@ export interface Address {
 
 export enum PackageStatus {
     ready = 'מוכנה לחלוקה',
-    InDelivery = 'בחלוקה',
-    Delivered = 'נמסרה'
+    distribution = 'בחלוקה',
+    delivered = 'נמסרה'
+}
+
+export enum PackageStatusAPI {
+    ready = 'ready',
+    distribution = 'distribution',
+    delivered = 'delivered'
 }
 
 /* export interface Person {
