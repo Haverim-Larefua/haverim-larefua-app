@@ -1,7 +1,7 @@
 import React, { FC, useMemo, useState, ReactElement } from "react"
-import { StyleSheet, View, TextInput } from "react-native"
+import { StyleSheet, View, TextInput, SafeAreaView } from "react-native"
 import { NavigationInjectedProps } from "react-navigation"
-import { Button, Header, Screen, Text } from "../components"
+import { Button, Header, Text } from "../components"
 import SignatureCapture from 'react-native-signature-capture'
 import { SCREEN_HEIGHT } from "../constants/constants"
 import { color, ThemeColors } from "../theme"
@@ -35,7 +35,10 @@ export const PackageDeliveryConfirmationScreen: FC<NavigationInjectedProps<Packa
             showNativeButtons={false}
             showBorder={false}
             onDragEvent={(isDragging) => { !isSignature && setIsSignature(isDragging) }}
-            onSaveEvent={(e) => { console.log('onSaveEvent', e) }}
+            onSaveEvent={(base64Image) => {
+              // console.log('onSaveEvent', base64Image)
+              // todo: call API
+            }}
           />
         </View>
       </View>
@@ -56,8 +59,8 @@ export const PackageDeliveryConfirmationScreen: FC<NavigationInjectedProps<Packa
   }
 
   return (
-    <View style={styles.container}>
-      <Screen backgroundColor={backgroundColor}>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
         <Header
           rightIcon="rightArrow"
           rightTitle={"חזרה"}
@@ -73,14 +76,13 @@ export const PackageDeliveryConfirmationScreen: FC<NavigationInjectedProps<Packa
           text={'אישור מסירה'}
           disabled={!isSignature}
           onPress={() => {
-            console.log('signatureCaptureRef', signatureCaptureRef)
             signatureCaptureRef.saveImage()
             signatureCaptureRef.resetImage()
             setIsSignature(false)
             // todo: call API and change package status
           }}/>
-      </Screen>
-    </View>
+      </View>
+    </SafeAreaView>
   )
 }
 
