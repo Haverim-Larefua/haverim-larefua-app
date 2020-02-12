@@ -1,4 +1,4 @@
-import * as React from "react"
+import React, { useMemo } from "react"
 import { SafeAreaView, StyleSheet, View } from "react-native"
 import { Button, Header, Screen, Text } from "../../components"
 import { PackageData, PackageStatus, PackageStatusAPI } from "../packagesList/types"
@@ -8,7 +8,6 @@ import { color } from "../../theme"
 import { useStores } from "../../models/root-store"
 import reactotron from "reactotron-react-native"
 import { observer } from "mobx-react-lite"
-import { useMemo } from "react"
 
 interface PackageDetailsScreenProps {
     packageData: PackageData

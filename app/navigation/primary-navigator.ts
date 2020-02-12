@@ -2,7 +2,9 @@ import createNativeStackNavigator from "react-native-screens/createNativeStackNa
 import {
   LoginScreen,
   PackagesListScreen,
-  PackageDetailsScreen, PackageDeliveryConfirmationScreen,
+  PackageDetailsScreen,
+  PackageDeliveryConfirmationScreen,
+  PackagesListTabs
 
 } from "../screens"
 
@@ -12,6 +14,7 @@ export const PrimaryNavigator = createNativeStackNavigator(
     // demo: { screen: DemoScreen },
     login: { screen: LoginScreen },
     packagesList: { screen: PackagesListScreen },
+    packagesTabList: { screen: PackagesListTabs },
     packageDetails: { screen: PackageDetailsScreen },
     deliveryConfirmation: { screen: PackageDeliveryConfirmationScreen }
   },
