@@ -1,7 +1,7 @@
 import React, { FC, ReactElement, useMemo, useState } from "react"
 import { SafeAreaView, StyleSheet, TextInput, View } from "react-native"
 import { NavigationInjectedProps } from "react-navigation"
-import { Button, Header, Text, ThankYouPopup } from "../components"
+import { Button, Header, Screen, Text, ThankYouPopup } from "../components"
 import SignatureCapture from "react-native-signature-capture"
 import { SCREEN_HEIGHT } from "../constants/constants"
 import { color } from "../theme"
@@ -57,6 +57,7 @@ export const PackageDeliveryConfirmationScreen: FC<NavigationInjectedProps<Packa
           onChangeText={text => setNotes(text)}
           value={notes}
           multiline
+          scrollEnabled={false}
         />
       </View>
     )
@@ -77,33 +78,31 @@ export const PackageDeliveryConfirmationScreen: FC<NavigationInjectedProps<Packa
   }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <Screen preset={"scroll"} >
       {renderPopUp()}
-      <View style={styles.container}>
-        <Header
-          rightIcon="rightArrow"
-          rightTitle={"חזרה"}
-          onRightPress={goBack}
-        />
-        <PackageStatusHeader
-          // @ts-ignore
-          packageData={{ ...packageData, parcelTrackingStatus: PackageStatusAPI.whileDelivering }}
-        />
-        <View style={styles.contentContainer}>
-          {renderSignature()}
-          {renderNotes()}
-        </View>
-        <Button
-          style={styles.button}
-          text={'אישור מסירה'}
-          disabled={!isSignature}
-          onPress={() => {
-            signatureCaptureRef.saveImage()
-            signatureCaptureRef.resetImage()
-            setIsSignature(false)
-          }}/>
+      <Header
+        rightIcon="rightArrow"
+        rightTitle={"חזרה"}
+        onRightPress={goBack}
+      />
+      <PackageStatusHeader
+        // @ts-ignore
+        packageData={{ ...packageData, parcelTrackingStatus: PackageStatusAPI.whileDelivering }}
+      />
+      <View style={styles.contentContainer}>
+        {renderSignature()}
+        {renderNotes()}
       </View>
-    </SafeAreaView>
+      <Button
+        style={styles.button}
+        text={'אישור מסירה'}
+        disabled={!isSignature}
+        onPress={() => {
+          signatureCaptureRef.saveImage()
+          signatureCaptureRef.resetImage()
+          setIsSignature(false)
+        }}/>
+    </Screen>
   )
 }
 
@@ -118,10 +117,6 @@ const styles = StyleSheet.create({
   button: {
     height: 48,
     margin: CONTENT_PADDING
-  },
-  container: {
-    backgroundColor,
-    flex: 1
   },
   contentContainer: {
     flex: 1,
