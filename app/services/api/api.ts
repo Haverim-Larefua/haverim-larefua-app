@@ -70,6 +70,11 @@ export class Api {
     return response
   }
 
+  async addSignatureToPackage(parcelId: string, userId: string, signature: string) {
+    const response: ApiResponse<any> = await this.apisauce.put(`parcels/${parcelId}/signature/${userId}`, { signature })
+    return response
+  }
+
   /**
    * Gets a list of users.
    */

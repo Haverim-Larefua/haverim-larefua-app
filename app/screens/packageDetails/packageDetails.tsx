@@ -1,6 +1,6 @@
 import * as React from "react"
 import { SafeAreaView, StyleSheet, View } from "react-native"
-import { Button, Screen, Text } from "../../components"
+import { Button, Header, Screen, Text } from "../../components"
 import { PackageData, PackageStatus, PackageStatusAPI } from "../packagesList/types"
 import { PackageStatusHeader } from "./packageStatusHeader"
 import { NavigationInjectedProps } from "react-navigation"
@@ -8,6 +8,7 @@ import { color } from "../../theme"
 import { useStores } from "../../models/root-store"
 import reactotron from "reactotron-react-native"
 import { observer } from "mobx-react-lite"
+import { useMemo } from "react"
 
 interface PackageDetailsScreenProps {
     packageData: PackageData
@@ -15,6 +16,8 @@ interface PackageDetailsScreenProps {
 
 export const PackageDetailsScreen: React.FunctionComponent<NavigationInjectedProps<PackageDetailsScreenProps>> = observer(props => {
   const packageData = props.navigation.state.params.packageData
+  const goBack = useMemo(() => () => props.navigation.goBack(null), [props.navigation])
+
   const { packagesStore: { updatePackagesStatus } } = useStores()
 
   const renderFullNameView = (): React.ReactElement => {
@@ -42,6 +45,7 @@ export const PackageDetailsScreen: React.FunctionComponent<NavigationInjectedPro
       props.navigation.navigate('packagesList')
     } else {
       reactotron.log('asd')
+      props.navigation.navigate('deliveryConfirmation', { packageData })
       // todo go to signature page
     }
   }
@@ -58,6 +62,11 @@ export const PackageDetailsScreen: React.FunctionComponent<NavigationInjectedPro
   }
   return (
     <Screen preset="fixed" >
+      <Header
+        rightIcon="rightArrow"
+        rightTitle={"חזור"}
+        onRightPress={goBack}
+      />
       <PackageStatusHeader packageData={packageData}/>
       {renderFullNameView()}
       {renderDetailsView('טלפון', false, '0524897564')}

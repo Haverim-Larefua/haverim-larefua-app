@@ -1,23 +1,9 @@
-import * as React from "react"
-import { View, ViewStyle, TextStyle } from "react-native"
+import React, { ReactElement } from "react"
+import { View, StyleSheet } from "react-native"
 import { HeaderProps } from "./header.props"
 import { Button, Icon, Text } from "../"
-import { spacing } from "../../theme"
 import { translate } from "../../i18n/"
-
-// static styles
-const ROOT: ViewStyle = {
-  flexDirection: "row",
-  paddingHorizontal: spacing[4],
-  alignItems: "center",
-  paddingTop: spacing[5],
-  paddingBottom: spacing[5],
-  justifyContent: "flex-start",
-}
-const TITLE: TextStyle = { textAlign: "center" }
-const TITLE_MIDDLE: ViewStyle = { flex: 1, justifyContent: "center" }
-const LEFT: ViewStyle = { width: 32 }
-const RIGHT: ViewStyle = { width: 32 }
+import { HEADER_HEIGHT, SCREEN_WIDTH } from "../../constants/constants"
 
 /**
  * Header that appears on many screens. Will hold navigation buttons and screen title.
@@ -32,28 +18,63 @@ export const Header: React.FunctionComponent<HeaderProps> = props => {
     headerTx,
     style,
     titleStyle,
+    rightTitle
   } = props
   const header = headerText || (headerTx && translate(headerTx)) || ""
 
+  const renderIconText = (text: string): ReactElement => {
+    return <Text style={styles.buttonText} preset="bold" text={text} />
+  }
+
   return (
-    <View style={{ ...ROOT, ...style }}>
+    <View style={{ ...styles.root, ...style }}>
       {leftIcon ? (
         <Button preset="link" onPress={onLeftPress}>
           <Icon icon={leftIcon} />
         </Button>
       ) : (
-        <View style={LEFT} />
+        <View style={styles.left} />
       )}
-      <View style={TITLE_MIDDLE}>
-        <Text style={{ ...TITLE, ...titleStyle }} text={header} />
+      <View style={styles.titleMiddle}>
+        <Text style={{ ...styles.title, ...titleStyle }} text={header} />
       </View>
-      {rightIcon ? (
-        <Button preset="link" onPress={onRightPress}>
-          <Icon icon={rightIcon} />
+      {rightIcon || rightTitle ? (
+        <Button style={styles.button} preset="link" onPress={onRightPress}>
+          {rightTitle && renderIconText(rightTitle) }
+          {rightIcon && <Icon icon={rightIcon} />}
         </Button>
       ) : (
-        <View style={RIGHT} />
+        <View style={styles.right} />
       )}
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  button: {
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "space-around",
+  },
+  buttonText: {
+    fontSize: 14,
+    paddingHorizontal: 19
+  },
+  left: { width: 32 },
+  right: { width: 32 },
+  root: {
+    alignItems: "center",
+    flexDirection: "row",
+    height: HEADER_HEIGHT,
+    justifyContent: "flex-start",
+    paddingHorizontal: 17,
+    width: SCREEN_WIDTH
+  },
+  title: {
+    textAlign: "center"
+  },
+  titleMiddle: {
+    flex: 1,
+    justifyContent: "center"
+  }
+})

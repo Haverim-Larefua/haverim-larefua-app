@@ -12,9 +12,6 @@ export const PackagesStoreModel = types
   .actions(self => ({
     setPackages(packages) {
       self.packages = packages
-    },
-    setId(id){
-      self.packages[0].id = id
     }
   }))
   .actions(self => ({
@@ -35,6 +32,18 @@ export const PackagesStoreModel = types
       // @ts-ignore
       const userId = rootStore.profileModel.profile.id
       const response = await self.environment.api.updatePackagesStatus(packages, userId, status)
+      if (response.ok) {
+        await self.getAllPackages()
+      }
+      return response
+    }
+  }))
+  .actions(self => ({
+    async addSignature(packageId: string, signature: string) {
+      const rootStore = getRoot(self)
+      // @ts-ignore
+      const userId = rootStore.profileModel.profile.id
+      const response = await self.environment.api.addSignatureToPackage(packageId, userId, signature)
       if (response.ok) {
         await self.getAllPackages()
       }

@@ -18,13 +18,16 @@ export interface Address {
 export enum PackageStatus {
     ready = 'מוכנה לחלוקה',
     distribution = 'בחלוקה',
-    delivered = 'נמסרה'
+    delivered = 'נמסרה',
+    whileDelivering = 'מסירת חבילה'
+
 }
 
 export enum PackageStatusAPI {
     ready = 'ready',
     distribution = 'distribution',
-    delivered = 'delivered'
+    delivered = 'delivered',
+    whileDelivering = 'whileDelivering'
 }
 
 /* export interface Person {
