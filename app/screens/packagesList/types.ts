@@ -6,6 +6,7 @@ export interface PackageData {
     address: string
     city: string
     comments: string
+    phoneNumber: string
 }
 
 export interface Address {
@@ -20,7 +21,6 @@ export enum PackageStatus {
     distribution = 'בחלוקה',
     delivered = 'נמסרה',
     whileDelivering = 'מסירת חבילה'
-
 }
 
 export enum PackageStatusAPI {

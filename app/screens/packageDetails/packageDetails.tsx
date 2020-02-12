@@ -1,26 +1,42 @@
-import * as React from "react"
-import { SafeAreaView, StyleSheet, View } from "react-native"
-import { Button, Header, Screen, Text } from "../../components"
+import React, { FC, ReactElement, useMemo } from "react"
+import { SafeAreaView, StyleSheet, View, Linking, TouchableOpacity } from "react-native"
+import { Button, Header, Icon, Screen, Text } from "../../components"
 import { PackageData, PackageStatus, PackageStatusAPI } from "../packagesList/types"
 import { PackageStatusHeader } from "./packageStatusHeader"
 import { NavigationInjectedProps } from "react-navigation"
 import { color } from "../../theme"
 import { useStores } from "../../models/root-store"
-import reactotron from "reactotron-react-native"
 import { observer } from "mobx-react-lite"
-import { useMemo } from "react"
+import { IconTypes } from "../../components/icon/icons"
+import { IS_IOS } from "../../constants/constants"
 
 interface PackageDetailsScreenProps {
     packageData: PackageData
 }
 
-export const PackageDetailsScreen: React.FunctionComponent<NavigationInjectedProps<PackageDetailsScreenProps>> = observer(props => {
+export const PackageDetailsScreen: FC<NavigationInjectedProps<PackageDetailsScreenProps>> = observer(props => {
   const packageData = props.navigation.state.params.packageData
   const goBack = useMemo(() => () => props.navigation.goBack(null), [props.navigation])
 
   const { packagesStore: { updatePackagesStatus } } = useStores()
 
-  const renderFullNameView = (): React.ReactElement => {
+  const onIconPressed = (iconName: IconTypes): void => {
+    const { phoneNumber, destination: { city, street, number } } = packageData
+    const formattedAddress = `${street} ${number} ${city}`
+    const nativeNavigationAppURL = IS_IOS
+      ? `https://maps.apple.com/?daddr=${formattedAddress}`
+      : `https://www.google.com/maps/dir/?api=1&travelmode=driving&dir_action=navigate&destination=${formattedAddress}`
+
+    switch (iconName) {
+      case "call": { Linking.openURL(`tel:${phoneNumber}`); break }
+      case "msg": { Linking.openURL(`sms:${phoneNumber}`); break }
+      case "waze": { Linking.openURL(`https://waze.com/ul?q=${formattedAddress}`); break }
+      case "location": { Linking.openURL(nativeNavigationAppURL); break }
+      default: break
+    }
+  }
+
+  const renderFullNameView = (): ReactElement => {
     return (
       <View style={styles.fullNameView}>
         <Text preset={'header'} text={`${packageData.customerName}`} />
@@ -28,12 +44,52 @@ export const PackageDetailsScreen: React.FunctionComponent<NavigationInjectedPro
     )
   }
 
-  const renderDetailsView = (title: string, isTitleBolded = false, explanationText: string): React.ReactElement => {
+  const renderIcons = (firstIcon: IconTypes, secondIcon: IconTypes): ReactElement => {
+    return (
+      <View style={styles.iconsContainer}>
+        <TouchableOpacity onPress={() => { onIconPressed(firstIcon) }} >
+          <Icon containerStyle={styles.iconContainer} icon={firstIcon}/>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => { onIconPressed(secondIcon) }} >
+          <Icon containerStyle={styles.iconContainer} icon={secondIcon}/>
+        </TouchableOpacity>
+      </View>
+    )
+  }
+
+  const renderPhoneDetails = (): ReactElement => {
+    const { phoneNumber } = packageData
     return (
       <View style={styles.detailsView}>
         <View>
-          <Text preset={isTitleBolded ? 'bold' : 'default'} text={title}/>
-          <Text text={explanationText} />
+          <Text text={'טלפון'}/>
+          <Text text={phoneNumber} />
+        </View>
+        {renderIcons('call', 'msg')}
+      </View>
+    )
+  }
+
+  const renderAddressDetails = (): ReactElement => {
+    const { destination: { city, street, number, apartment } } = packageData
+    return (
+      <View style={styles.detailsView}>
+        <View>
+          <Text text={city}/>
+          <Text text={`${street}, ${number}/${apartment}`} />
+        </View>
+        {renderIcons("waze", "location")}
+      </View>
+    )
+  }
+
+  const renderMoreDetails = (): ReactElement => {
+    const { comments } = packageData
+    return (
+      <View style={[styles.detailsView, { borderBottomWidth: 0 }]}>
+        <View>
+          <Text preset={'bold'} text={'פרטים נוספים'}/>
+          <Text text={comments} />
         </View>
       </View>
     )
@@ -44,14 +100,13 @@ export const PackageDetailsScreen: React.FunctionComponent<NavigationInjectedPro
       await updatePackagesStatus([packageData.id], PackageStatusAPI.distribution)
       props.navigation.navigate('packagesList')
     } else {
-      reactotron.log('asd')
       props.navigation.navigate('deliveryConfirmation', { packageData })
       // todo go to signature page
     }
   }
-  const renderApproveButton = (): React.ReactElement => {
+  const renderApproveButton = (): ReactElement => {
     return (
-      <SafeAreaView style={{ flex: 1, justifyContent: 'flex-end' }}>
+      <SafeAreaView style={styles.buttonContainer}>
         <Button
           style={{ marginHorizontal: 12, marginBottom: 12 }}
           onPress={() => onApproveButtonPress()}
@@ -60,8 +115,9 @@ export const PackageDetailsScreen: React.FunctionComponent<NavigationInjectedPro
       </SafeAreaView>
     )
   }
+
   return (
-    <Screen preset="fixed" >
+    <Screen style={styles.container} preset="scroll" >
       <Header
         rightIcon="rightArrow"
         rightTitle={"חזור"}
@@ -69,9 +125,9 @@ export const PackageDetailsScreen: React.FunctionComponent<NavigationInjectedPro
       />
       <PackageStatusHeader packageData={packageData}/>
       {renderFullNameView()}
-      {renderDetailsView('טלפון', false, '0524897564')}
-      {renderDetailsView(packageData.city, false, `${packageData.address}`)}
-      {renderDetailsView('פרטים נוספים', true, packageData.comments)}
+      {renderPhoneDetails()}
+      {renderAddressDetails()}
+      {renderMoreDetails()}
       {
         (PackageStatus[packageData.parcelTrackingStatus] !== PackageStatus.delivered) &&
         renderApproveButton()
@@ -81,10 +137,18 @@ export const PackageDetailsScreen: React.FunctionComponent<NavigationInjectedPro
 })
 
 const styles = StyleSheet.create({
+  buttonContainer: {
+    flex: 1,
+    justifyContent: 'flex-end'
+  },
+  container: {
+    flex: 1
+  },
   detailsView: {
     borderBottomWidth: 1,
     borderColor: color.palette.lighterGrey,
     flexDirection: 'row-reverse',
+    justifyContent: 'space-between',
     paddingBottom: 24,
     paddingHorizontal: 20,
     paddingTop: 22
@@ -95,5 +159,17 @@ const styles = StyleSheet.create({
     paddingBottom: 18,
     paddingRight: 20,
     paddingTop: 22
+  },
+  iconContainer: {
+    alignItems: 'center',
+    backgroundColor: color.palette.greyLight,
+    borderRadius: 45 / 2,
+    height: 45,
+    justifyContent: 'center',
+    margin: 7,
+    width: 45
+  },
+  iconsContainer: {
+    flexDirection: 'row',
   }
 })

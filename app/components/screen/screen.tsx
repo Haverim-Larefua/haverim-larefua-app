@@ -41,6 +41,8 @@ function ScreenWithScrolling(props: ScreenProps) {
         <ScrollView
           style={[preset.outer, backgroundStyle]}
           contentContainerStyle={[preset.inner, style]}
+          showsVerticalScrollIndicator={false}
+          bounces={false}
         >
           {props.children}
         </ScrollView>
