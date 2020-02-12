@@ -6,7 +6,11 @@ export const icons = {
   checkboxOn: require("./checkBox/checkbox-on.png"),
   box: require("./packagesList/package.png"),
   close: require("./packagesList/closeIcon.png"),
-  rightArrow: require("./rightArrow/rightArrow.png")
+  rightArrow: require("./rightArrow/rightArrow.png"),
+  waze: require("./ic-waze/ic-waze.png"),
+  msg: require("./ic-msg/ic-msg.png"),
+  location: require("./ic-location/ic-location.png"),
+  call: require("./ic-call/ic-call.png")
 }
 
 export type IconTypes = keyof typeof icons
