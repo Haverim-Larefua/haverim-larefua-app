@@ -9,11 +9,11 @@ import { PackagesScreenHeader } from "./packagesScreenHeader"
 import { PackagesSelectionHeader } from "./packagesSelectionHeader"
 import { useStores } from "../../models/root-store"
 import reactotron from "reactotron-react-native"
-import { Text } from "../../components"
+import { observer } from "mobx-react-lite"
 
 export interface PackagesListSProps extends NavigationInjectedProps<{}> {}
 
-export const PackagesListScreen: React.FunctionComponent<PackagesListSProps> = props => {
+export const PackagesListScreen: React.FunctionComponent<PackagesListSProps> = observer(props => {
   const [selectedPackages, setSelectedPackages] = useState<string[]>([])
   const [isInSelectionMode, setIsInSelectionMode] = useState(false)
   const selectionHeaderHeight = 75
@@ -129,7 +129,7 @@ export const PackagesListScreen: React.FunctionComponent<PackagesListSProps> = p
         packageData={packageData}
       />)
   }
-console.log(packages)
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={{ overflow: 'hidden', flex: 1 }}>
@@ -139,7 +139,7 @@ console.log(packages)
       </View>
     </SafeAreaView>
   )
-}
+})
 
 const styles = StyleSheet.create({
   container: {
