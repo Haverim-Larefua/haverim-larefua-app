@@ -3,7 +3,7 @@ import { types, Instance, SnapshotOut } from "mobx-state-tree"
 export const packageModel = types
   .model("package")
   .props({
-    id: types.identifier,
+    id: types.frozen(),
     done: false,
     name: types.optional(types.string, "a"),
     category: types.maybe(types.string),

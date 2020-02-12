@@ -56,6 +56,7 @@ export const color = {
   error: palette.angry,
 
   textFieldBorder: '#dcdeea',
+
   /**
    * Storybook background for Text stories, or any stories where
    * the text color is color.text, which is white by default, and does not show
@@ -72,15 +73,20 @@ export const color = {
 
 export const getThemeColorsByPackageStatus = (status: PackageStatus): ThemeColors => {
   switch (status) {
-    case PackageStatus.ReadyForDelivery:
+    case PackageStatus.ready:
       return {
         backgroundColor: '#cff1f8',
         textColor: '#0a6475'
       }
-    case PackageStatus.InDelivery:
+    case PackageStatus.distribution:
       return {
         backgroundColor: '#f2ebf8',
         textColor: '#644087'
+      }
+    case PackageStatus.whileDelivering:
+      return {
+        backgroundColor: '#f0f1fb',
+        textColor: color.palette.black
       }
     default:
       return {

@@ -2,6 +2,7 @@ import { ApisauceInstance, create, ApiResponse } from "apisauce"
 import { getGeneralApiProblem } from "./api-problem"
 import { ApiConfig, DEFAULT_API_CONFIG } from "./api-config"
 import * as Types from "./api.types"
+import { PackageStatusAPI } from "../../screens/packagesList/types"
 
 /**
  * Manages all requests to the API.
@@ -42,6 +43,36 @@ export class Api {
         Accept: "application/json",
       },
     })
+  }
+
+  setTokenHeader(token) {
+    this.apisauce.setHeader('Authorization', `Bearer ${token}`)
+  }
+
+  async login(username: string, password: string) {
+    const response: ApiResponse<any> = await this.apisauce.post(`/auth/user`, { username, password })
+    return response
+  }
+
+  async updatePushToken(userId: string, token: string) {
+    const response: ApiResponse<any> = await this.apisauce.put(`/push-token/update/${userId}`, token)
+    return response
+  }
+
+  async getPackages(userId: string) {
+    // eslint-disable-next-line @typescript-eslint/camelcase
+    const response: ApiResponse<any> = await this.apisauce.get(`parcels/user/${userId}`, { last_statuses: 'ready,distribution,delivered' })
+    return response
+  }
+
+  async updatePackagesStatus(packages: string[], userId: string, newStatus: PackageStatusAPI) {
+    const response: ApiResponse<any> = await this.apisauce.put(`parcels/user/${userId}/${newStatus}`, { parcels: packages })
+    return response
+  }
+
+  async addSignatureToPackage(parcelId: string, userId: string, signature: string) {
+    const response: ApiResponse<any> = await this.apisauce.put(`parcels/${parcelId}/signature/${userId}`, { signature })
+    return response
   }
 
   /**

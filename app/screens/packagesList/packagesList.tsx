@@ -1,27 +1,31 @@
 import React, { useEffect, useState } from "react"
 import { Animated, Easing, FlatList, SafeAreaView, StyleSheet, View } from "react-native"
 import { NavigationInjectedProps } from "react-navigation"
-import { PackageData, PackageStatus } from "./types"
+import { PackageData, PackageStatusAPI } from "./types"
 import { PackagesListItem } from "./packagesListItem"
 import { color, spacing } from "../../theme"
 import { WelcomeUserView } from "./welcomeUserView"
 import { PackagesScreenHeader } from "./packagesScreenHeader"
 import { PackagesSelectionHeader } from "./packagesSelectionHeader"
+import { useStores } from "../../models/root-store"
+import reactotron from "reactotron-react-native"
+import { observer } from "mobx-react-lite"
 
 export interface PackagesListSProps extends NavigationInjectedProps<{}> {}
 
-export const PackagesListScreen: React.FunctionComponent<PackagesListSProps> = props => {
+export const PackagesListScreen: React.FunctionComponent<PackagesListSProps> = observer(props => {
   const [selectedPackages, setSelectedPackages] = useState<string[]>([])
   const [isInSelectionMode, setIsInSelectionMode] = useState(false)
   const selectionHeaderHeight = 75
   const [selectionHeaderAnimationHeight] = useState(new Animated.Value(-selectionHeaderHeight))
-
+  const { packagesStore: { packages, updatePackagesStatus }, profileModel: { profile } } = useStores()
   useEffect(
     () => {
       if (selectedPackages.length === 0) {
         isInSelectionMode && setIsInSelectionMode(false)
       } else {
         !isInSelectionMode && setIsInSelectionMode(true)
+        reactotron.log(selectedPackages)
       }
     },
     [selectedPackages]
@@ -40,17 +44,17 @@ export const PackagesListScreen: React.FunctionComponent<PackagesListSProps> = p
   }
 
   const isPackageSelected = (packageData: PackageData): boolean => {
-    return selectedPackages.includes(packageData.packageId, 0)
+    return selectedPackages.includes(packageData.id, 0)
   }
 
   const addPackageToSelectedList = (packageData: PackageData) => {
     const newSelectedPackagesList = Array.from(selectedPackages)
-    newSelectedPackagesList.push(packageData.packageId)
+    newSelectedPackagesList.push(packageData.id)
     setSelectedPackages(newSelectedPackagesList)
   }
 
   const removePackageFromSelectedList = (packageData: PackageData) => {
-    const packageIndex = selectedPackages.indexOf(packageData.packageId)
+    const packageIndex = selectedPackages.indexOf(packageData.id)
     if (packageIndex > -1) {
       const newSelectedPackagesList = Array.from(selectedPackages)
       newSelectedPackagesList.splice(packageIndex, 1)
@@ -74,12 +78,21 @@ export const PackagesListScreen: React.FunctionComponent<PackagesListSProps> = p
     props.navigation.navigate('packageDetails', { packageData })
   }
 
+  const onPackagesStatusChange = async() => {
+    await updatePackagesStatus(selectedPackages, PackageStatusAPI.distribution)
+    setSelectedPackages([])
+    toggleSelectionHeaderWithAnimation()
+  }
+
   const onPackageLongPress = (packageData: PackageData) => {
     changePackageSelection(packageData)
   }
 
   const renderListHeader = (): React.ReactElement => {
-    return <WelcomeUserView numberOfPackages={4} userDetails={{ firstName: 'דניאל', lastName: 'כהן', id: '5' }}/>
+    // todo: change params to data from server under profile store
+    //  (currently no such data available in /auth api) so undefined will be shown
+    const { firstName, lastName } = profile
+    return <WelcomeUserView numberOfPackages={packages.length} userDetails={{ firstName: firstName, lastName: lastName, id: '5' }}/>
   }
 
   const renderSelectionModeHeader = (): React.ReactElement => {
@@ -87,7 +100,7 @@ export const PackagesListScreen: React.FunctionComponent<PackagesListSProps> = p
       <Animated.View style={ { ...styles.selectionModeHeader, top: selectionHeaderAnimationHeight }}>
         <PackagesSelectionHeader
           onExitPress={() => setSelectedPackages([])}
-          onApprovePress={() => {}}
+          onApprovePress={() => onPackagesStatusChange()}
           selectedPackagesNumber={selectedPackages.length} />
       </Animated.View>
     )
@@ -95,9 +108,15 @@ export const PackagesListScreen: React.FunctionComponent<PackagesListSProps> = p
 
   const renderPackagesList = (): React.ReactElement => {
     return (
-      <FlatList ListHeaderComponent={renderListHeader} style={styles.list} keyExtractor={(packageData) => packageData.packageId} data={mockData} renderItem={(packageDataItem) => {
-        return renderPackageListItem(packageDataItem.item)
-      }}/>
+      <FlatList
+        ListHeaderComponent={renderListHeader}
+        style={styles.list}
+        keyExtractor={(packageData) => packageData.id.toString()}
+        data={packages}
+        renderItem={(packageDataItem) => {
+          return renderPackageListItem(packageDataItem.item)
+        }
+        }/>
     )
   }
 
@@ -106,7 +125,9 @@ export const PackagesListScreen: React.FunctionComponent<PackagesListSProps> = p
       <PackagesListItem onPress={() => onPackagePress(packageData)}
         onLongPress={ () => onPackageLongPress(packageData)}
         showSelectedStyle={isPackageSelected(packageData)}
-        style={styles.rowStyle} packageData={packageData}/>)
+        style={styles.rowStyle}
+        packageData={packageData}
+      />)
   }
 
   return (
@@ -118,7 +139,7 @@ export const PackagesListScreen: React.FunctionComponent<PackagesListSProps> = p
       </View>
     </SafeAreaView>
   )
-}
+})
 
 const styles = StyleSheet.create({
   container: {
@@ -147,8 +168,8 @@ const styles = StyleSheet.create({
     zIndex: 5
   }
 })
-
-const mockData: PackageData[] = [
+// todo: delete mock data after implementation is done
+/* const mockData: PackageData[] = [
   {
     packageId: '1',
     destination: {
@@ -329,4 +350,4 @@ const mockData: PackageData[] = [
       id: '4567'
     }
   }
-]
+] */

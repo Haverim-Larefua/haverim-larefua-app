@@ -1,12 +1,13 @@
-import React, { FC, useMemo, useState, ReactElement } from "react"
-import { StyleSheet, View, TextInput, SafeAreaView } from "react-native"
+import React, { FC, ReactElement, useMemo, useState } from "react"
+import { SafeAreaView, StyleSheet, TextInput, View } from "react-native"
 import { NavigationInjectedProps } from "react-navigation"
-import { Button, Header, Text } from "../components"
-import SignatureCapture from 'react-native-signature-capture'
+import { Button, Header, Text, ThankYouPopup } from "../components"
+import SignatureCapture from "react-native-signature-capture"
 import { SCREEN_HEIGHT } from "../constants/constants"
-import { color, ThemeColors } from "../theme"
+import { color } from "../theme"
 import { PackageStatusHeader } from "./packageDetails/packageStatusHeader"
-import { PackageData } from "./packagesList/types"
+import { PackageData, PackageStatusAPI } from "./packagesList/types"
+import { useStores } from "../models/root-store"
 
 interface PackageDeliveryConfirmationProps {
   packageData: PackageData;
@@ -19,7 +20,8 @@ export const PackageDeliveryConfirmationScreen: FC<NavigationInjectedProps<Packa
   const packageData = navigation.getParam('packageData')
   const [notes, setNotes] = useState('')
   const [isSignature, setIsSignature] = useState(false)
-
+  const [showPopUp, setShowPopUP] = useState(false)
+  const { packagesStore: { addSignature } } = useStores()
   const goBack = useMemo(() => () => navigation.goBack(null), [props.navigation])
 
   const renderSignature = (): ReactElement => {
@@ -35,9 +37,11 @@ export const PackageDeliveryConfirmationScreen: FC<NavigationInjectedProps<Packa
             showNativeButtons={false}
             showBorder={false}
             onDragEvent={(isDragging) => { !isSignature && setIsSignature(isDragging) }}
-            onSaveEvent={(base64Image) => {
-              // console.log('onSaveEvent', base64Image)
-              // todo: call API
+            onSaveEvent={async(base64Image) => {
+              const response = await addSignature(packageData.id, base64Image.encoded)
+              if (response.ok) {
+                setShowPopUP(true)
+              }
             }}
           />
         </View>
@@ -58,15 +62,33 @@ export const PackageDeliveryConfirmationScreen: FC<NavigationInjectedProps<Packa
     )
   }
 
+  const renderPopUp = () => {
+    if (showPopUp) {
+      return (
+        <ThankYouPopup
+          onPress={() => {
+            props.navigation.navigate('packagesList')
+            setShowPopUP(false)
+          }}
+        />
+      )
+    }
+    return null
+  }
+
   return (
     <SafeAreaView style={styles.container}>
+      {renderPopUp()}
       <View style={styles.container}>
         <Header
           rightIcon="rightArrow"
           rightTitle={"חזרה"}
           onRightPress={goBack}
         />
-        <PackageStatusHeader packageData={{ ...packageData, status: 'מסירת חבילה' }} themeColor={statusHeaderColors}/>
+        <PackageStatusHeader
+          // @ts-ignore
+          packageData={{ ...packageData, parcelTrackingStatus: PackageStatusAPI.whileDelivering }}
+        />
         <View style={styles.contentContainer}>
           {renderSignature()}
           {renderNotes()}
@@ -79,7 +101,6 @@ export const PackageDeliveryConfirmationScreen: FC<NavigationInjectedProps<Packa
             signatureCaptureRef.saveImage()
             signatureCaptureRef.resetImage()
             setIsSignature(false)
-            // todo: call API and change package status
           }}/>
       </View>
     </SafeAreaView>
@@ -92,7 +113,6 @@ const borderColor = color.palette.border
 const borderRadius = 4
 const borderWidth = 1
 const backgroundColor = '#fff'
-const statusHeaderColors: ThemeColors = { backgroundColor: '#f0f1fb', textColor: color.palette.black }
 
 const styles = StyleSheet.create({
   button: {
