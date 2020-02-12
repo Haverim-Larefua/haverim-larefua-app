@@ -9,5 +9,6 @@ export const palette = {
   lighterGrey: "#CDD4DA",
   angry: "#dd3333",
   border: "#dee2e6",
-  popUpBg: 'rgba(0,0,0,0.7)'
+  popUpBg: 'rgba(0,0,0,0.7)',
+  greyLight: '#f0f1fb'
 }
