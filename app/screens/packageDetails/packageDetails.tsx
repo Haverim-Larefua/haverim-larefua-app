@@ -21,15 +21,15 @@ export const PackageDetailsScreen: FC<NavigationInjectedProps<PackageDetailsScre
   const { packagesStore: { updatePackagesStatus } } = useStores()
 
   const onIconPressed = (iconName: IconTypes): void => {
-    const { phoneNumber, destination: { city, street, number } } = packageData
-    const formattedAddress = `${street} ${number} ${city}`
+    const { phone, city, address } = packageData
+    const formattedAddress = `${address} ${city}`
     const nativeNavigationAppURL = IS_IOS
       ? `https://maps.apple.com/?daddr=${formattedAddress}`
       : `https://www.google.com/maps/dir/?api=1&travelmode=driving&dir_action=navigate&destination=${formattedAddress}`
 
     switch (iconName) {
-      case "call": { Linking.openURL(`tel:${phoneNumber}`); break }
-      case "msg": { Linking.openURL(`sms:${phoneNumber}`); break }
+      case "call": { Linking.openURL(`tel:${phone}`); break }
+      case "msg": { Linking.openURL(`sms:${phone}`); break }
       case "waze": { Linking.openURL(`https://waze.com/ul?q=${formattedAddress}`); break }
       case "location": { Linking.openURL(nativeNavigationAppURL); break }
       default: break
@@ -58,12 +58,12 @@ export const PackageDetailsScreen: FC<NavigationInjectedProps<PackageDetailsScre
   }
 
   const renderPhoneDetails = (): ReactElement => {
-    const { phoneNumber } = packageData
+    const { phone } = packageData
     return (
       <View style={styles.detailsView}>
         <View>
           <Text text={'טלפון'}/>
-          <Text text={phoneNumber} />
+          <Text text={phone} />
         </View>
         {renderIcons('call', 'msg')}
       </View>
@@ -71,12 +71,12 @@ export const PackageDetailsScreen: FC<NavigationInjectedProps<PackageDetailsScre
   }
 
   const renderAddressDetails = (): ReactElement => {
-    const { destination: { city, street, number, apartment } } = packageData
+    const { city, address } = packageData
     return (
       <View style={styles.detailsView}>
         <View>
           <Text text={city}/>
-          <Text text={`${street}, ${number}/${apartment}`} />
+          <Text text={`${address}`} />
         </View>
         {renderIcons("waze", "location")}
       </View>

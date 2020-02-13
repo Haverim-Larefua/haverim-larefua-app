@@ -10,7 +10,8 @@ export const icons = {
   waze: require("./ic-waze/ic-waze.png"),
   msg: require("./ic-msg/ic-msg.png"),
   location: require("./ic-location/ic-location.png"),
-  call: require("./ic-call/ic-call.png")
+  call: require("./ic-call/ic-call.png"),
+  thankYou: require('./thankYou/thankyou.png')
 }
 
 export type IconTypes = keyof typeof icons

@@ -6,7 +6,7 @@ export interface PackageData {
     address: string
     city: string
     comments: string
-    phoneNumber: string
+    phone: string
 }
 
 export interface Address {

@@ -15,7 +15,7 @@ export const ThankYouPopup: FC<PopupProps> = (props) => {
     <View style={styles.container}>
       <View style={styles.contentContainer}>
         <View style={styles.topSection}>
-          <Icon style={{ marginBottom: 28 }} icon="loginLogo" />
+          <Icon style={{ marginBottom: 28 }} icon="thankYou" />
           <Text preset={'bold'} style={styles.thanksText}>
             {'תודה שהקדשת מזמנך'}
           </Text>
