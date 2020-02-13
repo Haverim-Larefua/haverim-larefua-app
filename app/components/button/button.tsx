@@ -1,5 +1,5 @@
-import * as React from "react"
-import { TouchableOpacity} from "react-native"
+import React from "react"
+import { TouchableOpacity, StyleSheet } from "react-native"
 import { Text } from "../"
 import { viewPresets } from "./button.presets"
 import { ButtonProps } from "./button.props"
@@ -30,8 +30,12 @@ export function Button(props: ButtonProps) {
   const content = children || <Text tx={tx} text={text} preset={'buttonText'} style={textStyle} />
 
   return (
-    <TouchableOpacity style={viewStyle} {...rest}>
+    <TouchableOpacity style={[viewStyle, rest.disabled && styles.disabledButton]} {...rest}>
       {content}
     </TouchableOpacity>
   )
 }
+
+const styles = StyleSheet.create({
+  disabledButton: { opacity: 0.3 }
+})
