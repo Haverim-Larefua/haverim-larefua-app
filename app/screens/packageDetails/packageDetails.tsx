@@ -44,15 +44,19 @@ export const PackageDetailsScreen: FC<NavigationInjectedProps<PackageDetailsScre
     )
   }
 
+  const renderIcon = (iconName: IconTypes): ReactElement => {
+    return (
+      <TouchableOpacity onPress={() => { onIconPressed(iconName) }} >
+        <Icon containerStyle={styles.iconContainer} icon={iconName}/>
+      </TouchableOpacity>
+    )
+  }
+
   const renderIcons = (firstIcon: IconTypes, secondIcon: IconTypes): ReactElement => {
     return (
       <View style={styles.iconsContainer}>
-        <TouchableOpacity onPress={() => { onIconPressed(firstIcon) }} >
-          <Icon containerStyle={styles.iconContainer} icon={firstIcon}/>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => { onIconPressed(secondIcon) }} >
-          <Icon containerStyle={styles.iconContainer} icon={secondIcon}/>
-        </TouchableOpacity>
+        {renderIcon(firstIcon)}
+        {renderIcon(secondIcon)}
       </View>
     )
   }
@@ -78,7 +82,7 @@ export const PackageDetailsScreen: FC<NavigationInjectedProps<PackageDetailsScre
           <Text text={city}/>
           <Text text={`${address}`} />
         </View>
-        {renderIcons("waze", "location")}
+        {renderIcons('waze', 'location')}
       </View>
     )
   }
