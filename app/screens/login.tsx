@@ -10,7 +10,7 @@ import { useStores } from "../models/root-store"
 export interface LoginProps extends NavigationInjectedProps<{}> {}
 
 export const LoginScreen: React.FunctionComponent<LoginProps> = observer(props => {
-  const [username, setUserName] = useState<string>(__DEV__ ? 'meirav' : '')
+  const [username, setUserName] = useState<string>(__DEV__ ? 'amir' : '')
   const [password, setPassword] = useState<string>(__DEV__ ? '123456' : '')
 
   const goToNextPage = React.useMemo(() => () => props.navigation.navigate('packagesList'), [props.navigation])

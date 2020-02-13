@@ -31,7 +31,6 @@ export const NavigationStoreModel = NavigationEvents.named("NavigationStore")
   })
   .preProcessSnapshot(snapshot => {
     if (!snapshot || !snapshot.state) return snapshot
-
     try {
       // make sure react-navigation can handle our state
       RootNavigator.router.getPathAndParamsForState(snapshot.state)

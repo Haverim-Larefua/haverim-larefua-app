@@ -116,7 +116,8 @@ const backgroundColor = '#fff'
 const styles = StyleSheet.create({
   button: {
     height: 48,
-    margin: CONTENT_PADDING
+    margin: CONTENT_PADDING,
+    marginTop: 76
   },
   contentContainer: {
     flex: 1,

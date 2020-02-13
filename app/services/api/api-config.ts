@@ -1,4 +1,4 @@
-import { API_URL } from "react-native-dotenv"
+// import { API_URL } from "react-native-dotenv"
 
 /**
  * The options used to configure the API.
@@ -20,6 +20,7 @@ export interface ApiConfig {
  */
 export const DEFAULT_API_CONFIG: ApiConfig = {
   // url: API_URL || "https://jsonplaceholder.typicode.com",
-  url: "http://localhost:3001" || "https://jsonplaceholder.typicode.com",
+  // url: "http://localhost:3001" || "https://jsonplaceholder.typicode.com",
+  url: "http://192.168.194.127:3001" || "https://jsonplaceholder.typicode.com",
   timeout: 10000,
 }
