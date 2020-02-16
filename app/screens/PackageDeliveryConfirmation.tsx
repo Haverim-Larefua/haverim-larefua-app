@@ -64,45 +64,47 @@ export const PackageDeliveryConfirmationScreen: FC<NavigationInjectedProps<Packa
   }
 
   const renderPopUp = () => {
-    if (showPopUp) {
-      return (
-        <ThankYouPopup
-          onPress={() => {
-            props.navigation.navigate('packagesList')
-            setShowPopUP(false)
-          }}
-        />
-      )
-    }
-    return null
+    return (
+      <ThankYouPopup
+        visible={showPopUp}
+        onPress={() => {
+          props.navigation.navigate('packagesList')
+          setShowPopUP(false)
+        }}
+      />
+    )
   }
 
   return (
-    <Screen preset={"scroll"} >
-      {renderPopUp()}
-      <Header
-        rightIcon="rightArrow"
-        rightTitle={"חזרה"}
-        onRightPress={goBack}
-      />
-      <PackageStatusHeader
+    <SafeAreaView style={{ flex: 1, backgroundColor }}>
+      <Screen unsafe backgroundColor={backgroundColor} preset={"scroll"} style={styles.screen}>
+        {renderPopUp()}
+        <Header
+          rightIcon="rightArrow"
+          rightTitle={"חזרה"}
+          onRightPress={goBack}
+        />
+        <PackageStatusHeader
         // @ts-ignore
-        packageData={{ ...packageData, parcelTrackingStatus: PackageStatusAPI.whileDelivering }}
-      />
-      <View style={styles.contentContainer}>
-        {renderSignature()}
-        {renderNotes()}
-      </View>
-      <Button
-        style={styles.button}
-        text={'אישור מסירה'}
-        disabled={!isSignature}
-        onPress={() => {
-          signatureCaptureRef.saveImage()
-          signatureCaptureRef.resetImage()
-          setIsSignature(false)
-        }}/>
-    </Screen>
+          packageData={{ ...packageData, parcelTrackingStatus: PackageStatusAPI.whileDelivering }}
+        />
+        <View style={styles.contentContainer}>
+          {renderSignature()}
+          {renderNotes()}
+        </View>
+        <View style={styles.buttonContainer}>
+          <Button
+            style={styles.button}
+            text={'אישור מסירה'}
+            disabled={!isSignature}
+            onPress={() => {
+              signatureCaptureRef.saveImage()
+              signatureCaptureRef.resetImage()
+              setIsSignature(false)
+            }}/>
+        </View>
+      </Screen>
+    </SafeAreaView>
   )
 }
 
@@ -118,8 +120,11 @@ const styles = StyleSheet.create({
     height: 48,
     margin: CONTENT_PADDING
   },
+  buttonContainer: {
+    flexGrow: 1,
+    justifyContent: 'flex-end'
+  },
   contentContainer: {
-    flex: 1,
     justifyContent: 'space-between',
     paddingTop: CONTENT_PADDING
   },
@@ -129,6 +134,9 @@ const styles = StyleSheet.create({
     borderWidth,
     height: SCREEN_HEIGHT * 0.17,
     marginHorizontal: CONTENT_PADDING,
+  },
+  screen: {
+    flexGrow: 1
   },
   signatureAreaContainer: {
     borderColor,
