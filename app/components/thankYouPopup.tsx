@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import { TouchableOpacity, View, StyleSheet } from "react-native"
+import { TouchableOpacity, View, StyleSheet, Modal } from "react-native"
 import { SCREEN_HEIGHT } from "../constants/constants"
 import { Icon } from "./icon/icon"
 import { Text } from "./text/text"
@@ -7,31 +7,34 @@ import { palette } from "../theme/palette"
 import { color } from "../theme"
 
 export interface PopupProps {
-  onPress: () => void
+  visible: boolean,
+  onPress: () => void,
 }
 export const ThankYouPopup: FC<PopupProps> = (props) => {
-  const { onPress } = props
+  const { onPress, visible } = props
   return (
-    <View style={styles.container}>
-      <View style={styles.contentContainer}>
-        <View style={styles.topSection}>
-          <Icon style={{ marginBottom: 28 }} icon="thankYou" />
-          <Text preset={'bold'} style={styles.thanksText}>
-            {'תודה שהקדשת מזמנך'}
-          </Text>
-        </View>
-        <View style={styles.bottomSection}>
-          <TouchableOpacity
-            style={styles.closeButton}
-            onPress={() => onPress && onPress()}
-          >
-            <Text preset={'bold'} style={styles.buttonText}>
-              {'סגירה'}
+    <Modal animationType={"fade"} transparent visible={visible}>
+      <View style={styles.container}>
+        <View style={styles.contentContainer}>
+          <View style={styles.topSection}>
+            <Icon style={{ marginBottom: 28 }} icon="thankYou" />
+            <Text preset={'bold'} style={styles.thanksText}>
+              {'תודה שהקדשת מזמנך'}
             </Text>
-          </TouchableOpacity>
+          </View>
+          <View style={styles.bottomSection}>
+            <TouchableOpacity
+              style={styles.closeButton}
+              onPress={() => onPress && onPress()}
+            >
+              <Text preset={'bold'} style={styles.buttonText}>
+                {'סגירה'}
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
-    </View>
+    </Modal>
   )
 }
 
