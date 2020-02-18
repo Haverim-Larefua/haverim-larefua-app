@@ -1,5 +1,5 @@
 import React, { FC, ReactElement, useMemo, useState } from "react"
-import { StyleSheet, TextInput, View } from "react-native"
+import { StyleSheet, TextInput, View, SafeAreaView } from "react-native"
 import { NavigationInjectedProps } from "react-navigation"
 import { Button, Header, Screen, Text, ThankYouPopup } from "../components"
 import SignatureCapture from "react-native-signature-capture"
@@ -113,6 +113,7 @@ const SIGNATURE_CAPTURE_HEIGHT = SCREEN_HEIGHT * 0.39
 const borderColor = color.palette.border
 const borderRadius = 4
 const borderWidth = 1
+const backgroundColor = '#fff'
 
 const styles = StyleSheet.create({
   button: {
