@@ -68,7 +68,9 @@ export const PackageDeliveryConfirmationScreen: FC<NavigationInjectedProps<Packa
       <ThankYouPopup
         visible={showPopUp}
         onPress={() => {
-          props.navigation.navigate('packagesList')
+          setTimeout(() => {
+            props.navigation.navigate('packagesList')
+          }, 0)
           setShowPopUP(false)
         }}
       />

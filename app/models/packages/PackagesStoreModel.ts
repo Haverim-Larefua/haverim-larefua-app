@@ -1,13 +1,25 @@
-import { types, Instance, SnapshotOut, getRoot } from "mobx-state-tree"
+import { getRoot, Instance, SnapshotOut, types } from "mobx-state-tree"
 import { withEnvironment } from "../extensions"
-import { PackageData, PackageStatusAPI } from "../../screens/packagesList/types"
+import { PackageData, PackageStatus, PackageStatusAPI } from "../../screens/packagesList/types"
 
 export const PackagesStoreModel = types
   .model("packages")
   .props({
     packages: types.optional(types.frozen<PackageData[]>(), [])
   })
-  .views(self => ({}))
+  .views(self => {
+    return {
+      get deliveredPackages() {
+        return self.packages.filter(p => PackageStatusAPI[p.parcelTrackingStatus] === PackageStatusAPI.delivered)
+      },
+      get inDistribution() {
+        return self.packages.filter(p => PackageStatusAPI[p.parcelTrackingStatus] === PackageStatusAPI.distribution)
+      },
+      get readyToPickUp() {
+        return self.packages.filter(p => PackageStatusAPI[p.parcelTrackingStatus] === PackageStatusAPI.ready)
+      },
+    }
+  })
   .extend(withEnvironment)
   .actions(self => ({
     setPackages(packages) {

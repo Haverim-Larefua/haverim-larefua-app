@@ -13,7 +13,7 @@ export const LoginScreen: React.FunctionComponent<LoginProps> = observer(props =
   const [username, setUserName] = useState<string>(__DEV__ ? 'meirav' : '')
   const [password, setPassword] = useState<string>(__DEV__ ? '123456' : '')
 
-  const goToNextPage = React.useMemo(() => () => props.navigation.navigate('packagesList'), [props.navigation])
+  const goToNextPage = React.useMemo(() => () => props.navigation.navigate('packagesTabList'), [props.navigation])
 
   const { profileModel: { login } } = useStores()
   const loginSequence = async () => {
