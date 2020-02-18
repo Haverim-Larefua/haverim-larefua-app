@@ -85,7 +85,7 @@ export const getThemeColorsByPackageStatus = (status: PackageStatus): ThemeColor
       }
     case PackageStatus.whileDelivering:
       return {
-        backgroundColor: '#f0f1fb',
+        backgroundColor: color.palette.greyLight,
         textColor: color.palette.black
       }
     default:

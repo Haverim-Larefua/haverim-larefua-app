@@ -20,8 +20,9 @@ export const PackagesListItem: React.FunctionComponent<PackagesListItemProps> = 
     return (
       <View style={styles.destinationContainer}>
         <Text preset={'bold'} style={styles.nameStyle} text={`${packageData.customerName}`} />
+        <Text style={styles.cityStyle} preset={'default'} text={`${packageData.city}`} />
         <Text style={styles.cityStyle} preset={'default'} text={`${packageData.address}`} />
-        {/* <Text preset={'default'} text={`${packageData.destination.street} ${packageData.destination.number}/${packageData.destination.apartment}`} /> */}
+         {/*<Text preset={'default'} text={`${packageData.destination.street} ${packageData.destination.number}/${packageData.destination.apartment}`} /> */}
       </View>
     )
   }
