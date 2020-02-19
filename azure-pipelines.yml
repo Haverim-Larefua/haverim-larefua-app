@@ -15,7 +15,6 @@ steps:
   inputs:
     verbose: false    
 
-steps:
 - task: Gradle@2
   displayName: 'gradlew assembleRelease'
   inputs:
