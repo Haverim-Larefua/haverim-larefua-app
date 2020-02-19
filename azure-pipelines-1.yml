@@ -6,10 +6,17 @@ pool:
 
 steps:
 
+- task: Npm@1
+  displayName: 'npm install'
+  inputs:
+    verbose: false    
+
+
 - script: |
    cd android
    ./gradlew tasks
   displayName: 'Gradle tasks'
+
 
 - task: Gradle@2
   displayName: 'Assemble APK file'
