@@ -1,0 +1,22 @@
+trigger:
+- azure-pipeline
+
+pool:
+  vmImage: 'macos-latest'
+
+steps:
+
+- script: |
+   cd android
+   ./gradlew tasks
+  displayName: 'Gradle tasks'
+
+- task: Gradle@2
+  displayName: 'Assemble APK file'
+  inputs:
+    workingDirectory: 'android'
+    gradleWrapperFile: 'android/gradlew'
+    gradleOptions: '-Xmx3072m'
+    publishJUnitResults: false
+    testResultsFiles: '**/TEST-*.xml'
+    tasks: 'assembleRelease'
