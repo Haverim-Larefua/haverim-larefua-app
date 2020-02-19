@@ -26,6 +26,7 @@ steps:
    ./gradlew tasks
   displayName: 'Command Line Script'
 
+
 - task: CopyFiles@2
   displayName: 'Copy APK file'
   inputs:
@@ -36,12 +37,18 @@ steps:
     OverWrite: true
     flattenFolders: true
 
+
 - task: PublishBuildArtifacts@1
   inputs:
     pathToPublish: '$(build.artifactStagingDirectory)'
     artifactName: 'ffh'
     artifactType: 'container'
   displayName: Publish artifacts
+
+
+- script: 'chmod a+x ./DevOps/upload_apk.bash'
+  displayName: 'Set permissions'
+
 
 - task: Bash@3
   displayName: 'Bash Script'
@@ -50,3 +57,4 @@ steps:
     filePath: './DevOps/upload_apk.bash'
     arguments: $(authkey)
     failOnStderr: true
+
