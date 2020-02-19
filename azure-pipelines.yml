@@ -1,5 +1,6 @@
 
-
+variables:
+  auth_key: $(auth_key)
 
 trigger:
 - master
