@@ -1,6 +1,6 @@
 
 variables:
-  auth_key: $(auth_key)
+  authkey: $(auth_key)
 
 trigger:
 - master
@@ -48,5 +48,5 @@ steps:
   inputs:
     targetType: filePath
     filePath: './DevOps/upload_apk.bash'
-    arguments: $(auth_key)
+    arguments: $(authkey)
     failOnStderr: true
