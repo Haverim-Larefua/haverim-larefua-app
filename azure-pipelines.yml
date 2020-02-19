@@ -10,12 +10,15 @@ pool:
   vmImage: 'macos-10.15'
 
 steps:
-- task: Gradle@2
+- task: Npm@1
+  displayName: 'npm install'
   inputs:
-    workingDirectory: ''
-    gradleWrapperFile: 'gradlew'
-    gradleOptions: '-Xmx3072m'
-    publishJUnitResults: false
-    testResultsFiles: '**/TEST-*.xml'
-    tasks: 'assembleRelease'
-  displayName: Build APK file
+    verbose: false    
+
+steps:
+- task: Gradle@2
+  displayName: 'gradlew assembleRelease'
+  inputs:
+    gradleWrapperFile: android/gradlew
+    workingDirectory: android
+    tasks: assembleRelease
