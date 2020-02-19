@@ -1,7 +1,5 @@
-# Android
-# Build your Android project with Gradle.
-# Add steps that test, sign, and distribute the APK, save build artifacts, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/android
+
+
 
 trigger:
 - master
@@ -49,5 +47,5 @@ steps:
   inputs:
     targetType: filePath
     filePath: './DevOps/upload_apk.bash'
-    arguments: '$(auth_key)'
+    arguments: $(auth_key)
     failOnStderr: true
