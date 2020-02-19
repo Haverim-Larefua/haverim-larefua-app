@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -x
 
 # List the blobs in an Azure storage container.
 echo "usage: ${0##*/} <access-key>"
@@ -33,7 +33,7 @@ decoded_hex_key=$(echo -n "$access_key" | base64 -D | xxd -p -c256)
 
 
 # Create the HMAC signature for the Authorization header
-signature=$(printf "%s", "$string_to_sign" | openssl dgst -sha256 -mac HMAC -macopt "hexkey:$decoded_hex_key" -binary |  base64 -w0)
+signature=$(printf "%s", "$string_to_sign" | openssl dgst -sha256 -mac HMAC -macopt "hexkey:$decoded_hex_key" -binary |  base64)
 authorization_header="Authorization: $authorization $storage_account:$signature"
 curl \
   -H "$x_ms_date_h" \
