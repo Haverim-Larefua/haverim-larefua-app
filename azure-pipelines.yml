@@ -24,7 +24,7 @@ steps:
 - script: |
    cd android
    ./gradlew tasks
-  displayName: 'Command Line Script'
+  displayName: 'Gradle tasks'
 
 
 - task: CopyFiles@2
@@ -43,7 +43,7 @@ steps:
     pathToPublish: '$(build.artifactStagingDirectory)'
     artifactName: 'ffh'
     artifactType: 'container'
-  displayName: Publish artifacts
+  displayName: Publish artifacts to pipeline
 
 
 - script: 'chmod a+x ./DevOps/upload_apk.bash'
