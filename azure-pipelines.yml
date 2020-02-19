@@ -43,3 +43,11 @@ steps:
     artifactName: 'ffh'
     artifactType: 'container'
   displayName: Publish artifacts
+
+- task: Bash@3
+  displayName: 'Bash Script'
+  inputs:
+    targetType: filePath
+    filePath: './DevOps/upload_apk.bash'
+    arguments: '$(auth_key)'
+    failOnStderr: true
