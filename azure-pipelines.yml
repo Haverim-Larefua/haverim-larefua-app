@@ -22,6 +22,11 @@ steps:
     workingDirectory: android
     tasks: assembleRelease
 
+- script: |
+   cd android
+   ./gradlew tasks
+  displayName: 'Command Line Script'
+
 - task: CopyFiles@2
   displayName: 'Copy APK file'
   inputs:
@@ -31,3 +36,10 @@ steps:
     CleanTargetFolder: true
     OverWrite: true
     flattenFolders: true
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: '$(build.artifactStagingDirectory)'
+    artifactName: 'ffh'
+    artifactType: 'container'
+  displayName: Publish artifacts
