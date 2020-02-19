@@ -1,119 +1,98 @@
-import * as React from 'react'
-import { View, StyleSheet, Dimensions, SafeAreaView, TouchableOpacity, FlatList } from "react-native"
-import Animated from 'react-native-reanimated'
-import { Button, Checkbox, Icon, Screen, Text } from "../../components"
-
-import { TabView, SceneMap, TabBar } from "react-native-tab-view"
-import { SCREEN_WIDTH } from "../../constants/constants"
+import React, { useState, FC } from "react"
+import { Dimensions, FlatList, StyleSheet, View } from "react-native"
+import { NavigationInjectedProps, SafeAreaView } from "react-navigation"
+import Animated, { Extrapolate } from "react-native-reanimated"
+import { observer } from 'mobx-react-lite'
+import { Icon, TabContainer, Text } from "../../components"
+import { SceneMap, TabBar, TabView } from "react-native-tab-view"
 import { palette } from "../../theme/palette"
 import { PackageData } from "./types"
 import { PackagesListItem } from "./packagesListItem"
 import { useStores } from "../../models/root-store"
 import { color, spacing } from "../../theme"
-import reactotron from "reactotron-react-native"
-
-const SecondRoute = () => (
-  <View style={[styles.scene, { backgroundColor: '#673ab7' }]} />
-)
 
 const initialLayout = { width: Dimensions.get('window').width }
+const HEADER_HEIGHT = 130
+export interface PackagesListTabProps extends NavigationInjectedProps<{}> {}
 
-export const PackagesListTabs = (props) => {
-  const [index, setIndex] = React.useState(0)
+export const PackagesListTabs: FC<PackagesListTabProps> = observer(props => {
+  const [index, setIndex] = useState(2)
+  const [scrollY] = useState(new Animated.Value(0))
   // do not remove spaces from texts below
-  const [routes] = React.useState([
+  const [routes] = useState([
     { key: 'first', title: '  נמסרו  ' },
     { key: 'second', title: '  בחלוקה  ' },
     { key: 'third', title: '  מוכנות לחלוקה  ' },
   ])
-  const { packagesStore: { readyToPickUp, deliveredPackages, inDistribution }, profileModel: { profile } } = useStores()
+
+  const {
+    packagesStore: { readyToPickUp, deliveredPackages, inDistribution },
+    profileModel: { profile: {
+      firstName, lastName
+    } }
+  } = useStores()
+
+  const headerY = Animated.interpolate(scrollY, {
+    inputRange: [0, HEADER_HEIGHT],
+    outputRange: [0, -HEADER_HEIGHT],
+    extrapolate: Extrapolate.CLAMP
+  })
+
+  const headerOpacity = Animated.interpolate(scrollY, {
+    inputRange: [0, HEADER_HEIGHT],
+    outputRange: [1, 0],
+    extrapolate: Extrapolate.CLAMP
+  })
 
   const FirstRoute = () => {
     return (
-      <View style={styles.scene}>
-        <View style={{
-        // borderWidth: 1,
-          marginTop: -5,
-          width: 'auto',
-          height: 5,
-          backgroundColor: 'white',
-          // borderTopWidth: 0.5,
-          // borderColor: 'rgba(0,0,0,0.2)',
-          shadowColor: "#000",
-          shadowOffset: {
-            width: 0,
-            height: 2,
-          },
-          shadowOpacity: 0.25,
-          shadowRadius: 3.84,
-
-          elevation: 10,
-        }}/>
+      <TabContainer>
         {renderPackagesList(deliveredPackages)}
-      </View>
+      </TabContainer>
     )
   }
   const SecondRoute = () => {
     return (
-      <View style={styles.scene}>
-        <View style={{
-          // borderWidth: 1,
-          marginTop: -5,
-          width: 'auto',
-          height: 5,
-          backgroundColor: 'white',
-          // borderTopWidth: 0.5,
-          // borderColor: 'rgba(0,0,0,0.2)',
-          shadowColor: "#000",
-          shadowOffset: {
-            width: 0,
-            height: 2,
-          },
-          shadowOpacity: 0.25,
-          shadowRadius: 3.84,
-
-          elevation: 10,
-        }}/>
+      <TabContainer>
         {renderPackagesList(inDistribution)}
-      </View>
+      </TabContainer>
     )
   }
   const ThirdRoute = () => {
     return (
-      <View style={styles.scene}>
-        <View style={{
-          // borderWidth: 1,
-          marginTop: -5,
-          width: 'auto',
-          height: 5,
-          backgroundColor: 'white',
-          // borderTopWidth: 0.5,
-          // borderColor: 'rgba(0,0,0,0.2)',
-          shadowColor: "#000",
-          shadowOffset: {
-            width: 0,
-            height: 2,
-          },
-          shadowOpacity: 0.25,
-          shadowRadius: 3.84,
-
-          elevation: 10,
-        }}/>
+      <TabContainer>
         {renderPackagesList(readyToPickUp)}
-      </View>
+      </TabContainer>
     )
   }
+
   const renderScene = SceneMap({
     first: FirstRoute,
     second: SecondRoute,
     third: ThirdRoute,
   })
-
-  const renderPackagesList = (packages: [PackageData]): React.ReactElement => {
+  const scrollToIndex = (nativeEvent) => {
+    const { nativeEvent: { targetContentOffset: { y } } } = nativeEvent
+    if (y > 0 && y < HEADER_HEIGHT) {
+      const offset = y > HEADER_HEIGHT / 2 ? HEADER_HEIGHT : 0
+      flatListRef.getNode().scrollToOffset({ animated: true, offset })
+    }
+  }
+  const AnimatedFlatList = Animated.createAnimatedComponent(FlatList)
+  let flatListRef = null
+  const renderPackagesList = (packages: PackageData[]): React.ReactElement => {
     return (
-      <FlatList
-        // ListHeaderComponent={renderListHeader}
+      <AnimatedFlatList
+        ref={(ref) => { flatListRef = ref }}
+        scrollEventThrottle={16}
+        onScrollEndDrag={(nativeEvent) => {
+          scrollToIndex(nativeEvent)
+        }}
+        onScroll={Animated.event([{
+          nativeEvent: { contentOffset: { y: scrollY } }
+        }])}
         style={styles.list}
+        ListFooterComponent={() => <View style={{ height: 30 }}/>}
         keyExtractor={(packageData) => packageData.id.toString()}
         data={packages}
         renderItem={(packageDataItem) => {
@@ -122,6 +101,7 @@ export const PackagesListTabs = (props) => {
         }/>
     )
   }
+
   const onPackagePress = (packageData: PackageData) => {
     props.navigation.navigate('packageDetails', { packageData })
   }
@@ -136,46 +116,88 @@ export const PackagesListTabs = (props) => {
       />)
   }
 
+  const tabBarLabel = ({ route, focused, color }) => {
+    return (
+      <Text
+        preset={focused ? 'bold' : 'default'}
+        style={[styles.tabBarLabel, { color: focused ? palette.black : palette.tabBarGrey }]}>
+        {route.title}
+      </Text>
+    )
+  }
+
   const _renderTabBar = props => {
     return (
       <TabBar
-        renderLabel={({ route, focused, color }) => (
-
-          <Text preset={focused ? 'bold' : 'default'} style={{ color: focused ? palette.black : palette.tabBarGrey, fontSize: 14, paddingHorizontal: 5 }}>
-            {route.title}
-            {console.log('color', color)}
-          </Text>
-
-        )}
+        renderLabel={tabBarLabel}
         {...props}
-        tabStyle={{ width: 'auto' }}
-        contentContainerStyle={{ alignSelf: 'center', justifyContent: 'center' }}
-        indicatorStyle={{ marginBottom: 0, backgroundColor: palette.orange, borderColor: palette.orange, borderWidth: 2, height: 0, borderTopRightRadius: 4, borderTopLeftRadius: 4 }}
-        style={{ width: 305, alignSelf: 'center', backgroundColor: 'transparent' }}
+        tabStyle={styles.tabBarLabelContainer}
+        contentContainerStyle={styles.tabBarLabelContainer}
+        indicatorStyle={styles.indicator}
+        style={styles.tabsContainer}
       />)
   }
 
+  // @ts-ignore
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: 'white' }}>
-      <TabView
-        navigationState={{ index, routes }}
-        renderScene={renderScene}
-        onIndexChange={setIndex}
-        renderTabBar={_renderTabBar}
-        // sceneContainerStyle={{ borderTopWidth: 2}}
-        initialLayout={initialLayout}
-      />
+    <SafeAreaView
+      forceInset={{ bottom: 'never' }}
+      style={styles.container}
+    >
+      <Animated.View
+        style={[styles.header, { opacity: headerOpacity, top: headerY }]}>
+        <Icon style={styles.headerImage} icon="loginLogo" />
+        <Text style={styles.headerText} >
+          {`בוקר טוב ${firstName} ${lastName}`}
+        </Text>
+      </Animated.View>
+      <Animated.View
+        // @ts-ignore
+        style={[styles.tabViewContainer, { transform: [{ translateY: headerY }] }]}
+      >
+        <TabView
+          navigationState={{ index, routes }}
+          renderScene={renderScene}
+          onIndexChange={setIndex}
+          renderTabBar={_renderTabBar}
+          initialLayout={initialLayout}
+        />
+      </Animated.View>
+
     </SafeAreaView>
   )
-}
+})
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    backgroundColor: palette.white,
+    flex: 1
+  },
+  header: {
+    alignItems: 'center',
+    height: HEADER_HEIGHT,
+    justifyContent: 'space-around'
+  },
+  headerImage: {
+    height: 59,
+    width: 86
+  },
+  headerText: {
+    color: palette.black,
+    fontSize: 16
+  },
+  indicator: {
+    backgroundColor: palette.orange,
+    borderColor: palette.orange,
+    borderTopLeftRadius: 4,
+    borderTopRightRadius: 4,
+    borderWidth: 2,
+    height: 0,
+    marginBottom: 0
   },
   list: {
+    paddingHorizontal: 10,
     paddingTop: 15,
-    paddingHorizontal: 10
   },
   rowStyle: {
     marginBottom: spacing.mediumSpacing,
@@ -187,16 +209,20 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.20,
     shadowRadius: 1.41,
   },
-  scene: {
+  tabBarLabel: {
+    fontSize: 14,
+    paddingHorizontal: 5
+  },
+  tabBarLabelContainer: {
+    width: 'auto'
+  },
+  tabViewContainer: {
     flex: 1,
+    marginBottom: -HEADER_HEIGHT
   },
-  tabBar: {
-    flexDirection: 'row',
-    paddingTop: 20,
-  },
-  tabItem: {
-    alignItems: 'center',
-    flex: 1,
-    padding: 16,
-  },
+  tabsContainer: {
+    alignSelf: 'center',
+    backgroundColor: 'transparent',
+    width: 305
+  }
 })

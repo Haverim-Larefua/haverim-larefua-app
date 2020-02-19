@@ -102,7 +102,7 @@ export const PackageDetailsScreen: FC<NavigationInjectedProps<PackageDetailsScre
   const onApproveButtonPress = async() => {
     if (PackageStatusAPI[packageData.parcelTrackingStatus] === PackageStatusAPI.ready) {
       await updatePackagesStatus([packageData.id], PackageStatusAPI.distribution)
-      props.navigation.navigate('packagesList')
+      props.navigation.navigate('packagesTabList')
     } else {
       props.navigation.navigate('deliveryConfirmation', { packageData })
       // todo go to signature page
