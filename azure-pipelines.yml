@@ -68,7 +68,7 @@ steps:
     serverEndpoint: FFH
     appSlug: yg356h/FFH
     appFile: 'android/app/build/outputs/apk/release/app-release.apk'
-    symbolsOption: Android
+    symbolsIncludeParentDirectory: false
     releaseNotesInput: 'Friends for help app, build # $(Build.BuildId)'
     isSilent: false
     
