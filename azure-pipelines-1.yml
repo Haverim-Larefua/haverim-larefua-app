@@ -38,6 +38,10 @@ steps:
   displayName:     Publish artifacts to pipeline
 
 
+- script: chmod a+x ./DevOps/upload_apk.bash
+  displayName: 'Set permissions'
+
+
 - task: Bash@3
   displayName: 'Bash Script'
   inputs:
