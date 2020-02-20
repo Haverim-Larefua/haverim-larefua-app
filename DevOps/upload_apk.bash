@@ -1,8 +1,5 @@
 #!/bin/bash -x
 
-# List the blobs in an Azure storage container.
-echo "usage: ${0##*/} <access-key>"
-
 
 # Hard coded info
 request_date=$(TZ=GMT date "+%a, %d %h %Y %H:%M:%S %Z")

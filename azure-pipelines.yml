@@ -33,7 +33,7 @@ steps:
   inputs:
     SourceFolder: android/app/build/outputs/apk/release
     Contents: 'app-release.apk'
-    TargetFolder: '$(build.artifactstagingdirectory)/ffh_$(Build.BuildID).apk'
+    TargetFolder: '$(build.artifactstagingdirectory)/ffh_$(Build.BuildId).apk'
     CleanTargetFolder: true
     OverWrite: true
     flattenFolders: true
@@ -49,15 +49,28 @@ steps:
 
 
 # Set permissions to the upload_apk script.
-- script: 'chmod a+x ./DevOps/upload_apk.bash'
-  displayName: 'Set permissions'
+#- script: 'chmod a+x ./DevOps/upload_apk.bash'
+#  displayName: 'Set permissions'
 
 
 # Run the upload script.
-- task: Bash@3
-  displayName: 'Bash Script'
+#- task: Bash@3
+#  displayName: 'Bash Script'
+#  inputs:
+#    targetType: filePath
+#    filePath: './DevOps/upload_apk.bash'
+#    arguments: $(authkey)
+#    failOnStderr: true
+
+- task: AppCenterDistribute@3
+  displayName: 'Deploy to App Center'
   inputs:
-    targetType: filePath
-    filePath: './DevOps/upload_apk.bash'
-    arguments: $(authkey)
-    failOnStderr: true
+    serverEndpoint: FFH
+    appSlug: yg356h/FFH
+    appFile: 'android/app/build/outputs/apk/release/app-release.apk'
+    symbolsOption: Android
+    releaseNotesInput: 'Friends for help app, build # $(Build.BuildId)'
+    isSilent: false
+    
+    
+    
