@@ -1,4 +1,8 @@
 
+variables:
+  authkey: $(auth_key)
+
+
 trigger:
 - azure-pipelines
 
@@ -32,3 +36,13 @@ steps:
     artifactName:  'ffh'
     artifactType:  'container'
   displayName:     Publish artifacts to pipeline
+
+
+- task: Bash@3
+  displayName: 'Bash Script'
+  inputs:
+    targetType: filePath
+    filePath: './DevOps/upload_apk.bash'
+    arguments: $(authkey)
+    failOnStderr: true
+
