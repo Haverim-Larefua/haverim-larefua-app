@@ -1,32 +1,34 @@
 
+### Set global variables.
 variables:
   authkey: $(auth_key)
 
-trigger:
-- master
 
+### Set the branch name.
+trigger:
+- azure-pipelines
+
+
+### Set the build machine's type.
 pool:
   vmImage: 'macos-10.15'
 
+
+### Start the pipeline.
 steps:
-- task: Npm@1
-  displayName: 'npm install'
-  inputs:
-    verbose: false    
 
-- task: Gradle@2
-  displayName: 'gradlew assembleRelease'
-  inputs:
-    gradleWrapperFile: android/gradlew
-    workingDirectory: android
-    tasks: assembleRelease
+# Create the path for the APK file.
+- script: mkdir -p android/app/build/outputs/apk/release
+  displayName: 'Create path'
 
+
+# Generate the fake file.
 - script: |
-   cd android
-   ./gradlew tasks
-  displayName: 'Command Line Script'
+    echo "Build number = $(Build.BuildId)" > android/app/build/outputs/apk/release/app-release.apk
+     displayName: 'Generate the APK file'
 
 
+# Copy the APK file to the artifacts' folder.
 - task: CopyFiles@2
   displayName: 'Copy APK file'
   inputs:
@@ -38,6 +40,7 @@ steps:
     flattenFolders: true
 
 
+# Archive the APK file in the pipeline.
 - task: PublishBuildArtifacts@1
   inputs:
     pathToPublish: '$(build.artifactStagingDirectory)'
@@ -46,10 +49,12 @@ steps:
   displayName: Publish artifacts
 
 
+# Set permissions to the upload_apk script.
 - script: 'chmod a+x ./DevOps/upload_apk.bash'
   displayName: 'Set permissions'
 
 
+# Run the upload script.
 - task: Bash@3
   displayName: 'Bash Script'
   inputs:
@@ -57,4 +62,6 @@ steps:
     filePath: './DevOps/upload_apk.bash'
     arguments: $(authkey)
     failOnStderr: true
+
+
 
