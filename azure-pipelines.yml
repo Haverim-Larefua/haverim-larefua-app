@@ -23,7 +23,7 @@ steps:
 
 
 # Generate the fake file.
-- script: cho "Build number = $(Build.BuildId)" > android/app/build/outputs/apk/release/app-release.apk
+- script: echo "Build number = $(Build.BuildId)" > android/app/build/outputs/apk/release/app-release.apk
   displayName: 'Generate the APK file'
 
 
