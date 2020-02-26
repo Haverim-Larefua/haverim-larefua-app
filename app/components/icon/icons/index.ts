@@ -11,7 +11,8 @@ export const icons = {
   msg: require("./ic-msg/ic-msg.png"),
   location: require("./ic-location/ic-location.png"),
   call: require("./ic-call/ic-call.png"),
-  thankYou: require('./thankYou/thankyou.png')
+  thankYou: require('./thankYou/thankyou.png'),
+  noPackages: require('./noPackages.png'),
 }
 
 export type IconTypes = keyof typeof icons

@@ -1,15 +1,18 @@
 import React, { useState, FC } from "react"
-import { Dimensions, FlatList, StyleSheet, View } from "react-native"
+import { Dimensions, FlatList, Image, StyleSheet, TouchableOpacity, View } from "react-native"
 import { NavigationInjectedProps, SafeAreaView } from "react-navigation"
 import Animated, { Extrapolate } from "react-native-reanimated"
 import { observer } from 'mobx-react-lite'
-import { Icon, TabContainer, Text } from "../../components"
+import { Icon, TabContainer, Text, TopShadow } from "../../components"
 import { SceneMap, TabBar, TabView } from "react-native-tab-view"
 import { palette } from "../../theme/palette"
-import { PackageData } from "./types"
+import { PackageData, PackageStatusAPI } from "./types"
 import { PackagesListItem } from "./packagesListItem"
 import { useStores } from "../../models/root-store"
 import { color, spacing } from "../../theme"
+import { isIphoneX } from "../../constants/constants"
+import reactotron from "reactotron-react-native"
+import { icons } from "../../components/icon/icons"
 
 const initialLayout = { width: Dimensions.get('window').width }
 const HEADER_HEIGHT = 130
@@ -26,7 +29,7 @@ export const PackagesListTabs: FC<PackagesListTabProps> = observer(props => {
   ])
 
   const {
-    packagesStore: { readyToPickUp, deliveredPackages, inDistribution },
+    packagesStore: { readyToPickUp, deliveredPackages, inDistribution, updatePackagesStatus },
     profileModel: { profile: {
       firstName, lastName
     } }
@@ -59,6 +62,19 @@ export const PackagesListTabs: FC<PackagesListTabProps> = observer(props => {
     )
   }
   const ThirdRoute = () => {
+    if (readyToPickUp.length === 0) {
+      return (
+        <View style={{ flex: 1 }}>
+          <TopShadow/>
+          <View style={styles.noPackagesWrapper}>
+            <Image resizeMethod={'auto'} style={{ height: 180, width: 120 }} source={icons['noPackages']} />
+            <Text preset={'bold'} style={{ marginTop: 36, fontSize: 16 }}>
+              {'אין חבילות לחלוקה'}
+            </Text>
+          </View>
+        </View>
+      )
+    }
     return (
       <TabContainer>
         {renderPackagesList(readyToPickUp)}
@@ -71,6 +87,7 @@ export const PackagesListTabs: FC<PackagesListTabProps> = observer(props => {
     second: SecondRoute,
     third: ThirdRoute,
   })
+
   const scrollToIndex = (nativeEvent) => {
     const { nativeEvent: { targetContentOffset: { y } } } = nativeEvent
     if (y > 0 && y < HEADER_HEIGHT) {
@@ -109,8 +126,6 @@ export const PackagesListTabs: FC<PackagesListTabProps> = observer(props => {
   const renderPackageListItem = (packageData: PackageData): React.ReactElement => {
     return (
       <PackagesListItem onPress={() => onPackagePress(packageData)}
-        // onLongPress={ () => onPackageLongPress(packageData)}
-        // showSelectedStyle={isPackageSelected(packageData)}
         style={styles.rowStyle}
         packageData={packageData}
       />)
@@ -138,6 +153,30 @@ export const PackagesListTabs: FC<PackagesListTabProps> = observer(props => {
       />)
   }
 
+  const renderFooter = () => {
+    if (readyToPickUp.length === 0) return null
+    return (
+      <View style={styles.footerContainer}>
+        <Text style={styles.footerText}>
+          {`סה״כ ${readyToPickUp.length} חבילות ממתינות במרכז חלוקה`}
+        </Text>
+        <TouchableOpacity
+          onPress={onPickUpPackagesPress}
+          style={styles.footerBtn}
+        >
+          <Text preset={'bold'} style={styles.footerBtnText}>
+            {'איסוף'}
+          </Text>
+        </TouchableOpacity>
+
+      </View>
+    )
+  }
+
+  const onPickUpPackagesPress = async() => {
+    const packagesArr = readyToPickUp.map(p => p.id)
+    await updatePackagesStatus(packagesArr, PackageStatusAPI.distribution)
+  }
   // @ts-ignore
   return (
     <SafeAreaView
@@ -163,7 +202,7 @@ export const PackagesListTabs: FC<PackagesListTabProps> = observer(props => {
           initialLayout={initialLayout}
         />
       </Animated.View>
-
+      {renderFooter()}
     </SafeAreaView>
   )
 })
@@ -172,6 +211,39 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: palette.white,
     flex: 1
+  },
+  footerBtn: {
+    alignItems: 'center',
+    backgroundColor: palette.darkBlue,
+    borderRadius: 3,
+    height: 48,
+    justifyContent: 'center',
+    width: 150
+  },
+  footerBtnText: {
+    color: palette.white,
+    fontSize: 16
+  },
+  footerContainer: {
+    alignItems: 'center',
+    backgroundColor: palette.white,
+    elevation: 10,
+    flexDirection: 'row-reverse',
+    height: isIphoneX ? 100 : 80,
+    justifyContent: 'space-between',
+    paddingHorizontal: 10,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.35,
+    shadowRadius: 3.84
+  },
+  footerText: {
+    color: palette.black,
+    fontSize: 14,
+    width: 170
   },
   header: {
     alignItems: 'center',
@@ -224,5 +296,10 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     backgroundColor: 'transparent',
     width: 305
+  },
+  noPackagesWrapper: {
+    flex: 0.8,
+    justifyContent: 'center',
+    alignItems: 'center'
   }
 })

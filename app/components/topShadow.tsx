@@ -1,7 +1,8 @@
 import React, { FC } from 'react'
 import { View, StyleSheet } from "react-native"
 
-export const TopShadow: FC = () => {
+export const TopShadow: FC = (props) => {
+
   return (
     <View style={styles.shadow}/>
   )
@@ -21,5 +22,5 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     width: 'auto',
-  }
+  },
 })
