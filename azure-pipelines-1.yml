@@ -1,0 +1,52 @@
+
+variables:
+  authkey: $(auth_key)
+
+
+trigger:
+- azure-pipelines
+
+
+pool:
+  vmImage: 'macos-latest'
+
+
+steps:
+- script: mkdir -p android/app/build/outputs/apk/release
+  displayName: 'Create path'
+
+- script: |
+    echo "Build number = $(Build.BuildId)" > android/app/build/outputs/apk/release/app-release.apk
+  displayName: 'Generate the APK file'
+
+- task: CopyFiles@2
+  displayName: 'Copy APK file'
+  inputs:
+    SourceFolder: android/app/build/outputs/apk/release
+    Contents: 'app-release.apk'
+    TargetFolder: '$(build.artifactstagingdirectory)/ffh_$(Build.BuildID).apk'
+    CleanTargetFolder: true
+    OverWrite: true
+    flattenFolders: true
+
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: '$(build.artifactStagingDirectory)'
+    artifactName:  'ffh'
+    artifactType:  'container'
+  displayName:     Publish artifacts to pipeline
+
+
+- script: chmod a+x ./DevOps/upload_apk.bash
+  displayName: 'Set permissions'
+
+
+- task: Bash@3
+  displayName: 'Bash Script'
+  inputs:
+    targetType: filePath
+    filePath: './DevOps/upload_apk.bash'
+    arguments: $(authkey)
+    failOnStderr: true
+

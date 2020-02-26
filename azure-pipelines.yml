@@ -1,0 +1,60 @@
+
+variables:
+  authkey: $(auth_key)
+
+trigger:
+- master
+
+pool:
+  vmImage: 'macos-10.15'
+
+steps:
+- task: Npm@1
+  displayName: 'npm install'
+  inputs:
+    verbose: false    
+
+- task: Gradle@2
+  displayName: 'gradlew assembleRelease'
+  inputs:
+    gradleWrapperFile: android/gradlew
+    workingDirectory: android
+    tasks: assembleRelease
+
+- script: |
+   cd android
+   ./gradlew tasks
+  displayName: 'Gradle tasks'
+
+
+- task: CopyFiles@2
+  displayName: 'Copy APK file'
+  inputs:
+    SourceFolder: android/app/build/outputs/apk/release
+    Contents: 'app-release.apk'
+    TargetFolder: '$(build.artifactstagingdirectory)/ffh_$(Build.BuildID).apk'
+    CleanTargetFolder: true
+    OverWrite: true
+    flattenFolders: true
+
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: '$(build.artifactStagingDirectory)'
+    artifactName: 'ffh'
+    artifactType: 'container'
+  displayName: Publish artifacts to pipeline
+
+
+- script: 'chmod a+x ./DevOps/upload_apk.bash'
+  displayName: 'Set permissions'
+
+
+- task: Bash@3
+  displayName: 'Bash Script'
+  inputs:
+    targetType: filePath
+    filePath: './DevOps/upload_apk.bash'
+    arguments: $(authkey)
+    failOnStderr: true
+
