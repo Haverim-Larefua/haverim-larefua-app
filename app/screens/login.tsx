@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { observer, useObserver } from 'mobx-react-lite'
 import { StyleSheet, View } from "react-native"
-import { NavigationInjectedProps } from "react-navigation"
+import { NavigationActions, NavigationInjectedProps } from "react-navigation"
 import { Button, Checkbox, Icon, Screen, TextField } from "../components"
 import { color, spacing } from "../theme"
 import { Toggle } from "react-powerplug"
@@ -10,16 +10,14 @@ import { useStores } from "../models/root-store"
 export interface LoginProps extends NavigationInjectedProps<{}> {}
 
 export const LoginScreen: React.FunctionComponent<LoginProps> = observer(props => {
-  const [username, setUserName] = useState<string>(__DEV__ ? 'meirav' : '')
-  const [password, setPassword] = useState<string>(__DEV__ ? '123456' : '')
-
-  const goToNextPage = React.useMemo(() => () => props.navigation.navigate('packagesTabList'), [props.navigation])
-
-  const { profileModel: { login } } = useStores()
+  const [username, setUserName] = useState<string>(__DEV__ ? 'dr7774-9' : '')
+  const [password, setPassword] = useState<string>(__DEV__ ? '0523057774' : '')
+  const { navigationStore, profileModel: { login } } = useStores()
   const loginSequence = async () => {
+    // props.navigation.navigate('packagesTabList')
     const loginReq = await login(username, password)
     if (loginReq.ok) {
-      goToNextPage()
+      navigationStore.dispatch(NavigationActions.navigate({ routeName: 'packagesTabList' }))
     }
   }
 
@@ -54,7 +52,7 @@ export const LoginScreen: React.FunctionComponent<LoginProps> = observer(props =
     )
   }
 
-  return useObserver(() => (
+  return (
     <View style={styles.container}>
       <Screen preset="scroll" backgroundColor={color.palette.white}>
         <Icon style={styles.icon} icon="loginLogo" />
@@ -63,7 +61,7 @@ export const LoginScreen: React.FunctionComponent<LoginProps> = observer(props =
         <Button text={'כניסה'} onPress={() => loginSequence()}/>
       </Screen>
     </View>
-  ))
+  )
 })
 
 const styles = StyleSheet.create({
