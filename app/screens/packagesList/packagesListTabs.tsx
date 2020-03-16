@@ -11,7 +11,6 @@ import { PackagesListItem } from "./packagesListItem"
 import { useStores } from "../../models/root-store"
 import { color, spacing } from "../../theme"
 import { isIphoneX } from "../../constants/constants"
-import reactotron from "reactotron-react-native"
 import { icons } from "../../components/icon/icons"
 
 const initialLayout = { width: Dimensions.get('window').width }

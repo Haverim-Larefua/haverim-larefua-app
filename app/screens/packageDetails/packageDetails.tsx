@@ -100,7 +100,7 @@ export const PackageDetailsScreen: FC<NavigationInjectedProps<PackageDetailsScre
   }
 
   const onApproveButtonPress = async() => {
-    if (PackageStatusAPI[packageData.parcelTrackingStatus] === PackageStatusAPI.ready) {
+    if (PackageStatusAPI[packageData.parcelTrackingStatus] === PackageStatusAPI.assigned) {
       await updatePackagesStatus([packageData.id], PackageStatusAPI.distribution)
       props.navigation.navigate('packagesTabList')
     } else {
@@ -114,7 +114,7 @@ export const PackageDetailsScreen: FC<NavigationInjectedProps<PackageDetailsScre
         <Button
           style={{ marginHorizontal: 12, marginBottom: 12 }}
           onPress={() => onApproveButtonPress()}
-          text={PackageStatus[packageData.parcelTrackingStatus] === PackageStatus.ready ? 'איסוף חבילה' : 'מסירת חבילה'}
+          text={PackageStatus[packageData.parcelTrackingStatus] === PackageStatus.assigned ? 'איסוף חבילה' : 'מסירת חבילה'}
         />
       </SafeAreaView>
     )

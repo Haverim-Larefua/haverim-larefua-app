@@ -61,7 +61,7 @@ export class Api {
 
   async getPackages(userId: string) {
     // eslint-disable-next-line @typescript-eslint/camelcase
-    const response: ApiResponse<any> = await this.apisauce.get(`parcels/user/${userId}`, { last_statuses: 'ready,distribution,delivered' })
+    const response: ApiResponse<any> = await this.apisauce.get(`parcels/user/${userId}`, { last_statuses: 'assigned,distribution,delivered' })
     return response
   }
 

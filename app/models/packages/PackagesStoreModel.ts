@@ -16,7 +16,7 @@ export const PackagesStoreModel = types
         return self.packages.filter(p => PackageStatusAPI[p.parcelTrackingStatus] === PackageStatusAPI.distribution)
       },
       get readyToPickUp() {
-        return self.packages.filter(p => PackageStatusAPI[p.parcelTrackingStatus] === PackageStatusAPI.ready)
+        return self.packages.filter(p => PackageStatusAPI[p.parcelTrackingStatus] === PackageStatusAPI.assigned)
       },
     }
   })
