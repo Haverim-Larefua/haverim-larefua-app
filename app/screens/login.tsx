@@ -17,7 +17,10 @@ export const LoginScreen: React.FunctionComponent<LoginProps> = observer(props =
     // props.navigation.navigate('packagesTabList')
     const loginReq = await login(username, password)
     if (loginReq.ok) {
-      navigationStore.dispatch(NavigationActions.navigate({ routeName: 'packagesTabList' }))
+      setTimeout(() => {
+        props.navigation.navigate('packagesTabList')
+      }, 0)
+      // navigationStore.dispatch(NavigationActions.navigate({ routeName: 'packagesTabList' }))
     }
   }
 
