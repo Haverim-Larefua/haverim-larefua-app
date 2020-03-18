@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { observer, useObserver } from 'mobx-react-lite'
+import { observer } from 'mobx-react-lite'
 import { StyleSheet, View } from "react-native"
 import { NavigationActions, NavigationInjectedProps } from "react-navigation"
 import { Button, Checkbox, Icon, Screen, TextField } from "../components"
@@ -14,13 +14,15 @@ export const LoginScreen: React.FunctionComponent<LoginProps> = observer(props =
   const [password, setPassword] = useState<string>(__DEV__ ? '0523057774' : '')
   const { navigationStore, profileModel: { login } } = useStores()
   const loginSequence = async () => {
-    // props.navigation.navigate('packagesTabList')
     const loginReq = await login(username, password)
     if (loginReq.ok) {
-      setTimeout(() => {
-        props.navigation.navigate('packagesTabList')
-      }, 0)
-      // navigationStore.dispatch(NavigationActions.navigate({ routeName: 'packagesTabList' }))
+      // both methods are viable
+      // props.navigation.navigate('packagesTabList')
+      navigationStore.dispatch(NavigationActions.navigate({ routeName: 'packagesTabList' }))
+    } else {
+      console.log(loginReq)
+      console.log("*********************************************")
+      alert('error in request')
     }
   }
 
@@ -61,7 +63,7 @@ export const LoginScreen: React.FunctionComponent<LoginProps> = observer(props =
         <Icon style={styles.icon} icon="loginLogo" />
         {renderTextFields()}
         {renderCheckbox()}
-        <Button text={'כניסה'} onPress={() => loginSequence()}/>
+        <Button text={'כניסה'} onPress={loginSequence}/>
       </Screen>
     </View>
   )
