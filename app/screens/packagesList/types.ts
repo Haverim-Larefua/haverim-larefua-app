@@ -1,3 +1,4 @@
+
 export interface PackageData {
     id: string
     destination: Address
@@ -7,6 +8,7 @@ export interface PackageData {
     city: string
     comments: string
     phone: string
+    lastUpdateDate: any
 }
 
 export interface Address {
