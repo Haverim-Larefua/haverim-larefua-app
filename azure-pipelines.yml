@@ -5,47 +5,47 @@ variables:
 
 
 ### Set the branch name.
-trigger:
-- azure-pipelines
+#trigger:
+#- azure-pipelines
 
 
 ### Set the build machine's type.
-pool:
-  vmImage: 'macos-10.15'
+#pool:
+#  vmImage: 'macos-10.15'
 
 
 ### Start the pipeline.
 steps:
 
 # Create the path for the APK file.
-- script: mkdir -p android/app/build/outputs/apk/release
-  displayName: 'Create path'
+#- script: mkdir -p android/app/build/outputs/apk/release
+#  displayName: 'Create path'
 
 
 # Generate the fake file.
-- script: echo "Build number = $(Build.BuildId)" > android/app/build/outputs/apk/release/app-release.apk
-  displayName: 'Generate the APK file'
+#- script: echo "Build number = $(Build.BuildId)" > android/app/build/outputs/apk/release/app-release.apk
+#  displayName: 'Generate the APK file'
 
 
 # Copy the APK file to the artifacts' folder.
-- task: CopyFiles@2
-  displayName: 'Copy APK file'
-  inputs:
-    SourceFolder: android/app/build/outputs/apk/release
-    Contents: 'app-release.apk'
-    TargetFolder: '$(build.artifactstagingdirectory)/ffh_$(Build.BuildId).apk'
-    CleanTargetFolder: true
-    OverWrite: true
-    flattenFolders: true
+#- task: CopyFiles@2
+#  displayName: 'Copy APK file'
+#  inputs:
+#    SourceFolder: android/app/build/outputs/apk/release
+#   Contents: 'app-release.apk'
+#    TargetFolder: '$(build.artifactstagingdirectory)/ffh_$(Build.BuildId).apk'
+#    CleanTargetFolder: true
+#    OverWrite: true
+#   flattenFolders: true
 
 
 # Archive the APK file in the pipeline.
-- task: PublishBuildArtifacts@1
-  displayName: Publish artifacts
-  inputs:
-    pathToPublish: '$(build.artifactStagingDirectory)'
-    artifactName: 'ffh'
-    artifactType: 'container'
+#- task: PublishBuildArtifacts@1
+#  displayName: Publish artifacts
+# inputs:
+#   pathToPublish: '$(build.artifactStagingDirectory)'
+#   artifactName: 'ffh'
+#   artifactType: 'container'
 
 
 # Set permissions to the upload_apk script.
@@ -62,15 +62,15 @@ steps:
 #    arguments: $(authkey)
 #    failOnStderr: true
 
-- task: AppCenterDistribute@3
-  displayName: 'Deploy to App Center'
-  inputs:
-    serverEndpoint: FFH
-    appSlug: yg356h/FFH
-    appFile: 'android/app/build/outputs/apk/release/app-release.apk'
-    symbolsIncludeParentDirectory: false
-    releaseNotesInput: 'Friends for help app, build # $(Build.BuildId)'
-    isSilent: false
+#- task: AppCenterDistribute@3
+#  displayName: 'Deploy to App Center'
+# inputs:
+#   serverEndpoint: FFH
+#   appSlug: yg356h/FFH
+#    appFile: 'android/app/build/outputs/apk/release/app-release.apk'
+#    symbolsIncludeParentDirectory: false
+#    releaseNotesInput: 'Friends for help app, build # $(Build.BuildId)'
+#    isSilent: false
     
     
     
