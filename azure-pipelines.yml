@@ -15,7 +15,7 @@ variables:
 
 
 ### Start the pipeline.
-steps:
+#steps:
 
 # Create the path for the APK file.
 #- script: mkdir -p android/app/build/outputs/apk/release
