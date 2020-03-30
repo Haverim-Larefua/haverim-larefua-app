@@ -24,7 +24,7 @@ storiesOf("FormRow", module)
         usage="FormRow has many parts designed to fit together.  Here is what it looks like all assembled."
       >
         <FormRow preset="top">
-          <Text preset="fieldLabel" style={TEXT_STYLE_OVERRIDE}>
+          <Text style={TEXT_STYLE_OVERRIDE}>
             Hello! I am at the top
           </Text>
         </FormRow>

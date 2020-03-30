@@ -1,11 +1,9 @@
 import createNativeStackNavigator from "react-native-screens/createNativeStackNavigator"
 import {
   LoginScreen,
-  PackagesListScreen,
   PackageDetailsScreen,
   PackageDeliveryConfirmationScreen,
   PackagesListTabs
-
 } from "../screens"
 
 export const PrimaryNavigator = createNativeStackNavigator(

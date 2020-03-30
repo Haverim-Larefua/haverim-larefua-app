@@ -22,7 +22,8 @@ export const LoginScreen: React.FunctionComponent<LoginProps> = observer(props =
     } else {
       console.log(loginReq)
       console.log("*********************************************")
-      alert('error in request')
+	  console.log('error in request');
+	  // TODO A.H. prepare error handling and popup in next round
     }
   }
 

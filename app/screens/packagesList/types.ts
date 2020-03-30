@@ -32,8 +32,8 @@ export enum PackageStatusAPI {
     whileDelivering = 'whileDelivering'
 }
 
-/* export interface Person {
+export interface Person {
     firstName: string,
     lastName: string,
     id: string
-} */
+}
