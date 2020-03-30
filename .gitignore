@@ -65,3 +65,10 @@ buck-out/
 
 # VS Code
 .vscode
+
+app/**/*.js
+app/**/*.js.map
+
+test/**/*.js
+test/**/*.js.map
+
