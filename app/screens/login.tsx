@@ -1,30 +1,38 @@
-import React, { useState } from "react"
-import { observer } from 'mobx-react-lite'
-import { StyleSheet, View } from "react-native"
-import { NavigationActions, NavigationInjectedProps } from "react-navigation"
-import { Button, Checkbox, Icon, Screen, TextField } from "../components"
-import { color, spacing } from "../theme"
-import { Toggle } from "react-powerplug"
-import { useStores } from "../models/root-store"
+import React, { useState } from 'react';
+import { observer } from 'mobx-react-lite';
+import { StyleSheet, View, Alert } from 'react-native';
+import { NavigationActions, NavigationInjectedProps } from 'react-navigation';
+import { Button, Checkbox, Icon, Screen, TextField } from '../components';
+import { color, spacing } from '../theme';
+import { Toggle } from 'react-powerplug';
+import { useStores } from '../models/root-store';
 
 export interface LoginProps extends NavigationInjectedProps<{}> {}
 
 export const LoginScreen: React.FunctionComponent<LoginProps> = observer(props => {
-  const [username, setUserName] = useState<string>(__DEV__ ? 'dr7774-9' : '')
-  const [password, setPassword] = useState<string>(__DEV__ ? '0523057774' : '')
-  const { navigationStore, profileModel: { login } } = useStores()
+
+  const [username, setUserName] = useState<string>(__DEV__ ? 'dr7774-9' : '');
+  const [password, setPassword] = useState<string>(__DEV__ ? '0523057774' : '');
+  const { navigationStore, profileModel: { login } } = useStores();
+
   const loginSequence = async () => {
-    const loginReq = await login(username, password)
+	const loginReq = await login(username, password);
+
     if (loginReq.ok) {
       // both methods are viable
-      // props.navigation.navigate('packagesTabList')
+	  // props.navigation.navigate('packagesTabList')
+	  console.log('login success');
       navigationStore.dispatch(NavigationActions.navigate({ routeName: 'packagesTabList' }))
     } else {
-      console.log(loginReq)
-      console.log("*********************************************")
-	  console.log('error in request');
-	  // TODO A.H. prepare error handling and popup in next round
+	  console.log(`login failed: ${JSON.stringify(loginReq)}`);
+	  displayLoginError();
     }
+  }
+
+  const displayLoginError = () => {
+	Alert.alert(
+	   'an error occurred when logging in please try again later'
+	)
   }
 
   const renderTextFields = (): React.ReactElement => {
@@ -34,7 +42,7 @@ export const LoginScreen: React.FunctionComponent<LoginProps> = observer(props =
           value={username}
           inputStyle={{ paddingHorizontal: 5 }}
           onChangeText={(val) => setUserName(val)}
-          label={"שם משתמש.ת"}
+          label={'שם משתמש.ת'}
         />
         {/* <TextField label={store.packagesStore.packages[0].name} /> */}
         <TextField
@@ -43,7 +51,7 @@ export const LoginScreen: React.FunctionComponent<LoginProps> = observer(props =
           onChangeText={(val) => setPassword(val)}
           value={password}
           style={styles.passwordTextField}
-          label={"סיסמה"} />
+          label={'סיסמה'} />
       </View>
     )
   }
@@ -52,7 +60,7 @@ export const LoginScreen: React.FunctionComponent<LoginProps> = observer(props =
     return (
       <View style={styles.rememberMeContainer}>
         <Toggle initial={false}>
-          {({ on, toggle }) => <Checkbox value={on} onToggle={toggle} text="זכור אותי" />}
+          {({ on, toggle }) => <Checkbox value={on} onToggle={toggle} text='זכור אותי' />}
         </Toggle>
       </View>
     )
@@ -60,8 +68,8 @@ export const LoginScreen: React.FunctionComponent<LoginProps> = observer(props =
 
   return (
     <View style={styles.container}>
-      <Screen preset="scroll" backgroundColor={color.palette.white}>
-        <Icon style={styles.icon} icon="loginLogo" />
+      <Screen preset='scroll' backgroundColor={color.palette.white}>
+        <Icon style={styles.icon} icon='loginLogo' />
         {renderTextFields()}
         {renderCheckbox()}
         <Button text={'כניסה'} onPress={loginSequence}/>
@@ -90,4 +98,4 @@ const styles = StyleSheet.create({
     marginBottom: spacing.bigSpacing,
     width: '100%'
   }
-})
+});
