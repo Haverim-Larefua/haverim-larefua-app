@@ -10,7 +10,7 @@
 			"type": "reactnative",
 			"request": "launch",
 			"platform": "android",
-			"preLaunchTask": "npm: compile"
+			"preLaunchTask": "Compile task"
 		},
 		{
 			"name": "Debug Android",
