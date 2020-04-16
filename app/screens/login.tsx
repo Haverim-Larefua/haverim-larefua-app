@@ -33,7 +33,7 @@ export const LoginScreen: React.FunctionComponent<LoginProps> = observer(props =
 		displaySpinnerModal(true);
 		
 		const loginRequest = login(username, password);
-		const runLoginRequest = PromiseTimeout(100, loginRequest);
+		const runLoginRequest = PromiseTimeout(10000, loginRequest);
 
 		try {
 			const loginResponse = await runLoginRequest;
