@@ -1,6 +1,6 @@
 import { getRoot, Instance, SnapshotOut, types } from "mobx-state-tree"
 import { withEnvironment } from "../extensions"
-import { PackageData, PackageStatus, PackageStatusAPI } from "../../screens/packagesList/types"
+import { PackageData, PackageStatusAPI } from "../../screens/packagesList/types"
 
 export const PackagesStoreModel = types
   .model("packages")
