@@ -24,7 +24,6 @@ class LoadingModal extends Component<ILoadingModalProps> {
 export default LoadingModal
 
 const styles = StyleSheet.create({
-			
 			container: {
 				position: 'absolute',
 				top: 0,

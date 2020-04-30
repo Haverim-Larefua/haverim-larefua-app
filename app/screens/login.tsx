@@ -1,21 +1,17 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
-import { StyleSheet, View ,TouchableOpacity } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { NavigationActions, NavigationInjectedProps } from 'react-navigation';
 import { color, spacing } from '../theme';
 import { Toggle } from 'react-powerplug';
 import { useStores } from '../models/root-store';
-import { FancyAlert } from 'react-native-expo-fancy-alerts';
-import VectorIcon from 'react-native-vector-icons/FontAwesome';
 import PromiseTimeout from '../services/timers/promise-timeout.service';
 import { Button, Checkbox, Screen, Icon, TextField } from '../components';
 import ErrorModal from '../components/modal-error/error.modal';
 import LoadingModal from '../components/loading/loading.modal';
 
-
 export interface LoginProps extends NavigationInjectedProps<{}> {}
 
-let errorMsg = undefined;
 
 export const LoginScreen: React.FunctionComponent<LoginProps> = observer(() => {
 
@@ -24,17 +20,16 @@ export const LoginScreen: React.FunctionComponent<LoginProps> = observer(() => {
 	const { navigationStore, profileModel: { login } } = useStores();
 
 	const [isErrorModalDisplayed, setErrorModalState] = React.useState<boolean>(false);
-	const toggleErrorModal = React.useCallback(() => {
+	const displayErrorModal = React.useCallback(() => {
 		setErrorModalState(!isErrorModalDisplayed);
 	}, [isErrorModalDisplayed]);
 
 	const [isLoadingModalDisplayed, setLoadingModalState] = React.useState<boolean>(false);
-	// const displayLoadingModal = React.useCallback((newValue) => {
-	// 	setLoadingModalState(newValue);
-	// }, [isLoadingModalDisplayed]);
-	const displayLoadingModal = (show:boolean) => {
+	const displayLoadingModal = (show: boolean) => {
 		setLoadingModalState(show);
 	}
+
+	let errorMsg = undefined;
 
  	const loginSequence = async () => {
 		displayLoadingModal(true);
@@ -50,7 +45,7 @@ export const LoginScreen: React.FunctionComponent<LoginProps> = observer(() => {
 			console.log(`error: ${error}`);
 			displayLoadingModal(false);
 			errorMsg = 'An error occurred when logging, please try again later...';
-			toggleErrorModal();
+			displayErrorModal();
 		}
 	}
 
@@ -65,7 +60,7 @@ export const LoginScreen: React.FunctionComponent<LoginProps> = observer(() => {
 				errorMsg = 'An error occurred when logging, please try again later...';
 			}
 			console.log(errorMsg);
-			toggleErrorModal();
+			displayErrorModal();
 		}
 	};
 
@@ -100,7 +95,7 @@ export const LoginScreen: React.FunctionComponent<LoginProps> = observer(() => {
 
 	const renderErrorModal = (): React.ReactElement => {
 		return (
-			<ErrorModal visible={isErrorModalDisplayed} message={errorMsg}/>
+			<ErrorModal visible={isErrorModalDisplayed} message={errorMsg} handelClose={displayErrorModal}/>
 		);
 	}
 
