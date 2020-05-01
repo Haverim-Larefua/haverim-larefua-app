@@ -10,26 +10,26 @@ import { Button, Checkbox, Screen, Icon, TextField } from '../components';
 import ErrorModal from '../components/modal-error/error.modal';
 import LoadingModal from '../components/loading/loading.modal';
 
-export interface LoginProps extends NavigationInjectedProps<{}> {}
+export interface LoginProps extends NavigationInjectedProps<{}> {};
 
 
 export const LoginScreen: React.FunctionComponent<LoginProps> = observer(() => {
 
-	const [username, setUserName] = React.useState<string>(__DEV__ ? 'dr7774-9_2' : '');
-	const [password, setPassword] = React.useState<string>(__DEV__ ? '0523057774' : '');
 	const { navigationStore, profileModel: { login } } = useStores();
 
+	const [username, setUserName] = React.useState<string>(__DEV__ ? 'dr7774-9_2' : '');
+	const [password, setPassword] = React.useState<string>(__DEV__ ? '0523057774' : '');
 	const [isErrorModalDisplayed, setErrorModalState] = React.useState<boolean>(false);
+	const [isLoadingModalDisplayed, setLoadingModalState] = React.useState<boolean>(false);
+	const [errorMessage, setErrorMessage] = React.useState<string>(undefined);
+
 	const displayErrorModal = React.useCallback(() => {
 		setErrorModalState(!isErrorModalDisplayed);
 	}, [isErrorModalDisplayed]);
 
-	const [isLoadingModalDisplayed, setLoadingModalState] = React.useState<boolean>(false);
 	const displayLoadingModal = (show: boolean) => {
 		setLoadingModalState(show);
 	}
-
-	let errorMsg = undefined;
 
  	const loginSequence = async () => {
 		displayLoadingModal(true);
@@ -44,7 +44,7 @@ export const LoginScreen: React.FunctionComponent<LoginProps> = observer(() => {
 		} catch (error) {
 			console.log(`error: ${error}`);
 			displayLoadingModal(false);
-			errorMsg = 'An error occurred when logging, please try again later...';
+			setErrorMessage('An error occurred when logging, please try again later...');
 			displayErrorModal();
 		}
 	}
@@ -52,14 +52,14 @@ export const LoginScreen: React.FunctionComponent<LoginProps> = observer(() => {
 	const handleLoginRequest = (loginResponse: any) : void => {
 		if (loginResponse.ok) {
 			console.log('login success');
-			navigationStore.dispatch(NavigationActions.navigate({ routeName: 'packagesTabList' }))
+			navigationStore.dispatch(NavigationActions.navigate({ routeName: 'packagesTabList' }));
 		} else {
 			if(loginResponse.status === 401 ) {
-				errorMsg = 'The username or password is incorrect';
+				setErrorMessage('The username or password is incorrect');
 			} else {
-				errorMsg = 'An error occurred when logging, please try again later...';
+				setErrorMessage('An error occurred when logging, please try again later...');
 			}
-			console.log(errorMsg);
+			console.log(errorMessage);
 			displayErrorModal();
 		}
 	};
@@ -95,7 +95,7 @@ export const LoginScreen: React.FunctionComponent<LoginProps> = observer(() => {
 
 	const renderErrorModal = (): React.ReactElement => {
 		return (
-			<ErrorModal visible={isErrorModalDisplayed} message={errorMsg} handelClose={displayErrorModal}/>
+			<ErrorModal visible={isErrorModalDisplayed} message={errorMessage} handelClose={displayErrorModal}/>
 		);
 	}
 
