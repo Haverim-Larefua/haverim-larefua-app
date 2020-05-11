@@ -3,7 +3,7 @@ const PromiseTimeout = (ms: number, promise: Promise < any > ): Promise < any > 
 	let timeout = new Promise((resolve, reject) => {
 		let id = setTimeout(() => {
 			clearTimeout(id);
-			reject('Timed out in ' + ms + 'ms.')
+			reject('Timed out in ' + ms + 'ms.');
 		}, ms)
 	});
 

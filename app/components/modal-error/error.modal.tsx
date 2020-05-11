@@ -48,7 +48,7 @@ class ErrorModal extends Component<IErrorModalProps> {
 }
 export default ErrorModal;
 
-const styles=StyleSheet.create( {
+const styles = StyleSheet.create({
 		container: {
 			position: 'absolute',
 			top: 0,
