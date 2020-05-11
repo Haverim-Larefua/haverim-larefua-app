@@ -15,7 +15,7 @@ interface IErrorModalProps {
 
 class ErrorModal extends Component<IErrorModalProps> {
 	constructor (props: IErrorModalProps) {
-	    super(props);
+		super(props);
 	}
 
 	render() {
