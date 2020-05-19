@@ -28,17 +28,17 @@ export const profileModel = types
   }))
   .actions(self => ({
     async login(user: string, pass: string) {
-      const response = await self.environment.api.login(user, pass)
+      const response = await self.environment.api.login(user, pass);
       if (response.ok) {
-        self.environment.api.setTokenHeader(response.data.token)
-        self.setProfile(response.data.user)
-        self.setToken(response.data.token)
-        await self.setPushToken()
-        const root = getRoot(self)
+        self.environment.api.setTokenHeader(response.data.token);
+        self.setProfile(response.data.user);
+        self.setToken(response.data.token);
+        await self.setPushToken();
+        const root = getRoot(self);
         // @ts-ignore
-        const packagesResponse = await root.packagesStore.getAllPackages()
+        const packagesResponse = await root.packagesStore.getAllPackages();
         return packagesResponse
       }
-      return response
+      return response;
     }
   }))
