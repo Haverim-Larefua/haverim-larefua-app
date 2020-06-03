@@ -88,7 +88,7 @@ export const PackagesListTabs: FC<PackagesListTabProps> = observer(props => {
   })
 
   const scrollToIndex = (nativeEvent) => {
-    const { nativeEvent: { targetContentOffset: { y } } } = nativeEvent
+    const { nativeEvent: { contentOffset: { y } } } = nativeEvent
     if (y > 0 && y < HEADER_HEIGHT) {
       const offset = y > HEADER_HEIGHT / 2 ? HEADER_HEIGHT : 0
       flatListRef.getNode().scrollToOffset({ animated: true, offset })
