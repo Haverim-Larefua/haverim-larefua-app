@@ -33,10 +33,11 @@ export async function setupRootStore() {
   try {
     // load data from storage
     data = (await storage.load(ROOT_STATE_STORAGE_KEY)) || {}
+    const { profileModel } = data
     if (__DEV__){
-      rootStore = RootStoreModel.create(data, env)
+      rootStore = RootStoreModel.create({ profileModel }, env)
     } else {
-      rootStore = RootStoreModel.create({}, env)
+      rootStore = RootStoreModel.create({ profileModel }, env)
     }
   } catch (e) {
     // if there's any problems loading, then let's at least fallback to an empty state

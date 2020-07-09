@@ -7,6 +7,7 @@ export const profileModel = types
   .props({
     token: types.optional(types.string, ""),
     profile: types.frozen(),
+    autoLogin: false
   })
   .extend(withEnvironment)
   .views(self => ({}))
@@ -14,8 +15,9 @@ export const profileModel = types
     setProfile(profile) {
       self.profile = profile
     },
-    setToken(token) {
+    setToken(token, savePass: boolean) {
       self.token = token
+      self.autoLogin = savePass
     },
   }))
   .actions(self => ({
@@ -27,12 +29,12 @@ export const profileModel = types
     }
   }))
   .actions(self => ({
-    async login(user: string, pass: string) {
+    async login(user: string, pass: string, savePass: boolean) {
       const response = await self.environment.api.login(user, pass);
       if (response.ok) {
         self.environment.api.setTokenHeader(response.data.token);
         self.setProfile(response.data.user);
-        self.setToken(response.data.token);
+        self.setToken(response.data.token, savePass);
         await self.setPushToken();
         const root = getRoot(self);
         // @ts-ignore
@@ -40,5 +42,13 @@ export const profileModel = types
         return packagesResponse
       }
       return response;
+    },
+    async silentLogin() {
+      self.environment.api.setTokenHeader(self.token);
+      await self.setPushToken();
+      const root = getRoot(self);
+      // @ts-ignore
+      const packagesResponse = await root.packagesStore.getAllPackages();
+      return packagesResponse
     }
   }))
