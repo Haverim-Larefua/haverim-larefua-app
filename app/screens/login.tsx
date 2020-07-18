@@ -95,7 +95,6 @@ export const LoginScreen: React.FunctionComponent<LoginProps> = observer(() => {
   };
 
   const renderCheckbox = (): React.ReactElement => {
-  	console.tron.log(savePass);
     return (
       <View style={styles.rememberMeContainer}>
         <Toggle initial={savePass}>
