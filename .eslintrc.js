@@ -43,6 +43,11 @@ module.exports = {
       "it": false
     },
     "rules": {
+		"indent": [
+			0,
+			4
+		  ],
+	  "no-tabs": 0,
       "comma-dangle": 0,
       "no-dupe-class-members": "off",
       "no-unused-vars": 1,
@@ -54,7 +59,7 @@ module.exports = {
       "react-native/no-raw-text": 0,
       "space-before-function-paren": 0,
       "@typescript-eslint/ban-ts-ignore": 0,
-      "@typescript-eslint/indent": 1,
+      "@typescript-eslint/indent": [0, 4],
       "@typescript-eslint/explicit-member-accessibility": 0,
       "@typescript-eslint/explicit-function-return-type": 0,
       "@typescript-eslint/member-delimiter-style": 0,
@@ -65,6 +70,12 @@ module.exports = {
       "@typescript-eslint/no-object-literal-type-assertion": 0,
       "@typescript-eslint/no-empty-interface": 0,
       "@typescript-eslint/no-var-requires": 0,
-	  "@typescript-eslint/no-use-before-define": 1
+	  "@typescript-eslint/no-use-before-define": 0,
+	  "@typescript-eslint/no-useless-constructor": 0,
+	  "react/prefer-stateless-function" :0,
+	  "no-useless-constructor": 0,
+	  "react-native/no-color-literals": 0,
+	  "react-native/sort-styles": 0,
+	  "react-native/no-inline-styles" :0
     }
   }
