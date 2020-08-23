@@ -55,7 +55,7 @@ export const LoginScreen: React.FunctionComponent<LoginProps> = observer(() => {
       displayLoadingModal(false);
       setTimeout(() => {
 		displayErrorModal();
-      }, 100);
+      }, 1000);
     }
   };
 
