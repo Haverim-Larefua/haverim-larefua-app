@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { observer } from 'mobx-react-lite';
-import { StyleSheet, View, Text, Alert } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import { NavigationActions, NavigationInjectedProps } from 'react-navigation';
 import { Toggle } from 'react-powerplug';
 import { color, spacing } from '../theme';
@@ -34,8 +34,8 @@ export const LoginScreen: React.FunctionComponent<LoginProps> = observer(() => {
   }, []);
 
   const displayErrorModal = () => {
-	setErrorMessage(ERROR_MESSAGE);
-	setErrorModal(!isErrorModalDisplayed);
+    setErrorMessage(ERROR_MESSAGE);
+    setErrorModal(!isErrorModalDisplayed);
   };
 
   const displayLoadingModal = (show: boolean) => setLoadingModal(show);
@@ -54,7 +54,7 @@ export const LoginScreen: React.FunctionComponent<LoginProps> = observer(() => {
       console.log(`error occured: ${error}`);
       displayLoadingModal(false);
       setTimeout(() => {
-		displayErrorModal();
+        displayErrorModal();
       }, 1000);
     }
   };
@@ -62,21 +62,20 @@ export const LoginScreen: React.FunctionComponent<LoginProps> = observer(() => {
   const handleLoginRequest = (loginResponse: any): void => {
 	if (loginResponse.ok) {
       console.log('login success', loginResponse);
-      console.log('login success');
       navigationStore.dispatch(NavigationActions.navigate({ routeName: 'packagesTabList' }));
     } else if (loginResponse.status === 401) {
-		setLoginError(true);
-		setTimeout(() => {
-			setLoginError(false);
-		}, 4000);
+        setLoginError(true);
+        setTimeout(() => {
+          setLoginError(false);
+        }, 4000);
       } else {
-		displayErrorModal();
+        displayErrorModal();
       }
   };
 
   const renderErrorLogin = (): React.ReactElement => loginError && (
       <View style={styles.errorMessage}>
-		<Text style={styles.loginError}>שם משתמש או סיסמה לא נכונים</Text>
+        <Text style={styles.loginError}>שם משתמש או סיסמה לא נכונים</Text>
       </View>);
 
   const renderTextFields = (): React.ReactElement => (
@@ -115,7 +114,7 @@ export const LoginScreen: React.FunctionComponent<LoginProps> = observer(() => {
     <View style={styles.container}>
       <Screen preset='scroll' backgroundColor={color.palette.white}>
         <Icon style={styles.loginLogo} icon='loginLogo' />
-		{renderErrorLogin()}
+        {renderErrorLogin()}
         {renderTextFields()}
         {renderCheckbox()}
         {renderLoadingModal()}
