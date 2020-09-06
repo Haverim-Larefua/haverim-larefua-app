@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-import { Modal, ActivityIndicator, View, StyleSheet} from 'react-native';
+import { Modal, ActivityIndicator, View, StyleSheet } from 'react-native';
 
-
-interface ILoadingModalProps {
+interface LoadingModalProps {
 	visible: boolean
 }
 
-class LoadingModal extends Component<ILoadingModalProps> {
+class LoadingModal extends Component<LoadingModalProps> {
    render() {
       return (
             <Modal animationType = {"slide"} transparent = {false}
@@ -18,10 +17,10 @@ class LoadingModal extends Component<ILoadingModalProps> {
 					</View>
 				</View>
             </Modal>
-      )
+      );
    }
 }
-export default LoadingModal
+export default LoadingModal;
 
 const styles = StyleSheet.create({
 			container: {
@@ -31,9 +30,9 @@ const styles = StyleSheet.create({
 				right: 0,
 				bottom: 0,
 				backgroundColor: 'rgba(0, 0, 0, 0.4)',
-				flexDirection: 'column',
 				justifyContent: 'center',
 				alignItems: 'center',
+				zIndex: 1
 			},
 			content: {
 				backgroundColor: 'rgba(0, 0, 0, 0.6)',
@@ -44,4 +43,4 @@ const styles = StyleSheet.create({
 				paddingVertical: 32,
 				borderRadius: 16,
 			}
-})
+});

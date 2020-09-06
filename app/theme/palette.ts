@@ -12,5 +12,6 @@ export const palette = {
   popUpBg: 'rgba(0,0,0,0.7)',
   greyLight: '#f0f1fb',
   tabBarGrey: '#5d5d5e',
-  orange: '#fd5b00'
+  orange: '#fd5b00',
+  red: 'rgb(198,44,44)'
 }

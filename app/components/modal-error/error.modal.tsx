@@ -1,49 +1,43 @@
 import React, { Component } from 'react';
-import { Modal, View, StyleSheet, Dimensions, TouchableOpacity} from 'react-native';
-import VectorIcon from 'react-native-vector-icons/FontAwesome';
+import { Modal, View, StyleSheet, Dimensions, TouchableOpacity, Image } from 'react-native';
 import { color } from '../../theme';
 import { Text } from '../text/text';
-const { width: SCREEN_WIDTH } = Dimensions.get('window');
+
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 const ALERT_WIDTH = SCREEN_WIDTH - (SCREEN_WIDTH / 4);
 
-interface IErrorModalProps {
+interface ErrorModalProps {
 	visible: boolean,
 	message: string,
 	handelClose: Function
 }
 
-
-class ErrorModal extends Component<IErrorModalProps> {
-	constructor (props: IErrorModalProps) {
+class ErrorModal extends Component<ErrorModalProps> {
+	constructor (props: ErrorModalProps) {
 		super(props);
 	}
 
 	render() {
+		const { visible, message, handelClose } = this.props;
 		return (
-			<Modal visible={this.props.visible} animationType="fade" transparent onRequestClose={() => null }>
+			<Modal visible={visible} animationType="fade" transparent>
 				<View style={styles.container}>
-					<View style={[styles.iconCircle, { top: 32, borderColor: color.palette.white }]}>
-						<View style={styles.iconCircleTop}>
-							<VectorIcon name="close" size={20} color='white' />
+					<View style={styles.content}>
+						<View style={styles.contentUp}>
+						<Image source={require('./assets/ic-error-large.png')} style={{ tintColor: color.palette.red }}/>
+						<Text style={styles.message}>{message}</Text>
 						</View>
-					</View>
-
-					<View style={[styles.content, { backgroundColor: color.palette.white }]}>
-						<View style={[styles.iconCircle, { top: -32, borderColor: color.palette.white }]}>
-							<View style={styles.iconCircleTop}>
-								<VectorIcon name="close" size={20} color='white' />
-							</View>
+						<View style={styles.contentDown}>
+							<View style={styles.separator}/>
+							<TouchableOpacity style={styles.modalButton}
+											onPress={ () => handelClose && handelClose()}>
+								<Text style={{ color: color.palette.darkBlue, textAlign: 'center' }}>הבנתי</Text>
+							</TouchableOpacity>
 						</View>
-
-						<Text style={styles.message}>{this.props.message}</Text>
-						<TouchableOpacity style={styles.modalButton}
-										onPress={()=>this.props.handelClose()}>
-							<Text style={{color : color.palette.white, textAlign: 'center'}}>OK</Text>
-						</TouchableOpacity>
 					</View>
 				</View>
 			</Modal>
-		)
+		);
 	}
 }
 export default ErrorModal;
@@ -56,56 +50,44 @@ const styles = StyleSheet.create({
 			right: 0,
 			bottom: 0,
 			backgroundColor: 'rgba(0, 0, 0, 0.4)',
-			flexDirection: 'column',
 			justifyContent: 'center',
 			alignItems: 'center',
+			zIndex: 10
 		},
 		content: {
-			flexDirection: 'column',
-			alignItems: 'center',
+			backgroundColor: color.palette.white,
 			width: ALERT_WIDTH,
-			paddingHorizontal: 8,
-			borderRadius: 16,
+			height: SCREEN_HEIGHT / 3,
+			borderRadius: 5,
 		},
-		iconCircle: {
-			height: 64,
-			width: 64,
-			borderRadius: 32,
-			borderWidth: 4,
-			flexDirection: 'column',
+		contentUp: {
+			flex: 0.7,
 			justifyContent: 'center',
-			alignItems: 'center',
+			alignItems: "center"
 		},
-		iconCircleTop: {
-			flex: 1,
-			display: 'flex',
-			justifyContent: 'center',
+		contentDown: {
+			flex: 0.3,
 			alignItems: 'center',
-			backgroundColor: 'red',
-			borderRadius: 50,
-			width: '100%'
-		},
-		btnPrimary: {
-			width: ALERT_WIDTH - 16,
-			margin: 8,
-			padding: 8,
-			flexDirection: 'row',
-			justifyContent: 'center',
-			alignItems: 'center',
-			borderRadius: 32,
 		},
 		message: {
 			color: color.palette.black,
 			textAlign: 'center',
-			marginTop: -15,
-			marginBottom: 15
+			marginTop: 15
+		},
+		separator: {
+			borderBottomColor: color.palette.lighterGrey,
+			borderBottomWidth: 1,
+			width: '100%',
+			marginBottom: 20
 		},
 		modalButton: {
-			backgroundColor: 'red',
-			borderRadius: 50,
+			backgroundColor: color.palette.white,
+			borderColor: color.palette.lighterGrey,
+			borderRadius: 5,
 			padding: 10,
-			marginBottom: 8,
-			width: '100%'
+			width: '40%',
+			borderWidth: 1,
+			marginBottom: 10
 		}
 	}
-)
+);
