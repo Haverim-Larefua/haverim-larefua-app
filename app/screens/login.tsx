@@ -61,7 +61,7 @@ export const LoginScreen: React.FunctionComponent<LoginProps> = observer(() => {
 
   const handleLoginRequest = (loginResponse: any): void => {
 	if (loginResponse.ok) {
-      console.log('login success', loginResponse);
+      displayLoadingModal(false);
       navigationStore.dispatch(NavigationActions.navigate({ routeName: 'packagesTabList' }));
     } else if (loginResponse.status === 401) {
         setLoginError(true);
