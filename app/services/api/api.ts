@@ -55,7 +55,7 @@ export class Api {
   }
 
   async updatePushToken(userId: string, token: string): Promise<ApiResponse<any>> {
-    const response: ApiResponse<any> = await this.apisauce.put(`/push-token/update/${userId}`, token);
+    const response: ApiResponse<any> = await this.apisauce.put(`/push-token/update/${userId}`, {token});
     return response;
   }
 
