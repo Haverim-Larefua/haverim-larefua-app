@@ -13,5 +13,6 @@ export const palette = {
   greyLight: '#f0f1fb',
   tabBarGrey: '#5d5d5e',
   orange: '#fd5b00',
-  red: 'rgb(198,44,44)'
+  red: 'rgb(198,44,44)',
+  palePink: '#F1F1FB'
 }

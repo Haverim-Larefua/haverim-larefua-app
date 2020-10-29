@@ -3,7 +3,8 @@ import {
   LoginScreen,
   PackageDetailsScreen,
   PackageDeliveryConfirmationScreen,
-  PackagesListTabs
+  PackagesListTabs,
+  PackageProblemScreen
 } from "../screens"
 
 export const PrimaryNavigator = createNativeStackNavigator(
@@ -14,6 +15,7 @@ export const PrimaryNavigator = createNativeStackNavigator(
     // packagesList: { screen: PackagesListScreen },
     packagesTabList: { screen: PackagesListTabs },
     packageDetails: { screen: PackageDetailsScreen },
+    packageProblem: { screen: PackageProblemScreen },
     deliveryConfirmation: { screen: PackageDeliveryConfirmationScreen }
   },
   {
