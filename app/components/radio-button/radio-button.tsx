@@ -1,30 +1,67 @@
-import React from "react";
+import React, { useImperativeHandle, useState, forwardRef } from 'react';
 import {TouchableOpacity, View, StyleSheet} from "react-native";
+import { Text } from "../../components"
+import { color } from '../../theme';
 
-export function RadioButton(props){
+const RadioButton = forwardRef((props, ref)=>{
+    const {buttons, onSelectedChange, containerStyle, radioItemStyle} = props;
+    const safeRadioItemStyle = radioItemStyle || {};
+    const [activeIndex, setActiveIndex] = useState(null);
+
+    const handleRadioButtonClick = (index : number)=>{
+        if(index !== activeIndex){
+            onSelectedChange && onSelectedChange(buttons[index]);
+            setActiveIndex(index);
+        }
+    }
+
+    useImperativeHandle(ref, () => ({
+        resetSelection: () => {
+            setActiveIndex( null)
+        }
+    }));
+
+
     return (
-        <TouchableOpacity style={styles.circle} onPress={props.onPress}>
-            {props.checked ? (<View style={styles.checkedCircle} />) : (<View />)}
-        </TouchableOpacity>
+        <View style={containerStyle}>
+            {buttons.map((button, index) =>{
+                return (
+                        <TouchableOpacity style={{...safeRadioItemStyle,...styles.radioItem}} onPress={()=>{handleRadioButtonClick(index)}}>
+                            <TouchableOpacity style={{...styles.circle, borderColor: activeIndex === index ? color.palette.darkBlue: "#ACACAC"}} >
+                                {activeIndex === index ? (<View style={styles.checkedCircle} />) : (<View />)}
+                            </TouchableOpacity>
+                            <Text>{button.text}</Text>
+                        </TouchableOpacity>
+                    )
+                }
+            )}
+        </View>
     )
-};
+});
+
+export default RadioButton;
 
 
 const styles = StyleSheet.create({
+    radioItem:{
+        display: 'flex',
+        flexDirection: 'row-reverse'
+    },
     circle: {
         height: 20,
         width: 20,
         borderRadius: 10,
-        borderWidth: 1,
+        borderWidth: 2,
         borderColor: "#ACACAC",
-        alignItems: "center", // To center the checked circle…
+        alignItems: "center",
         justifyContent: "center",
-        marginHorizontal: 10
+        marginHorizontal: 10,
+        marginTop: 2
 },
     checkedCircle: {
-        width: 14,
-        height: 14,
+        width: 12,
+        height: 12,
         borderRadius: 7,
-        backgroundColor: "#131313" // You can set it default or with yours one…
+        backgroundColor: color.palette.darkBlue
     }
 });
