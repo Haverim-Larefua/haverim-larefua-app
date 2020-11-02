@@ -75,6 +75,11 @@ export class Api {
     return response;
   }
 
+  async reportPackageProblem(parcelId: string, userId: string, problem: string): Promise<ApiResponse<any>> {
+    const response: ApiResponse<any> = await this.apisauce.put(`parcels/${parcelId}/problem/${userId}`, { problem });
+    return response;
+  }
+
   /**
    * Gets a list of users.
    */

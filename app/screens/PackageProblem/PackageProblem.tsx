@@ -1,10 +1,11 @@
 import React, { FC, useMemo, useRef, useState } from 'react';
-import { SafeAreaView, StyleSheet, View } from 'react-native';
+import { Alert, SafeAreaView, StyleSheet, View } from 'react-native';
 import { Button, Header, Icon, Screen, Text, TextField } from '../../components';
 import { color } from "../../theme"
 import { PackageData, PackageStatus } from '../packagesList/types';
 import { NavigationInjectedProps } from "react-navigation";
-import { SCREEN_HEIGHT } from "../../constants/constants"
+import { SCREEN_HEIGHT } from "../../constants/constants";
+import { useStores } from "../../models/root-store"
 
 import { observer } from "mobx-react-lite"
 import RadioButton from '../../components/radio-button/radio-button';
@@ -19,8 +20,9 @@ export const PackageProblemScreen: FC<NavigationInjectedProps<PackageDetailsScre
     const packageData = props.navigation.state.params.packageData
     const goBack = useMemo(() => () => props.navigation.goBack(null), [props.navigation])
     const [selectedProblem, setSelectedProblem] = useState(null);
-    const [isOtherProblemSelected, setIsOtherProblemSelected] = useState(false);
-    const [otherProblemText, setOtherProblemText] = useState("");
+    const [isOtherProblemSelected, setIsOtherProblemSelected] = useState<boolean>(false);
+    const [otherProblemText, setOtherProblemText] = useState<string>("");
+    const { packagesStore: { reportProblem } } = useStores();
 
     const radioGroupRef = useRef();
     const otherRadioGroupRef = useRef();
@@ -54,8 +56,16 @@ export const PackageProblemScreen: FC<NavigationInjectedProps<PackageDetailsScre
         setSelectedProblem(value)
     }
 
-    const reportProblem = ()=>{
-        console.log(selectedProblem)
+    const sendReportProblem = async ()=>{
+        if(selectedProblem) {
+            const selectedProblemText = selectedProblem.value === "other" ? otherProblemText : selectedProblem.text;
+            const response = await reportProblem(packageData.id, selectedProblemText);
+            if (response.ok) {
+                goBack();
+            } else{
+                Alert.alert('הפעולה נכשלה');
+            }
+        }
     }
 
     return (
@@ -102,7 +112,8 @@ export const PackageProblemScreen: FC<NavigationInjectedProps<PackageDetailsScre
 
                 <SafeAreaView>
                     <Button
-                        onPress={reportProblem}
+                        disabled={!selectedProblem}
+                        onPress={sendReportProblem}
                         text={'שליחת דיווח'}
                     />
                 </SafeAreaView>

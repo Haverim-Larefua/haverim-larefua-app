@@ -27,7 +27,10 @@ const RadioButton = forwardRef((props, ref)=>{
             {buttons.map((button, index) =>{
                 return (
                         <TouchableOpacity style={{...safeRadioItemStyle,...styles.radioItem}} onPress={()=>{handleRadioButtonClick(index)}}>
-                            <TouchableOpacity style={{...styles.circle, borderColor: activeIndex === index ? color.palette.darkBlue: "#ACACAC"}} >
+                            <TouchableOpacity
+                                style={{...styles.circle, borderColor: activeIndex === index ? color.palette.darkBlue: "#ACACAC"}}
+                                onPress={()=>{handleRadioButtonClick(index)}}
+                            >
                                 {activeIndex === index ? (<View style={styles.checkedCircle} />) : (<View />)}
                             </TouchableOpacity>
                             <Text>{button.text}</Text>
