@@ -78,7 +78,7 @@ export const PackageDetailsScreen: FC<NavigationInjectedProps<PackageDetailsScre
     const { city, address } = packageData
     return (
       <View style={styles.detailsView}>
-        <View>
+        <View style={{width: '60%'}}>
           <Text text={city}/>
           <Text text={`${address}`} />
         </View>
@@ -90,12 +90,31 @@ export const PackageDetailsScreen: FC<NavigationInjectedProps<PackageDetailsScre
   const renderMoreDetails = (): ReactElement => {
     const { comments } = packageData
     return (
-      <View style={[styles.detailsView, { borderBottomWidth: 0 }]}>
+      <View style={[styles.detailsView, styles.bottomDetailsContainer]}>
         <View>
           <Text preset={'bold'} text={'פרטים נוספים'}/>
           <Text text={comments} />
+          {renderReportProblem()}
         </View>
       </View>
+    )
+  }
+
+  const onReportProblemPress = ()=>{
+    props.navigation.navigate('packageProblem', { packageData })
+  }
+
+  const renderReportProblem = (): ReactElement => {
+    return (
+        <View style={styles.problemContainer}>
+          <Button
+              style={styles.problemButton}
+              onPress={onReportProblemPress}
+          >
+            <Icon icon={'msg'}/>
+            <Text style={styles.problemButtonText}>דיווח על בעיה</Text>
+          </Button>
+        </View>
     )
   }
 
@@ -142,8 +161,7 @@ export const PackageDetailsScreen: FC<NavigationInjectedProps<PackageDetailsScre
 
 const styles = StyleSheet.create({
   buttonContainer: {
-    flex: 1,
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
   },
   container: {
     flex: 1
@@ -175,5 +193,33 @@ const styles = StyleSheet.create({
   },
   iconsContainer: {
     flexDirection: 'row',
-  }
+  },
+  bottomDetailsContainer: {
+    borderBottomWidth: 0,
+    flex: 1,
+    height: '100%'
+  },
+  problemButton: {
+    alignItems: "center",
+    borderColor: color.palette.lighterGrey,
+    borderWidth: 1,
+    paddingTop: 5,
+    paddingBottom: 5,
+    paddingRight: 10,
+    paddingLeft: 5,
+    borderRadius: 5,
+    display: "flex",
+    flexDirection: "row-reverse",
+    backgroundColor: "#FFF"
+  },
+  problemButtonText: {
+    color: color.palette.darkBlue,
+    fontWeight: "bold",
+    fontSize: 14,
+    paddingBottom: 3
+  },
+  problemContainer: {
+    flex: 1,
+    justifyContent: 'flex-end'
+  },
 })

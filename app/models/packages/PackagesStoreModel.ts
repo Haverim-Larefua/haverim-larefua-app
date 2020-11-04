@@ -62,6 +62,18 @@ export const PackagesStoreModel = types
       return response
     }
   }))
+  .actions(self => ({
+    async reportProblem(packageId: string, problem: string) {
+      const rootStore = getRoot(self)
+      // @ts-ignore
+      const userId = rootStore.profileModel.profile.id
+      const response = await self.environment.api.reportPackageProblem(packageId, userId, problem)
+      if (response.ok) {
+        await self.getAllPackages()
+      }
+      return response
+    }
+  }))
 
 type packageStoreType = Instance<typeof PackagesStoreModel>
 export interface PackageStore extends packageStoreType {}
