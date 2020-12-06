@@ -70,8 +70,8 @@ export class Api {
     return response;
   }
 
-  async addSignatureToPackage(parcelId: string, userId: string, signature: string): Promise<ApiResponse<any>> {
-    const response: ApiResponse<any> = await this.apisauce.put(`parcels/${parcelId}/signature/${userId}`, { signature });
+  async addSignatureToPackage(parcelId: string, userId: string, signature: string, notes: string): Promise<ApiResponse<any>> {
+    const response: ApiResponse<any> = await this.apisauce.put(`parcels/${parcelId}/signature/${userId}`, { signature, comment: notes });
     return response;
   }
 

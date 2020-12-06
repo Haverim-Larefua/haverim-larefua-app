@@ -38,7 +38,7 @@ export const PackageDeliveryConfirmationScreen: FC<NavigationInjectedProps<Packa
             showBorder={false}
             onDragEvent={(isDragging) => { !isSignature && setIsSignature(isDragging) }}
             onSaveEvent={async(base64Image) => {
-              const response = await addSignature(packageData.id, base64Image.encoded)
+              const response = await addSignature(packageData.id, base64Image.encoded, notes)
               if (response.ok) {
                 setShowPopUP(true)
               }

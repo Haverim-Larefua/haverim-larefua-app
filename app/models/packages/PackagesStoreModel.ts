@@ -51,11 +51,11 @@ export const PackagesStoreModel = types
     }
   }))
   .actions(self => ({
-    async addSignature(packageId: string, signature: string) {
+    async addSignature(packageId: string, signature: string, notes: string) {
       const rootStore = getRoot(self)
       // @ts-ignore
       const userId = rootStore.profileModel.profile.id
-      const response = await self.environment.api.addSignatureToPackage(packageId, userId, signature)
+      const response = await self.environment.api.addSignatureToPackage(packageId, userId, signature, notes)
       if (response.ok) {
         await self.getAllPackages()
       }
