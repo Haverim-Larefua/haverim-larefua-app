@@ -12,6 +12,7 @@ import { useStores } from "../../models/root-store"
 import { color, spacing } from "../../theme"
 import { isIphoneX } from "../../constants/constants"
 import { icons } from "../../components/icon/icons"
+import { AvailablePackagesModal } from "../AvailablePackagesModal"
 
 const initialLayout = { width: Dimensions.get('window').width }
 const HEADER_HEIGHT = 130
@@ -19,6 +20,7 @@ export interface PackagesListTabProps extends NavigationInjectedProps<{}> {}
 
 export const PackagesListTabs: FC<PackagesListTabProps> = observer(props => {
   const [index, setIndex] = useState(2)
+  const [showModal, showAvailablePackagesModal] = useState(false)
   const [scrollY] = useState(new Animated.Value(0))
   // do not remove spaces from texts below
   const [routes] = useState([
@@ -184,6 +186,9 @@ export const PackagesListTabs: FC<PackagesListTabProps> = observer(props => {
     >
       <Animated.View
         style={[styles.header, { opacity: headerOpacity, top: headerY }]}>
+        <TouchableOpacity onPress={() => showAvailablePackagesModal(true)}>
+          <Text> click me </Text>
+        </TouchableOpacity>
         <Icon style={styles.headerImage} icon="loginLogo" />
         <Text style={styles.headerText} >
           {`בוקר טוב ${firstName} ${lastName}`}
@@ -202,6 +207,11 @@ export const PackagesListTabs: FC<PackagesListTabProps> = observer(props => {
         />
       </Animated.View>
       {renderFooter()}
+      <AvailablePackagesModal
+        showModal={showModal}
+        onDismiss={() => showAvailablePackagesModal(false)}
+        navigation={props.navigation}
+      />
     </SafeAreaView>
   )
 })

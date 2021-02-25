@@ -26,8 +26,8 @@ export function Checkbox(props: CheckboxProps) {
       onPress={onPress}
       style={rootStyle}
     >
-      <Icon icon={props.value ? "checkboxOn" : "checkboxOff"} />
-      <Text text={props.text} tx={props.tx} numberOfLines={numberOfLines} style={LABEL} />
+      <Icon style={props.iconsStyle} icon={props.value ? "checkboxOn" : "checkboxOff"} />
+      {!!props.text && <Text text={props.text} tx={props.tx} numberOfLines={numberOfLines} style={LABEL} />}
     </TouchableOpacity>
   )
 }

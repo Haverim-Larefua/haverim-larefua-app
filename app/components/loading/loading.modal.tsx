@@ -6,16 +6,18 @@ interface LoadingModalProps {
 }
 
 class LoadingModal extends Component<LoadingModalProps> {
-   render() {
+
+	render() {
       return (
-            <Modal animationType = {"slide"} transparent = {false}
+            <Modal presentationStyle="fullScreen" animationType = {"slide"} transparent = {false}
                visible = {this.props.visible}
-               onRequestClose = {() => null }>
+               onRequestClose = {() => null }
+						>
                 <View style={styles.container}>
-					<View style={styles.content}>
-						<ActivityIndicator color="#95A5A6" size="large" />
-					</View>
-				</View>
+									<View style={styles.content}>
+										<ActivityIndicator color="#95A5A6" size="large" />
+									</View>
+							</View>
             </Modal>
       );
    }

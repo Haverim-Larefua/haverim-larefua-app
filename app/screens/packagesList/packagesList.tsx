@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Animated, Easing, FlatList, SafeAreaView, StyleSheet, View } from "react-native"
+import { Animated, Easing, FlatList, SafeAreaView, StyleSheet, TouchableOpacity, View, Text } from "react-native"
 import { NavigationInjectedProps } from "react-navigation"
 import { PackageData, PackageStatusAPI } from "./types"
 import { PackagesListItem } from "./packagesListItem"

@@ -1,12 +1,12 @@
 import React, { FC, ReactElement, useMemo } from "react"
 import { SafeAreaView, StyleSheet, View, Linking, TouchableOpacity } from "react-native"
+import { NavigationInjectedProps } from "react-navigation"
+import { observer } from "mobx-react-lite"
 import { Button, Header, Icon, Screen, Text } from "../../components"
 import { PackageData, PackageStatus, PackageStatusAPI } from "../packagesList/types"
 import { PackageStatusHeader } from "./packageStatusHeader"
-import { NavigationInjectedProps } from "react-navigation"
 import { color } from "../../theme"
 import { useStores } from "../../models/root-store"
-import { observer } from "mobx-react-lite"
 import { IconTypes } from "../../components/icon/icons"
 import { IS_IOS } from "../../constants/constants"
 
@@ -15,7 +15,7 @@ interface PackageDetailsScreenProps {
 }
 
 export const PackageDetailsScreen: FC<NavigationInjectedProps<PackageDetailsScreenProps>> = observer(props => {
-  const packageData = props.navigation.state.params.packageData
+  const { packageData} = props.navigation.state.params
   const goBack = useMemo(() => () => props.navigation.goBack(null), [props.navigation])
 
   const { packagesStore: { updatePackagesStatus } } = useStores()
