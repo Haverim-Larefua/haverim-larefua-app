@@ -10,14 +10,14 @@ import ErrorModal from '../components/modal-error/error.modal';
 import LoadingModal from '../components/loading/loading.modal';
 import { useStores } from "../models/root-store";
 
-export interface LoginProps extends NavigationInjectedProps<{}> {}
+export interface LoginProps extends NavigationInjectedProps<{}> { }
 
 const ERROR_MESSAGE = 'אירעה שגיאה.\nאנה נסה שוב מאוחר יותר.';
 export const LoginScreen: React.FunctionComponent<LoginProps> = observer(() => {
-  const { navigationStore, profileModel: { login, token, autoLogin, silentLogin } } = useStores();
+  const { navigationStore, profileModel: { login, token, autoLogin, silentLogin, profile } } = useStores();
 
-  const [username, setUserName] = React.useState<string>(__DEV__ ? 'haver3' : '');
-  const [password, setPassword] = React.useState<string>(__DEV__ ? '0545718472' : '');
+  const [username, setUserName] = React.useState<string>(__DEV__ ? 'haver25' : '');
+  const [password, setPassword] = React.useState<string>(__DEV__ ? '0548517675' : '');
   const [isErrorModalDisplayed, setErrorModal] = React.useState<boolean>(false);
   const [loginError, setLoginError] = React.useState<boolean>(false);
   const [isLoadingModalDisplayed, setLoadingModal] = React.useState<boolean>(false);
@@ -59,54 +59,65 @@ export const LoginScreen: React.FunctionComponent<LoginProps> = observer(() => {
     }
   };
 
+
   const handleLoginRequest = (loginResponse: any): void => {
-	if (loginResponse.ok) {
+    if (loginResponse.ok) {
       displayLoadingModal(false);
-      navigationStore.dispatch(NavigationActions.navigate({ routeName: 'packagesTabList' }));
-    } else if (loginResponse.status === 401) {
-        setLoginError(true);
-        setTimeout(() => {
-          setLoginError(false);
-        }, 4000);
+      debugger;
+      if (profile?.new) {
+        navigationStore.dispatch(NavigationActions.navigate({ routeName: 'resetPasswordFirstLogin' }));
       } else {
-        displayErrorModal();
+        navigationStore.dispatch(NavigationActions.navigate({ routeName: 'packagesTabList' }));
       }
+
+    } else if (loginResponse.status === 401) {
+      setLoginError(true);
+      setTimeout(() => {
+        setLoginError(false);
+      }, 4000);
+    } else {
+      displayErrorModal();
+    }
   };
 
+  const forgotPassword = () => {
+    navigationStore.dispatch(NavigationActions.navigate({ routeName: 'forgotPassword' }));
+  }
+
   const renderErrorLogin = (): React.ReactElement => loginError && (
-      <View style={styles.errorMessage}>
-        <Text style={styles.loginError}>שם משתמש או סיסמה לא נכונים</Text>
-      </View>);
+    <View style={styles.errorMessage}>
+      <Text style={styles.loginError}>שם משתמש או סיסמה לא נכונים</Text>
+    </View>);
 
   const renderTextFields = (): React.ReactElement => (
-      <View>
-        <TextField
-          value={username}
-          inputStyle={{ paddingHorizontal: 5 }}
-          onChangeText={(val) => setUserName(val)}
-          label="שם משתמש.ת"
-        />
-        <TextField
-          inputStyle={{ paddingHorizontal: 5 }}
-          secureTextEntry
-          onChangeText={(val) => setPassword(val)}
-          value={password}
-          style={styles.passwordTextField}
-          label="סיסמה"
-        />
-      </View>);
+    <View>
+      <TextField
+        value={username}
+        inputStyle={{ paddingHorizontal: 5 }}
+        onChangeText={(val) => setUserName(val)}
+        label="שם משתמש.ת"
+      />
+      <TextField
+        inputStyle={{ paddingHorizontal: 5 }}
+        secureTextEntry
+        onChangeText={(val) => setPassword(val)}
+        value={password}
+        style={styles.passwordTextField}
+        label="סיסמה"
+      />
+    </View>);
 
   const renderCheckbox = (): React.ReactElement => (
-      <View style={styles.rememberMeContainer}>
-        <Toggle initial={savePass}>
-          {({ on, toggle }) => {
-            setSavePass(on);
-            return (<Checkbox value={on} onToggle={toggle} text='זכור אותי' />);
-          }}
-        </Toggle>
-      </View>);
+    <View style={styles.rememberMeContainer}>
+      <Toggle initial={savePass}>
+        {({ on, toggle }) => {
+          setSavePass(on);
+          return (<Checkbox value={on} onToggle={toggle} text='זכור אותי' />);
+        }}
+      </Toggle>
+    </View>);
 
-  const renderErrorModal = (): React.ReactElement => <ErrorModal visible={isErrorModalDisplayed} message={errorMessage} handelClose={displayErrorModal}/>;
+  const renderErrorModal = (): React.ReactElement => <ErrorModal visible={isErrorModalDisplayed} message={errorMessage} handelClose={displayErrorModal} />;
 
   const renderLoadingModal = (): React.ReactElement => <LoadingModal visible={isLoadingModalDisplayed} />;
 
@@ -119,7 +130,8 @@ export const LoginScreen: React.FunctionComponent<LoginProps> = observer(() => {
         {renderCheckbox()}
         {renderLoadingModal()}
         {renderErrorModal()}
-        <Button text="כניסה" onPress={loginSequence}/>
+        <Button text="כניסה" onPress={loginSequence} />
+        <Text style={styles.forgotPassword} onPress={forgotPassword}>שכחתי סיסמא</Text>
       </Screen>
     </View>
   );
@@ -146,16 +158,23 @@ const styles = StyleSheet.create({
     width: '100%'
   },
   errorMessage: {
-	backgroundColor: 'rgb(253, 228, 227)',
-	height: 50,
-	display: 'flex',
-	alignItems: "center",
-	justifyContent: "center",
-	marginBottom: 30,
-	borderRadius: 3
+    backgroundColor: 'rgb(253, 228, 227)',
+    height: 50,
+    display: 'flex',
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 30,
+    borderRadius: 3
   },
   loginError: {
-	color: 'rgb(198, 44, 44)',
-	fontSize: 18
-  }
+    color: 'rgb(198, 44, 44)',
+    fontSize: 18
+  },
+  forgotPassword: {
+    fontSize: 16,
+    color: "#1d1d1f",
+    textAlign: "center",
+    marginTop: 20,
+    textDecorationLine: "underline",
+  },
 });

@@ -6,12 +6,22 @@ import {
   PackagesListTabs,
   PackageProblemScreen
 } from "../screens"
+import { ForgotPasswordScreen } from "../screens/reset-password/forgot-password"
+import { ResetPasswordScreen } from "../screens/reset-password/reset-password"
+import { ResetPasswordFirstLoginScreen } from "../screens/reset-password/reset-password-first-login"
+import { SaveNewPasswordScreen } from "../screens/reset-password/save-new-password"
+import { UpdatePasswordSucceededScreen } from "../screens/reset-password/update-password-succeeded"
 
 export const PrimaryNavigator = createNativeStackNavigator(
   {
     // welcome: { screen: WelcomeScreen },
     // demo: { screen: DemoScreen },
     login: { screen: LoginScreen },
+    forgotPassword: { screen: ForgotPasswordScreen },
+    resetPassword: { screen: ResetPasswordScreen },
+    saveNewPasswordPassword: { screen: SaveNewPasswordScreen },
+    resetPasswordFirstLogin: { screen: ResetPasswordFirstLoginScreen },
+    updatePasswordSucceeded: { screen: UpdatePasswordSucceededScreen },
     // packagesList: { screen: PackagesListScreen },
     packagesTabList: { screen: PackagesListTabs },
     packageDetails: { screen: PackageDetailsScreen },
