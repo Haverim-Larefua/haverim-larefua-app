@@ -34,7 +34,7 @@ export const SaveNewPasswordScreen: React.FunctionComponent<SaveNewPasswordProps
         const runResetPasswordRequest = PromiseTimeout(10000, resetPasswordRequest);
 
         try {
-            const response = await runResetPasswordRequest;
+        //    const response = await runResetPasswordRequest;
             displayLoadingModal(false);
             navigationStore.dispatch(NavigationActions.navigate({ routeName: 'updatePasswordSucceeded' }));
         } catch (error) {
@@ -54,9 +54,16 @@ export const SaveNewPasswordScreen: React.FunctionComponent<SaveNewPasswordProps
                 onChangeText={(val) => setPassword(val)}
                 value={password}
                 style={styles.passwordTextField}
-                label="סיסמה"
+                label="סיסמא חדשה"
             />
-            <Text text="הסיסמא חיבת להכיל למעלה מ 6 תוים ולכלול אותיות ומספרים" style={styles.passwordWarningTextField}></Text>
+            <Text preset="secondary" text="הסיסמא חיבת להכיל למעלה מ 6 תוים ולכלול אותיות ומספרים"></Text>
+            <TextField
+                secureTextEntry
+                onChangeText={(val) => setPassword(val)}
+                value={password}
+                style={styles.passwordTextField}
+                label="הקלידו שוב את הסיסמא"
+            />
         </View>);
 
     return (
@@ -65,8 +72,7 @@ export const SaveNewPasswordScreen: React.FunctionComponent<SaveNewPasswordProps
                 <Icon style={styles.logo} icon='loginLogo' />
                 <Text preset={'bold'} style={styles.title} text={'בחירת סיסמא חדשה'} />
                 {renderPasswordFields()}
-                {renderPasswordFields()}
-                <Button text="שמירת סיסמא" onPress={updatePassword} />
+                <Button text="שמירת סיסמא" style={styles.button} onPress={updatePassword} />
             </Screen>
         </View>
     );
@@ -91,10 +97,11 @@ const styles = StyleSheet.create({
         fontSize: 24
     },
     passwordTextField: {
-        marginTop: 14
+        marginTop: 10
     },
-    passwordWarningTextField: {
-        marginBottom: 22
-      },
+    button: {
+        marginTop: 20,
+    }
+
 
 });

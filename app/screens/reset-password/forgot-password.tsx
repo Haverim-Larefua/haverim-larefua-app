@@ -34,15 +34,15 @@ export const ForgotPasswordScreen: React.FunctionComponent<ForgotPasswordProps> 
         const runForgotPasswordRequest = PromiseTimeout(10000, forgotPasswordRequest);
 
         try {
-            const response = await runForgotPasswordRequest;
-            displayLoadingModal(false);
-            if (response.ok) {
+            // const response = await runForgotPasswordRequest;
+            // displayLoadingModal(false);
+            // if (response.ok) {
                 navigationStore.dispatch(NavigationActions.navigate({ routeName: 'resetPassword' }));
-            } else {
-                setTimeout(() => {
-                    displayErrorModal();
-                }, 1000);
-            }
+            // } else {
+            //     setTimeout(() => {
+            //         displayErrorModal();
+            //     }, 1000);
+            // }
 
         } catch (error) {
             console.log(`error occured: ${error}`);

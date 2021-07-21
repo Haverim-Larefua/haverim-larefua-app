@@ -19,7 +19,7 @@ export const PrimaryNavigator = createNativeStackNavigator(
     login: { screen: LoginScreen },
     forgotPassword: { screen: ForgotPasswordScreen },
     resetPassword: { screen: ResetPasswordScreen },
-    saveNewPasswordPassword: { screen: SaveNewPasswordScreen },
+    saveNewPassword: { screen: SaveNewPasswordScreen },
     resetPasswordFirstLogin: { screen: ResetPasswordFirstLoginScreen },
     updatePasswordSucceeded: { screen: UpdatePasswordSucceededScreen },
     // packagesList: { screen: PackagesListScreen },
