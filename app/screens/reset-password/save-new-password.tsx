@@ -17,7 +17,7 @@ export const SaveNewPasswordScreen: React.FunctionComponent<SaveNewPasswordProps
     const [password, setPassword] = React.useState<string>();
     const [confirmPassword, setConfirmPassword] = React.useState<string>();
     const [confirmError, setConfirmError] = React.useState<string>();
-    const [requierdError, setRequierdError] = React.useState<string>();
+    const [passwordError, setPasswordError] = React.useState<string>();
     const [isLoadingModalDisplayed, setLoadingModal] = React.useState<boolean>(false);
     const [errorMessage, setErrorMessage] = React.useState<string>(undefined);
     const [isErrorModalDisplayed, setErrorModal] = React.useState<boolean>(false);
@@ -32,7 +32,14 @@ export const SaveNewPasswordScreen: React.FunctionComponent<SaveNewPasswordProps
     const updatePassword = async () => {
 
         if (!password || password.trim() === "") {
-            setRequierdError("שדה חובה");
+            setPasswordError("שדה חובה");
+            return;
+        }
+
+        const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[0-9])(?=.{6,})", 'i');
+
+        if(!strongRegex.test(password)) {
+            setPasswordError("סיסמא לא תקינה");
             return;
         }
 
@@ -71,9 +78,9 @@ export const SaveNewPasswordScreen: React.FunctionComponent<SaveNewPasswordProps
                 label="סיסמא חדשה"
             />
             <Text preset="secondary" text="הסיסמא חיבת להכיל למעלה מ 6 תוים ולכלול אותיות ומספרים"></Text>
-            {!!requierdError && (
+            {!!passwordError && (
                 <Text style={{ color: 'red' }}>
-                    {requierdError}
+                    {passwordError}
                 </Text>
             )}
             <TextField
