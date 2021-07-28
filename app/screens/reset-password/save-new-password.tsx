@@ -15,6 +15,9 @@ export const SaveNewPasswordScreen: React.FunctionComponent<SaveNewPasswordProps
 
     const { navigationStore, profileModel: { resetPassword } } = useStores();
     const [password, setPassword] = React.useState<string>();
+    const [confirmPassword, setConfirmPassword] = React.useState<string>();
+    const [confirmError, setConfirmError] = React.useState<string>();
+    const [requierdError, setRequierdError] = React.useState<string>();
     const [isLoadingModalDisplayed, setLoadingModal] = React.useState<boolean>(false);
     const [errorMessage, setErrorMessage] = React.useState<string>(undefined);
     const [isErrorModalDisplayed, setErrorModal] = React.useState<boolean>(false);
@@ -28,13 +31,24 @@ export const SaveNewPasswordScreen: React.FunctionComponent<SaveNewPasswordProps
 
     const updatePassword = async () => {
 
+        if (!password || password.trim() === "") {
+            setRequierdError("שדה חובה");
+            return;
+        }
+
+        if (!confirmPassword || confirmPassword !== password) {
+            setConfirmError("אין התאמה");
+            return;
+        }
+
+
         displayLoadingModal(true);
 
         const resetPasswordRequest = resetPassword(password);
         const runResetPasswordRequest = PromiseTimeout(10000, resetPasswordRequest);
 
         try {
-        //    const response = await runResetPasswordRequest;
+            //    const response = await runResetPasswordRequest;
             displayLoadingModal(false);
             navigationStore.dispatch(NavigationActions.navigate({ routeName: 'updatePasswordSucceeded' }));
         } catch (error) {
@@ -57,13 +71,23 @@ export const SaveNewPasswordScreen: React.FunctionComponent<SaveNewPasswordProps
                 label="סיסמא חדשה"
             />
             <Text preset="secondary" text="הסיסמא חיבת להכיל למעלה מ 6 תוים ולכלול אותיות ומספרים"></Text>
+            {!!requierdError && (
+                <Text style={{ color: 'red' }}>
+                    {requierdError}
+                </Text>
+            )}
             <TextField
                 secureTextEntry
-                onChangeText={(val) => setPassword(val)}
-                value={password}
+                onChangeText={(val) => setConfirmPassword(val)}
+                value={confirmPassword}
                 style={styles.passwordTextField}
                 label="הקלידו שוב את הסיסמא"
             />
+            {!!confirmError && (
+                <Text style={{ color: 'red' }}>
+                    {confirmError}
+                </Text>
+            )}
         </View>);
 
     return (
