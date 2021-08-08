@@ -69,7 +69,7 @@ export const ForgotPasswordScreen: React.FunctionComponent<ForgotPasswordProps> 
                 <Icon style={styles.loginLogo} icon='loginLogo' />
                 {renderErrorLogin()}
                 <Text preset={'headerCenter'} text={'שכחתי סיסמא'} />
-                <Text preset={'secondaryCenter'} text={'הכניסו את מספר הניד שלכם\n ונשלח אליכם קוד לאיפוס סיסמא'} />
+                <Text preset={'secondaryCenter'} text={'הכניסו את מספר הניד שמעודכן במערכת\n ונשלח אליכם קוד לאיפוס סיסמא'} />
                 <TextField keyboardType={'phone-pad'} onChangeText={(val) => setPhoneNumber(val)} />
                 <Text text='מספר טלפון' />
                 <Button style={styles.sendButton}  text="שלחו לי קוד לנייד" onPress={sendSMS} />
