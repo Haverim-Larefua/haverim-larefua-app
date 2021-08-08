@@ -147,7 +147,8 @@ export class Api {
     return response;
   }
 
-  async forgotPassword(id: string, phoneNumber: string): Promise<ApiResponse<any>> {
-    return await this.apisauce.put(`/users/${id}/forgotPassword`, { phoneNumber });
+  async forgotPassword(phoneNumber: string): Promise<ApiResponse<any>> {
+    debugger;
+    return await this.apisauce.put(`/auth/forgotPassword`, { phoneNumber });
   }
 }

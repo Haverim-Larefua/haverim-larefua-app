@@ -63,7 +63,6 @@ export const LoginScreen: React.FunctionComponent<LoginProps> = observer(() => {
   const handleLoginRequest = (loginResponse: any): void => {
     if (loginResponse.ok) {
       displayLoadingModal(false);
-      debugger;
       if (profile?.new) {
         navigationStore.dispatch(NavigationActions.navigate({ routeName: 'resetPasswordFirstLogin' }));
       } else {

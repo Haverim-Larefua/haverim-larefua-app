@@ -55,7 +55,7 @@ export const SaveNewPasswordScreen: React.FunctionComponent<SaveNewPasswordProps
         const runResetPasswordRequest = PromiseTimeout(10000, resetPasswordRequest);
 
         try {
-            //    const response = await runResetPasswordRequest;
+            const response = await runResetPasswordRequest;
             displayLoadingModal(false);
             navigationStore.dispatch(NavigationActions.navigate({ routeName: 'updatePasswordSucceeded' }));
         } catch (error) {
@@ -66,6 +66,7 @@ export const SaveNewPasswordScreen: React.FunctionComponent<SaveNewPasswordProps
             }, 1000);
         }
     };
+
 
     const renderPasswordFields = (): React.ReactElement => (
         <View>
@@ -133,6 +134,5 @@ const styles = StyleSheet.create({
     button: {
         marginTop: 20,
     }
-
-
+  
 });

@@ -34,11 +34,11 @@ export const ResetPasswordScreen: React.FunctionComponent<ResetPasswordProps> = 
 
         displayLoadingModal(true);
 
-        // const resetPasswordRequest = login("aa", password, false);
-        // const runResetPasswordRequest = PromiseTimeout(10000, resetPasswordRequest);
+        const resetPasswordRequest = login("aa", password, false);
+        const runResetPasswordRequest = PromiseTimeout(10000, resetPasswordRequest);
 
         try {
-         //   const response = await runResetPasswordRequest;
+            const response = await runResetPasswordRequest;
             displayLoadingModal(false);
             navigationStore.dispatch(NavigationActions.navigate({ routeName: 'saveNewPassword' }));
         } catch (error) {

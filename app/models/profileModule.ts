@@ -64,6 +64,10 @@ export const profileModel = types
   }))
   .actions(self => ({
     async forgotPassword(phoneNumber: string) {
-      return await self.environment.api.forgotPassword(self.profile.id, phoneNumber);
+      const response = await self.environment.api.forgotPassword(phoneNumber);
+      if (response.ok) {
+        self.setProfile(response.data.user);
+      }
+      return response;
     }
   }))

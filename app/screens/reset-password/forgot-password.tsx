@@ -17,6 +17,7 @@ export const ForgotPasswordScreen: React.FunctionComponent<ForgotPasswordProps> 
     const [phoneNumber, setPhoneNumber] = React.useState<string>();
     const [isLoadingModalDisplayed, setLoadingModal] = React.useState<boolean>(false);
     const [errorMessage, setErrorMessage] = React.useState<string>(undefined);
+    const [loginError, setLoginError] = React.useState<boolean>(false);
     const [isErrorModalDisplayed, setErrorModal] = React.useState<boolean>(false);
 
     const displayErrorModal = () => {
@@ -34,15 +35,19 @@ export const ForgotPasswordScreen: React.FunctionComponent<ForgotPasswordProps> 
         const runForgotPasswordRequest = PromiseTimeout(10000, forgotPasswordRequest);
 
         try {
-            // const response = await runForgotPasswordRequest;
-            // displayLoadingModal(false);
-            // if (response.ok) {
+            const response = await runForgotPasswordRequest;
+            displayLoadingModal(false);
+            if (response.ok) {
                 navigationStore.dispatch(NavigationActions.navigate({ routeName: 'resetPassword' }));
-            // } else {
-            //     setTimeout(() => {
-            //         displayErrorModal();
-            //     }, 1000);
-            // }
+            }  
+             else if (response.status === 401) {
+                setLoginError(true);
+                setTimeout(() => {
+                  setLoginError(false);
+                }, 4000);
+              } else {
+                displayErrorModal();
+              }
 
         } catch (error) {
             console.log(`error occured: ${error}`);
@@ -53,12 +58,16 @@ export const ForgotPasswordScreen: React.FunctionComponent<ForgotPasswordProps> 
         }
     };
 
-
+    const renderErrorLogin = (): React.ReactElement => loginError && (
+        <View style={styles.errorMessage}>
+          <Text style={styles.loginError}>מספר הטלפון לא מופיע במערכת</Text>
+        </View>);
 
     return (
         <View style={styles.container}>
             <Screen preset='scroll' backgroundColor={color.palette.white}>
                 <Icon style={styles.loginLogo} icon='loginLogo' />
+                {renderErrorLogin()}
                 <Text preset={'headerCenter'} text={'שכחתי סיסמא'} />
                 <Text preset={'secondaryCenter'} text={'הכניסו את מספר הניד שלכם\n ונשלח אליכם קוד לאיפוס סיסמא'} />
                 <TextField keyboardType={'phone-pad'} onChangeText={(val) => setPhoneNumber(val)} />
@@ -85,6 +94,20 @@ const styles = StyleSheet.create({
     },
     sendButton: {
         marginTop: 30
-    }
+    },
+    errorMessage: {
+        backgroundColor: 'rgb(253, 228, 227)',
+        height: 50,
+        display: 'flex',
+        alignItems: "center",
+        justifyContent: "center",
+        marginBottom: 30,
+        borderRadius: 3
+      },
+      loginError: {
+        color: 'rgb(198, 44, 44)',
+        fontSize: 18
+      }
+
 
 });
