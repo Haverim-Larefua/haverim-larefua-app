@@ -13,7 +13,9 @@ export interface ResetPasswordProps extends NavigationInjectedProps<{}> { }
 export const ResetPasswordScreen: React.FunctionComponent<ResetPasswordProps> = observer(() => {
     const ERROR_MESSAGE = 'אירעה שגיאה.\nאנה נסה שוב מאוחר יותר.';
 
-    const { navigationStore, profileModel: { login } } = useStores();
+    const { navigationStore, profileModel: { login, profile: {
+       username
+      } } } = useStores();
     const [password, setPassword] = React.useState<string>();
     const [isLoadingModalDisplayed, setLoadingModal] = React.useState<boolean>(false);
     const [errorMessage, setErrorMessage] = React.useState<string>(undefined);
@@ -34,7 +36,7 @@ export const ResetPasswordScreen: React.FunctionComponent<ResetPasswordProps> = 
 
         displayLoadingModal(true);
 
-        const resetPasswordRequest = login("aa", password, false);
+        const resetPasswordRequest = login(username, password, false);
         const runResetPasswordRequest = PromiseTimeout(10000, resetPasswordRequest);
 
         try {

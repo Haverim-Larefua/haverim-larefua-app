@@ -66,7 +66,7 @@ export const profileModel = types
     async forgotPassword(phoneNumber: string) {
       const response = await self.environment.api.forgotPassword(phoneNumber);
       if (response.ok) {
-        self.setProfile(response.data.user);
+        self.setProfile(response.data);
       }
       return response;
     }
