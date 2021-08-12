@@ -81,8 +81,8 @@ ignite-project
 
 ### Running simulators with local server
 
-At file `api-config.ts` -> inside `DEFAULT_API_CONFIG` obj -> set `url` field to:
-- **iOS:**  your local host e.g. `http://localhost:3001`
+At file `api-config.ts` -> inside `DEFAULT_API_CONFIG` obj -> set `url` field to:<br />
+- **iOS:**  your local host e.g. `http://localhost:3001`<br />
 - **Android:**  Android special alias i.e. `http://10.0.2.2`
 
 ### ./app directory
