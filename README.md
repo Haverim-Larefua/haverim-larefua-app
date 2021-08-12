@@ -77,7 +77,7 @@ ignite-project
     3. Scroll down to `Search Paths`
     4. Double click to edit the `Header Search Paths`
     5. Add the following entry (click ‘+’): ${SRCROOT}/../../../ios/Pods/Headers. Make sure to set it to `recursive`.
-    6. Clean (cmd + shift + K) and re-build (cmd + B)
+    6. Clean (cmd + shift + K) and re-build (cmd + B).
 
 ### ./app directory
 
