@@ -17,6 +17,7 @@ export const ResetPasswordFirstLoginScreen: React.FunctionComponent<ResetPasswor
   const [isLoadingModalDisplayed, setLoadingModal] = React.useState<boolean>(false);
   const [errorMessage, setErrorMessage] = React.useState<string>(undefined);
   const [isErrorModalDisplayed, setErrorModal] = React.useState<boolean>(false);
+  const [passwordError, setPasswordError] = React.useState<string>();
 
   const displayErrorModal = () => {
     setErrorMessage(ERROR_MESSAGE);
@@ -26,6 +27,18 @@ export const ResetPasswordFirstLoginScreen: React.FunctionComponent<ResetPasswor
   const displayLoadingModal = (show: boolean) => setLoadingModal(show);
 
   const updatePassword = async () => {
+
+    if (!password || password.trim() === "") {
+      setPasswordError("שדה חובה");
+      return;
+    }
+
+    const strongRegex = new RegExp("^(?=.*[a-z])(?=.*[0-9])(?=.{6,})", 'i');
+
+    if (!strongRegex.test(password)) {
+      setPasswordError("סיסמא לא תקינה");
+      return;
+    }
 
     displayLoadingModal(true);
 
@@ -56,6 +69,11 @@ export const ResetPasswordFirstLoginScreen: React.FunctionComponent<ResetPasswor
         label="סיסמה"
       />
       <Text text="הסיסמא חיבת להכיל למעלה מ 6 תוים ולכלול אותיות ומספרים" style={styles.passwordWarningTextField}></Text>
+      {!!passwordError && (
+        <Text style={{ color: 'red' }}>
+          {passwordError}
+        </Text>
+      )}
     </View>);
 
   return (
