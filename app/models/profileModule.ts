@@ -56,8 +56,7 @@ export const profileModel = types
     async resetPassword(password: string) {
       const response =  await self.environment.api.resetPassword(self.profile.id, password);
       if(response.ok) {
-        self.profile.new = false;
-        self.setProfile({...self.profile});
+        self.setProfile({...self.profile, new : false});
       }
       return response;
     }
