@@ -50,5 +50,23 @@ export const profileModel = types
       // @ts-ignore
       const packagesResponse = await root.packagesStore.getAllPackages();
       return packagesResponse
+    },
+  }))
+  .actions(self => ({
+    async resetPassword(password: string) {
+      const response =  await self.environment.api.resetPassword(self.profile.id, password);
+      if(response.ok) {
+        self.setProfile({...self.profile, new : false});
+      }
+      return response;
+    }
+  }))
+  .actions(self => ({
+    async forgotPassword(phoneNumber: string) {
+      const response = await self.environment.api.forgotPassword(phoneNumber);
+      if (response.ok) {
+        self.setProfile(response.data);
+      }
+      return response;
     }
   }))

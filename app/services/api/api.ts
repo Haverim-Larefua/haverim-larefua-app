@@ -49,13 +49,13 @@ export class Api {
     this.apisauce.setHeader('Authorization', `Bearer ${token}`);
   }
 
-  async login(username: string, password: string): Promise<ApiResponse<any>> {
-    const response: ApiResponse<any> = await this.apisauce.post(`/auth/user`, { username, password });
+  async login(username: string, password: string): Promise<ApiResponse<Types.IAuthUserResponse>> {
+    const response: ApiResponse<Types.IAuthUserResponse> = await this.apisauce.post(`/auth/user`, { username, password });
     return response;
   }
 
   async updatePushToken(userId: string, token: string): Promise<ApiResponse<any>> {
-    const response: ApiResponse<any> = await this.apisauce.put(`/push-token/update/${userId}`, {token});
+    const response: ApiResponse<any> = await this.apisauce.put(`/push-token/update/${userId}`, { token });
     return response;
   }
 
@@ -134,5 +134,20 @@ export class Api {
     } catch {
       return { kind: "bad-data" };
     }
+  }
+
+  async resetPassword(id: string, password: string): Promise<any> {
+    const response: ApiResponse<any> = await this.apisauce.put(`/users/${id}/resetPassword`, { password });
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response);
+      if (problem) return problem;
+    }
+
+    return response;
+  }
+
+  async forgotPassword(phoneNumber: string): Promise<ApiResponse<any>> {
+    return await this.apisauce.put(`/auth/forgotPassword`, { phoneNumber });
   }
 }

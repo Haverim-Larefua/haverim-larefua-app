@@ -28,6 +28,11 @@ export const presets = {
    */
   secondary: { ...BASE, fontSize: 14 } as TextStyle,
 
+    /**
+   * A smaller piece of secondard information with textAlign center.
+   */
+  secondaryCenter: { ...BASE, fontSize: 14, textAlign: 'center' } as TextStyle,
+
   /**
    * A bold version of the default text.
    */
@@ -37,6 +42,12 @@ export const presets = {
    * Large headers.
    */
   header: { ...BASE, fontSize: 24, fontWeight: "bold" } as TextStyle,
+
+    /**
+   * Large headers.
+   */
+    headerCenter: { ...BASE, fontSize: 24, fontWeight: "bold", textAlign: "center" } as TextStyle,
+
 
   /**
    * Field labels that appear on forms above the inputs.

@@ -19,8 +19,8 @@ export interface ApiConfig {
  * The default configuration for the app.
  */
 export const DEFAULT_API_CONFIG: ApiConfig = {
-  url: API_URL || "https://jsonplaceholder.typicode.com",
+  //url: API_URL || "https://jsonplaceholder.typicode.com",
   // url: "http://localhost:3001" || "https://jsonplaceholder.typicode.com",
-  // url: "http://localhost:3001",
+ url: "http://10.0.2.2:3001",
   timeout: 10000,
 }
