@@ -11,7 +11,7 @@ export interface ResetPasswordProps extends NavigationInjectedProps<{}> { }
 
 
 export const ResetPasswordScreen: React.FunctionComponent<ResetPasswordProps> = observer(() => {
-    const ERROR_MESSAGE = 'אירעה שגיאה.\nאנה נסה שוב מאוחר יותר.';
+    const ERROR_MESSAGE = 'אירעה שגיאה.\nאנא נסה.י שוב מאוחר יותר.';
 
     const { navigationStore, profileModel: { login, profile: {
        username

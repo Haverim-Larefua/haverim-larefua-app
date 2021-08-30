@@ -11,7 +11,7 @@ export interface SaveNewPasswordProps extends NavigationInjectedProps<{}> { }
 
 
 export const SaveNewPasswordScreen: React.FunctionComponent<SaveNewPasswordProps> = observer(() => {
-    const ERROR_MESSAGE = 'אירעה שגיאה.\nאנה נסה שוב מאוחר יותר.';
+    const ERROR_MESSAGE = 'אירעה שגיאה.\nאנא נסה.י שוב מאוחר יותר.';
 
     const { navigationStore, profileModel: { resetPassword } } = useStores();
     const [password, setPassword] = React.useState<string>();

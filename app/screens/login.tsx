@@ -12,7 +12,7 @@ import { useStores } from "../models/root-store";
 
 export interface LoginProps extends NavigationInjectedProps<{}> { }
 
-const ERROR_MESSAGE = 'אירעה שגיאה.\nאנה נסה שוב מאוחר יותר.';
+const ERROR_MESSAGE = 'אירעה שגיאה.\nאנא נסה.י שוב מאוחר יותר.';
 export const LoginScreen: React.FunctionComponent<LoginProps> = observer(() => {
   const { navigationStore, profileModel: { login, token, autoLogin, silentLogin, profile } } = useStores();
 

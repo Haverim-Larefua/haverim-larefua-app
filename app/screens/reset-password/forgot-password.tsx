@@ -11,7 +11,7 @@ export interface ForgotPasswordProps extends NavigationInjectedProps<{}> { }
 
 
 export const ForgotPasswordScreen: React.FunctionComponent<ForgotPasswordProps> = observer(() => {
-    const ERROR_MESSAGE = 'אירעה שגיאה.\nאנה נסה שוב מאוחר יותר.';
+    const ERROR_MESSAGE = 'אירעה שגיאה.\nאנא נסה.י שוב מאוחר יותר.';
 
     const { navigationStore, profileModel: { forgotPassword } } = useStores();
     const [phoneNumber, setPhoneNumber] = React.useState<string>();
