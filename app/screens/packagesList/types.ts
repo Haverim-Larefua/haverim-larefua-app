@@ -8,7 +8,8 @@ export interface PackageData {
     city: string
     comments: string
     phone: string
-    lastUpdateDate: any
+    lastUpdateDate: any;
+    needDelivery: boolean;
 }
 
 export interface Address {
