@@ -2,7 +2,7 @@ import React, { useState, FC, useEffect } from "react";
 import { Modal, ScrollView, StyleSheet, TouchableOpacity, View } from "react-native"
 import { NavigationInjectedProps, SafeAreaView } from "react-navigation";
 import { observer } from 'mobx-react-lite';
-import { Icon, Text } from "../components";
+import { Icon, TabContainer, Text } from "../components";
 import { palette } from "../theme/palette";
 import { useStores } from "../models/root-store"
 import { typography } from "../theme"
@@ -17,15 +17,42 @@ export interface AvailablePackagesProps extends NavigationInjectedProps<{}> {
   onDismiss: () => void
 }
 
+const DATA = [
+  {
+    city: 'רמת גן',
+    street: 'רחוב הרואה',
+    id: '1'
+  },
+  {
+    city: 'רמת גן',
+    street: 'רחוב המעגל',
+    id: '2'
+  },
+  {
+    city: 'רמת גן',
+    street: 'רחוב אבא הלל סילבר',
+    id: '3'
+  },
+  {
+    city: 'גבעתיים',
+    street: 'רחוב ויצמן',
+    id: '4'
+  },
+  {
+    city: 'גבעתיים',
+    street: 'רחוב כורזין',
+    id: '5'
+  }
+]
 export const AvailablePackagesModal: FC<AvailablePackagesProps> = observer(props => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
    const [isLoading, setLoaderStatus] = useState(true);
 
   const {
-      packagesStore: { needDelivery },
-      profileModel: {
-          profile: { firstName, lastName }
-      }
+    packagesStore: { readyToPickUp, deliveredPackages, inDistribution, updatePackagesStatus },
+    profileModel: { profile: {
+      firstName, lastName
+    } }
   } = useStores();
 
   useEffect(() => {
@@ -40,82 +67,58 @@ export const AvailablePackagesModal: FC<AvailablePackagesProps> = observer(props
   }, [props.showModal]);
 
   return (
-      <Modal
-          animated
-          presentationStyle="fullScreen"
-          visible={modalIsOpen}
-          onRequestClose={props.onDismiss}
-          onDismiss={props.onDismiss}
+    <Modal animated presentationStyle="fullScreen" visible={modalIsOpen} onRequestClose={props.onDismiss} onDismiss={props.onDismiss}>
+      <SafeAreaView
+        forceInset={{ bottom: 'never' }}
+        style={styles.container}
       >
-          <SafeAreaView forceInset={{ bottom: 'never' }} style={styles.container}>
-              <View style={{ flex: 1, marginHorizontal: 20 }}>
-                  <TouchableOpacity onPress={() => setModalIsOpen(false)}>
-                      <Icon style={{ height: 32, width: 32 }} icon="close" />
-                  </TouchableOpacity>
-                  <View style={styles.header}>
-                      <Icon style={styles.headerImage} icon="loginLogo" />
-                      <Text style={styles.headerText}>{`בוקר טוב ${firstName} ${lastName}`}</Text>
-                      <Text style={styles.headerSubText}>{'חבילות חדשות מוכנות לחלוקה'}</Text>
-                      <View style={styles.addressContainer}>
-                          <IconWithLabelsRow
-                              boldLabel={'נק איסוף '}
-                              icon={'locationSmall'}
-                              label={' בית הדפוס 11, גבעת שמואל'}
-                          />
-                          <IconWithLabelsRow
-                              boldLabel={'שעות איסוף '}
-                              icon={'time'}
-                              label={' 20:00 - 08:00'}
-                          />
-                      </View>
-                      <Text style={{ marginTop: 29 }}>
-                          {'אנא סמנו את היעדים שאליהם תוכלו להתגייס ולשנע את החבילות בהקדם'}
-                      </Text>
-                      <ScrollView
-                          directionalLockEnabled
-                          horizontal={false}
-                          style={{ marginTop: 10, width: '100%' }}
-                      >
-                          {needDelivery.map(row => {
-                              return (
-                                  <LabelWithCheckBoxRow
-                                      key={row.id}
-                                      id={row.id}
-                                      label={row.address}
-                                      boldLabel={row.customerName}
-                                      onCheckBoxPress={(id: string, newVal) =>
-                                          reactotron.log(id, newVal)
-                                      }
-                                  />
-                              );
-                          })}
-                      </ScrollView>
-                  </View>
-              </View>
-              <View style={styles.footerContainer}>
-                  <TouchableOpacity
-                      onPress={() => null}
-                      style={[styles.footerBtn, styles.footerWhiteBtn]}
-                  >
-                      <Text
-                          preset={'bold'}
-                          style={[styles.footerBtnText, { color: palette.darkBlue }]}
-                      >
-                          {'לא הפעם'}
-                      </Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                      onPress={() => null}
-                      style={[styles.footerBtn, { marginRight: 8 }]}
-                  >
-                      <Text preset={'bold'} style={styles.footerBtnText}>
-                          {'החבילות עלי'}
-                      </Text>
-                  </TouchableOpacity>
-              </View>
-          </SafeAreaView>
-          <LoadingModal visible={isLoading} />
-      </Modal>
+        <View style={{ flex: 1, marginHorizontal: 20 }}>
+          <TouchableOpacity onPress={() => setModalIsOpen(false)}>
+            <Icon style={{ height: 32, width: 32 }} icon="close" />
+          </TouchableOpacity>
+          <View
+            style={styles.header}>
+            <Icon style={styles.headerImage} icon="loginLogo" />
+            <Text style={styles.headerText} >
+              {`בוקר טוב ${firstName} ${lastName}`}
+            </Text>
+            <Text style={styles.headerSubText} >
+              {'חבילות חדשות מוכנות לחלוקה'}
+            </Text>
+            <View style={styles.addressContainer}>
+              <IconWithLabelsRow boldLabel={'נק איסוף '} icon={'locationSmall'} label={' בית הדפוס 11, גבעת שמואל'}/>
+              <IconWithLabelsRow boldLabel={'שעות איסוף '} icon={'time'} label={' 20:00 - 08:00'}/>
+            </View>
+            <Text style={{ marginTop: 29 }}>{'אנא סמנו את היעדים שאליהם תוכלו להתגייס ולשנע את החבילות בהקדם'}</Text>
+            <ScrollView directionalLockEnabled horizontal={false} style={{ marginTop: 10, width: '100%' }}>
+            { DATA.map((row) => {
+              return (<LabelWithCheckBoxRow key={row.id} id={row.id} label={row.street} boldLabel={row.city} onCheckBoxPress={(id: string, newVal) => reactotron.log(id, newVal)}/>)
+            })}
+            </ScrollView>
+          </View>
+        </View>
+        <View style={styles.footerContainer}>
+          <TouchableOpacity
+            onPress={() => null}
+            style={[styles.footerBtn, styles.footerWhiteBtn]}
+          >
+            <Text preset={'bold'} style={[styles.footerBtnText, { color: palette.darkBlue }]}>
+              {'לא הפעם'}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => null}
+            style={[styles.footerBtn, { marginRight: 8 }]}
+          >
+            <Text preset={'bold'} style={styles.footerBtnText}>
+              {'החבילות עלי'}
+            </Text>
+          </TouchableOpacity>
+
+        </View>
+      </SafeAreaView>
+      <LoadingModal visible={isLoading} />
+    </Modal>
   );
 });
 

@@ -18,7 +18,7 @@ export const PackagesListScreen: React.FunctionComponent<PackagesListSProps> = o
   const [isInSelectionMode, setIsInSelectionMode] = useState(false)
   const selectionHeaderHeight = 75
   const [selectionHeaderAnimationHeight] = useState(new Animated.Value(-selectionHeaderHeight))
-  const { packagesStore: { packagesByUser, updatePackagesStatus }, profileModel: { profile } } = useStores()
+  const { packagesStore: { packages, updatePackagesStatus }, profileModel: { profile } } = useStores()
   useEffect(
     () => {
       if (selectedPackages.length === 0) {
@@ -92,7 +92,7 @@ export const PackagesListScreen: React.FunctionComponent<PackagesListSProps> = o
     // todo: change params to data from server under profile store
     //  (currently no such data available in /auth api) so undefined will be shown
     const { firstName, lastName } = profile
-    return <WelcomeUserView numberOfPackages={packagesByUser.length} userDetails={{ firstName: firstName, lastName: lastName, id: '5' }}/>
+    return <WelcomeUserView numberOfPackages={packages.length} userDetails={{ firstName: firstName, lastName: lastName, id: '5' }}/>
   }
 
   const renderSelectionModeHeader = (): React.ReactElement => {
@@ -112,7 +112,7 @@ export const PackagesListScreen: React.FunctionComponent<PackagesListSProps> = o
         ListHeaderComponent={renderListHeader}
         style={styles.list}
         keyExtractor={(packageData) => packageData.id.toString()}
-        data={packagesByUser}
+        data={packages}
         renderItem={(packageDataItem) => {
           return renderPackageListItem(packageDataItem.item)
         }
