@@ -32,6 +32,7 @@
 		5EE0C1F660294A5FB8CE8FA7 /* Montserrat-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0D09E165D4D6460296F0EEC9 /* Montserrat-Regular.ttf */; };
 		789DA98DA558D7D190B79CDB /* libPods-FFH.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B2C36208EF595F55D9DE512C /* libPods-FFH.a */; };
 		7A4C00B7D9D849CFB9C28FC6 /* Montserrat-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 295FFF18A81B476B9AF5F2DD /* Montserrat-Medium.ttf */; };
+		809FB388DE0D4414A868BE43 /* libRNMinimizeApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F78C65F22A414C3E95E67EF5 /* libRNMinimizeApp.a */; };
 		8DD2DD89000149D7B248A201 /* Montserrat-BlackItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7E029FFCEF964553B0226120 /* Montserrat-BlackItalic.ttf */; };
 		903CB40223E9910D005683BA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 903CB40123E9910D005683BA /* GoogleService-Info.plist */; };
 		9FFD4223E8F54BC0A686A337 /* Arimo-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = BFA3505778FA4A0FB0BB51E2 /* Arimo-Bold.ttf */; };
@@ -42,7 +43,6 @@
 		C25F0921D4DE46FA8DD170C6 /* Montserrat-MediumItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 445B579C42BD4D53BC580E38 /* Montserrat-MediumItalic.ttf */; };
 		D0A3DD8F8A154837A5AFA82B /* Montserrat-ExtraBoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0EA067CF0DA14F7D8B6758CE /* Montserrat-ExtraBoldItalic.ttf */; };
 		D3EAFF5D35FD40CFB516EB11 /* Montserrat-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2376CB30DD8B48E78D241186 /* Montserrat-SemiBold.ttf */; };
-		809FB388DE0D4414A868BE43 /* libRNMinimizeApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F78C65F22A414C3E95E67EF5 /* libRNMinimizeApp.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,6 +59,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 2D02E47A1E0B4A5D006451C7;
 			remoteInfo = "FFH-tvOS";
+		};
+		E102272F271D4BD600945F16 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 841E6AEE08684344B8C76AD0 /* RNMinimizeApp.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 15209BEF1D250F63000D0F44;
+			remoteInfo = RNMinimizeApp;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -99,6 +106,7 @@
 		7C73E397483D417AABA55CFC /* Montserrat-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-Bold.ttf"; path = "../app/theme/fonts/Montserrat-Bold.ttf"; sourceTree = "<group>"; };
 		7C98F4A4DB2740998029FA21 /* Montserrat-SemiBoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-SemiBoldItalic.ttf"; path = "../app/theme/fonts/Montserrat-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
 		7E029FFCEF964553B0226120 /* Montserrat-BlackItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-BlackItalic.ttf"; path = "../app/theme/fonts/Montserrat-BlackItalic.ttf"; sourceTree = "<group>"; };
+		841E6AEE08684344B8C76AD0 /* RNMinimizeApp.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNMinimizeApp.xcodeproj; path = "../node_modules/react-native-minimize/ios/RNMinimizeApp.xcodeproj"; sourceTree = "<group>"; };
 		87131400D9C740EB962719C0 /* Feather.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Feather.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Feather.ttf"; sourceTree = "<group>"; };
 		883D6F984D829C4782498CBB /* libPods-FFHTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FFHTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		892FEAAD6426482E92194AA5 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
@@ -128,10 +136,9 @@
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
 		F67912BF26004E27A603B3C5 /* Montserrat-BoldItalic.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Montserrat-BoldItalic.ttf"; path = "../app/theme/fonts/Montserrat-BoldItalic.ttf"; sourceTree = "<group>"; };
+		F78C65F22A414C3E95E67EF5 /* libRNMinimizeApp.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNMinimizeApp.a; sourceTree = "<group>"; };
 		FCC85BCC832048E7B30EE0D5 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		FD5BACA947CE4A0891F4B5BD /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
-		841E6AEE08684344B8C76AD0 /* RNMinimizeApp.xcodeproj */ = {isa = PBXFileReference; name = "RNMinimizeApp.xcodeproj"; path = "../node_modules/react-native-minimize/ios/RNMinimizeApp.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
-		F78C65F22A414C3E95E67EF5 /* libRNMinimizeApp.a */ = {isa = PBXFileReference; name = "libRNMinimizeApp.a"; path = "libRNMinimizeApp.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -280,6 +287,7 @@
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				F0101866E224564A21506794 /* Pods */,
 				689A1F67B9EA48A698E1AC81 /* Resources */,
+				E102272B271D4BD500945F16 /* Recovered References */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -293,6 +301,22 @@
 				00E356EE1AD99517003FC87E /* FFHTests.xctest */,
 				2D02E47B1E0B4A5D006451C7 /* FFH-tvOS.app */,
 				2D02E4901E0B4A5D006451C7 /* FFH-tvOSTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E102272B271D4BD500945F16 /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				F78C65F22A414C3E95E67EF5 /* libRNMinimizeApp.a */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
+		E102272C271D4BD600945F16 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				E1022730271D4BD600945F16 /* libRNMinimizeApp.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -434,6 +458,12 @@
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = E102272C271D4BD600945F16 /* Products */;
+					ProjectRef = 841E6AEE08684344B8C76AD0 /* RNMinimizeApp.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				13B07F861A680F5B00A75B9A /* FFH */,
@@ -443,6 +473,16 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		E1022730271D4BD600945F16 /* libRNMinimizeApp.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNMinimizeApp.a;
+			remoteRef = E102272F271D4BD600945F16 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		00E356EC1AD99517003FC87E /* Resources */ = {
@@ -742,6 +782,10 @@
 				INFOPLIST_FILE = FFHTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -750,10 +794,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FFH.app/FFH";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
 			};
 			name = Debug;
 		};
@@ -766,6 +806,10 @@
 				INFOPLIST_FILE = FFHTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				OTHER_LDFLAGS = (
 					"-ObjC",
 					"-lc++",
@@ -774,10 +818,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FFH.app/FFH";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
 			};
 			name = Release;
 		};
@@ -845,6 +885,10 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "FFH-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -855,10 +899,6 @@
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.2;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
 			};
 			name = Debug;
 		};
@@ -877,6 +917,10 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "FFH-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -887,10 +931,6 @@
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.2;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
 			};
 			name = Release;
 		};
@@ -908,6 +948,10 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "FFH-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -918,10 +962,6 @@
 				SDKROOT = appletvos;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FFH-tvOS.app/FFH-tvOS";
 				TVOS_DEPLOYMENT_TARGET = 10.1;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
 			};
 			name = Debug;
 		};
@@ -939,6 +979,10 @@
 				GCC_NO_COMMON_BLOCKS = YES;
 				INFOPLIST_FILE = "FFH-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+				);
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-ObjC",
@@ -949,10 +993,6 @@
 				SDKROOT = appletvos;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/FFH-tvOS.app/FFH-tvOS";
 				TVOS_DEPLOYMENT_TARGET = 10.1;
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/$(TARGET_NAME)\"",
-				);
 			};
 			name = Release;
 		};

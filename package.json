@@ -2,6 +2,10 @@
   "name": "ffh",
   "version": "0.0.1",
   "private": true,
+  "engines": {
+    "node": ">=10.24.1 <11",
+    "npm": ">=6.0.0 <7.0.0"
+  },
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
@@ -25,7 +29,7 @@
     "hack:types-react-native": "rimraf node_modules/@types/react-native/node_modules/@types",
     "hack:types-react-test-renderer": "rimraf node_modules/@types/react-test-renderer/node_modules/@types",
     "patch": "patch-package",
-    "postinstall": "node ./bin/postInstall",
+    "postinstall": "patch-package",
     "prepare": "npm-run-all patch hack:*",
     "storybook": "start-storybook -p 9001 -c ./storybook",
     "adb": "adb reverse tcp:9090 tcp:9090 && adb reverse tcp:3000 tcp:3000 && adb reverse tcp:9001 tcp:9001 && adb reverse tcp:8081 tcp:8081"
@@ -95,8 +99,8 @@
     "jest": "^25.1.0",
     "jetifier": "^1.6.1",
     "metro-react-native-babel-preset": "^0.58.0",
-    "npm-run-all": "4.1.5",
-    "patch-package": "6.1.2",
+    "npm-run-all": "^4.1.5",
+    "patch-package": "^6.1.2",
     "postinstall-prepare": "1.0.1",
     "prettier": "1.18.2",
     "react-devtools": "^3.6.3",
