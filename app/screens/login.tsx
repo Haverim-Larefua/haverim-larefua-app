@@ -94,7 +94,7 @@ export const LoginScreen: React.FunctionComponent<LoginProps> = observer(() => {
         value={username}
         inputStyle={{ paddingHorizontal: 5 }}
         onChangeText={(val) => setUserName(val)}
-        label="שם משתמש\ת"
+        label="שם משתמש.ת"
       />
       <TextField
         inputStyle={{ paddingHorizontal: 5 }}
