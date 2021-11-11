@@ -3,7 +3,7 @@
 // | Hard coded variables    |
 // +-------------------------+
 serversMap = ["Dev": "40.123.217.231", "Prod": "40.123.217.231"]
-
+apkFile    = "android/app/build/outputs/apk/release/app-release.apk"
 
 
 // +-------------------------+
@@ -35,6 +35,13 @@ node (prmEnvironmentName) {
 
     stage ("Init") {
         banner(env.STAGE_NAME)
+
+        if (fileExists(apkFile)) {
+            sh "mv -f ${apkFile} /tmp/"
+        }
+        else {
+            print("No previous APK file was found.")
+        }
     }
 
 
@@ -43,15 +50,9 @@ node (prmEnvironmentName) {
 
         banner(env.STAGE_NAME)
 
-        // // Clean the workspace
-        // cleanWs()
-
-        // // Clone a fresh copy of the code
-        // git credentialsId: 'ffh_user', url: 'https://github.com/Haverim-Larefua/haverim-larefua-app.git'
-
         checkout([
             $class: 'GitSCM', 
-            branches: [[name: '*/master']],
+            branches: [[name: '*/feature/maintenance/resurection']],
             doGenerateSubmoduleConfigurations: false,
             extensions: [],
             submoduleCfg: [],
@@ -79,7 +80,11 @@ node (prmEnvironmentName) {
         banner(env.STAGE_NAME)
 
         // Compile the RN code
-        sh "npm install"
+        sh """
+            export PATH=/home/ffh_user/.nvm/versions/node/v10.24.1/bin:${PATH}
+            npm -version
+            npm ci
+        """
     }
 
 
@@ -100,21 +105,15 @@ node (prmEnvironmentName) {
                 touch /home/ffh_user/.android/repositories.cfg
                 yes | sdkmanager --licenses
 
-                ./gradlew assembleRelease
+                ./gradlew clean assembleRelease
             """
-
-            sh "find . | grep apk\$"
         }
     }
 
 
 
     stage("Archive"){
-        sh """
-            mv tmp/app-release.apk tmp/FFH.apk
-            docker cp tmp/FFH.apk ffh_server:/opt/app/hl/dist/assets/downloads
-            rm tmp/FFH.apk
-        """
+        sh "docker cp ${apkFile} ffh_server:/opt/app/hl/dist/assets/downloads/FFH.apk"
     }
 } // Node
 } // Timeout
@@ -154,5 +153,3 @@ void banner(String message) {
         println(message)
     }
 }
-
-
