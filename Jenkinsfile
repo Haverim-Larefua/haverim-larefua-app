@@ -13,6 +13,7 @@ properties([
 
     // Set the build parameters
     parameters([
+        string (name: 'BRANCH_NAME', description: 'Which branch to build', defaultValue: 'master'),
         choice (name: 'ENVIRONMENT', description: 'Dev or Prod', choices: 'Dev\nProd')
     ])
 ])
@@ -21,6 +22,7 @@ properties([
 // +-------------------------+
 // | Build Parameters        |
 // +-------------------------+
+String prmBranchName        = params.BRANCH_NAME
 String prmEnvironmentName   = params.ENVIRONMENT
 String buildServerIpAddress = serversMap[prmEnvironmentName]
 
@@ -51,14 +53,16 @@ node (prmEnvironmentName) {
         banner(env.STAGE_NAME)
 
         checkout([
-            $class: 'GitSCM', 
-            branches: [[name: '*/feature/maintenance/resurection']],
+            $class: 'GitSCM',
+            branches: [[name: "*/${prmBranchName}"]],
             doGenerateSubmoduleConfigurations: false,
-            extensions: [],
+            extensions: [[$class: 'CheckoutOption', timeout: 5],
+            [$class: 'AuthorInChangelog'],
+            [$class: 'LocalBranch', localBranch: prmBranchName]],
             submoduleCfg: [],
             userRemoteConfigs: [[
                 credentialsId: 'ffh_user',
-                url: 'https://github.com/Haverim-Larefua/haverim-larefua-app.git'
+                url: 'git@github.com:Haverim-Larefua/haverim-larefua-app.git'
             ]]
         ])
     }
@@ -70,7 +74,13 @@ node (prmEnvironmentName) {
         banner(env.STAGE_NAME)
 
         IP = serversMap[prmEnvironmentName]
+
         sh "sed -i -e 's/API_URL=.*/API_URL=http:\\/\\/${IP}:3001/' .env"
+        sh """
+            if [ -d "node_modules" ]; then
+                mv node_modules deleteMe
+            fi
+        """
     }
 
 
@@ -80,11 +90,17 @@ node (prmEnvironmentName) {
         banner(env.STAGE_NAME)
 
         // Compile the RN code
-        sh """
-            export PATH=/home/ffh_user/.nvm/versions/node/v10.24.1/bin:${PATH}
-            npm -version
-            npm ci
-        """
+        parallel CleanUp: {
+            sh "rm -rf deleteMe"
+        },
+        ReactNative: {
+            sh """
+                export PATH=/home/ffh_user/.nvm/versions/node/v10.24.1/bin:${PATH}
+                npm -version
+                npm ci
+            """
+        },
+        failFast: false
     }
 
 
