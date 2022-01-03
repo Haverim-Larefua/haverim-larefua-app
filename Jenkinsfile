@@ -118,6 +118,7 @@ node (prmEnvironmentName) {
                 export PATH=\${PATH}:\${ANDROID_SDK_ROOT}/tools/bin:\${ANDROID_SDK_ROOT}/cmdline-tools/tools/bin
 
                 # Accept the Android licenses
+                mkdir -p /home/ffh_user/.android
                 touch /home/ffh_user/.android/repositories.cfg
                 yes | sdkmanager --licenses
 
