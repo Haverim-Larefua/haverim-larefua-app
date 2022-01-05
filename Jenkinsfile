@@ -44,6 +44,9 @@ node ("Dev") {
         else {
             print("No previous APK file was found.")
         }
+
+        // Set the build type in the build's description
+        currentBuild.description = "ENv: ${prmEnvironmentName}"
     }
 
 
