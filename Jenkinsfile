@@ -2,7 +2,7 @@
 // +-------------------------+
 // | Hard coded variables    |
 // +-------------------------+
-serversMap = ["Dev": "40.123.217.231", "Prod": "40.123.217.231"]
+serversMap = ["Dev": "40.123.217.231", "Prod": "40.123.209.114"]
 apkFile    = "android/app/build/outputs/apk/release/app-release.apk"
 
 
@@ -33,7 +33,7 @@ String buildServerIpAddress = serversMap[prmEnvironmentName]
 // +-------------------------+
 timestamps {
 timeout(120) {
-node (prmEnvironmentName) {
+node ("Dev") {
 
     stage ("Init") {
         banner(env.STAGE_NAME)
@@ -130,7 +130,28 @@ node (prmEnvironmentName) {
 
 
     stage("Archive"){
-        sh "docker cp ${apkFile} ffh_server:/opt/app/hl/dist/assets/downloads/FFH.apk"
+        if (prmEnvironmentName == "Prod") {
+
+            String prodServerIpAddress = serversMap["Prod"]
+
+            // Copy the APK file to the prod server.
+            String command = String.format(
+                "scp -i /home/ffh_user/.ssh/id_rsa.prod %s ffh_user@%s:/tmp/",
+                apkFile,
+                prodServerIpAddress
+            )
+            sh "${command}"
+
+            command =  "ssh -i /home/ffh_user/.ssh/id_rsa.prod"
+            command += " ffh_user@" + prodServerIpAddress
+            command += " docker cp /tmp/app-release.apk"
+            command += " ffh_server:/opt/app/hl/dist/assets/downloads/FFH.apk"
+            print("Command = [${command}]")
+            sh "${command}"
+        }
+        else {
+            sh "docker cp ${apkFile} ffh_server:/opt/app/hl/dist/assets/downloads/FFH.apk"
+        }
     }
 } // Node
 } // Timeout
