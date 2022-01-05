@@ -46,7 +46,7 @@ node ("Dev") {
         }
 
         // Set the build type in the build's description
-        currentBuild.description = "ENv: ${prmEnvironmentName}"
+        currentBuild.description = "env: ${prmEnvironmentName}"
     }
 
 
