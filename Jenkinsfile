@@ -2,16 +2,16 @@
 // +-------------------------+
 // | Hard coded variables    |
 // +-------------------------+
-serversMap = ["Dev": "40.123.217.231", "Prod": "40.123.209.114"]
-apkFile    = "android/app/build/outputs/apk/release/app-release.apk"
-
+serversMap   = ["Dev": "20.242.32.133", "Prod": "20.122.155.192"]
+apkFile      = "android/app/build/outputs/apk/release/app-release.apk"
+ffh_username = "ffh_user"
 
 // +-------------------------+
 // | Pipeline Parameters     |
 // +-------------------------+
-properties([
 
-    // Set the build parameters
+// Set the build parameters
+properties([
     parameters([
         string (name: 'BRANCH_NAME', description: 'Which branch to build', defaultValue: 'master'),
         choice (name: 'ENVIRONMENT', description: 'Dev or Prod', choices: 'Dev\nProd')
@@ -64,7 +64,7 @@ node ("Dev") {
             [$class: 'LocalBranch', localBranch: prmBranchName]],
             submoduleCfg: [],
             userRemoteConfigs: [[
-                credentialsId: 'ffh_user',
+                credentialsId: ffh_username,
                 url: 'git@github.com:Haverim-Larefua/haverim-larefua-app.git'
             ]]
         ])
@@ -98,7 +98,7 @@ node ("Dev") {
         },
         ReactNative: {
             sh """
-                export PATH=/home/ffh_user/.nvm/versions/node/v10.24.1/bin:${PATH}
+                export PATH=/home/${ffh_username}/.nvm/versions/node/v10.24.1/bin:${PATH}
                 npm -version
                 npm ci
             """
@@ -121,8 +121,8 @@ node ("Dev") {
                 export PATH=\${PATH}:\${ANDROID_SDK_ROOT}/tools/bin:\${ANDROID_SDK_ROOT}/cmdline-tools/tools/bin
 
                 # Accept the Android licenses
-                mkdir -p /home/ffh_user/.android
-                touch /home/ffh_user/.android/repositories.cfg
+                mkdir -p /home/${ffh_username}/.android
+                touch /home/${ffh_username}/.android/repositories.cfg
                 yes | sdkmanager --licenses
 
                 ./gradlew clean assembleRelease
@@ -139,14 +139,15 @@ node ("Dev") {
 
             // Copy the APK file to the prod server.
             String command = String.format(
-                "scp -i /home/ffh_user/.ssh/id_rsa.prod %s ffh_user@%s:/tmp/",
+                "scp -i /home/${ffh_username}/.ssh/id_rsa.prod %s ${ffh_username}@%s:/tmp/",
                 apkFile,
                 prodServerIpAddress
             )
+
             sh "${command}"
 
-            command =  "ssh -i /home/ffh_user/.ssh/id_rsa.prod"
-            command += " ffh_user@" + prodServerIpAddress
+            command =  "ssh -i /home/${ffh_username}/.ssh/id_rsa.prod"
+            command += " ${ffh_username}@" + prodServerIpAddress
             command += " docker cp /tmp/app-release.apk"
             command += " ffh_server:/opt/app/hl/dist/assets/downloads/FFH.apk"
             print("Command = [${command}]")
