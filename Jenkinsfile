@@ -64,7 +64,7 @@ node ("Dev") {
             [$class: 'LocalBranch', localBranch: prmBranchName]],
             submoduleCfg: [],
             userRemoteConfigs: [[
-                credentialsId: ffh_username,
+                credentialsId: "FFH_User_SSH",
                 url: 'git@github.com:Haverim-Larefua/haverim-larefua-app.git'
             ]]
         ])
@@ -116,14 +116,14 @@ node ("Dev") {
         dir ("android") {
 
             sh """
-
+                export SDK_ROOT=/usr/lib/android-sdk
                 export ANDROID_SDK_ROOT=/usr/lib/android-sdk
                 export PATH=\${PATH}:\${ANDROID_SDK_ROOT}/tools/bin:\${ANDROID_SDK_ROOT}/cmdline-tools/tools/bin
 
                 # Accept the Android licenses
                 mkdir -p /home/${ffh_username}/.android
                 touch /home/${ffh_username}/.android/repositories.cfg
-                yes | sdkmanager --licenses
+                yes | sdkmanager --sdk_root=$SDK_ROOT --licenses
 
                 ./gradlew clean assembleRelease
             """
