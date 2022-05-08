@@ -1,4 +1,4 @@
-import { ViewStyle } from "react-native"
+import { ImageStyle, ViewStyle } from "react-native"
 
 export interface CheckboxProps {
   /**
@@ -10,6 +10,8 @@ export interface CheckboxProps {
    * Additional outline style.
    */
   outlineStyle?: ViewStyle | ViewStyle[]
+
+  iconsStyle?: ImageStyle
 
   /**
    * Additional fill style. Only visible when checked.

@@ -1,8 +1,9 @@
-import { FunctionComponent, useEffect } from "react"
-import { BackHandler } from "react-native"
-import { observer } from "mobx-react-lite"
-import { NavigationActions } from "react-navigation"
-import { useStores } from "../models/root-store"
+import { FunctionComponent, useEffect } from "react";
+import { BackHandler } from "react-native";
+import { observer } from "mobx-react-lite";
+import { NavigationActions } from "react-navigation";
+import RNMinimizeApp from 'react-native-minimize';
+import { useStores } from "../models/root-store";
 
 interface BackButtonHandlerProps {
   /**
@@ -22,13 +23,17 @@ export const BackButtonHandler: FunctionComponent<BackButtonHandlerProps> = obse
 
       // are we allowed to exit?
       if (props.canExit(routeName)) {
-        // let the system know we've not handled this event
-        return false
+        // The reason we use this approach is because react-navigation.back action
+        // or BackHandler.exitApp() will cause the app to load again from scratch
+        // this might be resolved with react-navigation v5 +
+        RNMinimizeApp.minimizeApp();
+        // let the system know we've handled this event
+        return true;
       } else {
         // we can't exit, so let's turn this into a back action
         navigationStore.dispatch(NavigationActions.back())
         // let the system know we've handled this event
-        return true
+        return true;
       }
     }
 

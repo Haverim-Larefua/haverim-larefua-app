@@ -34,6 +34,7 @@ target 'FFH' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
+
   target 'FFHTests' do
     inherit! :search_paths
     # Pods for testing
@@ -51,3 +52,25 @@ target 'FFH-tvOS' do
   end
 
 end
+
+post_install do |installer|
+# Workaround for Xcode 12 and Auto-Linking
+installer.pods_project.targets.each do |target|
+	if [
+		'react-native-minimize'
+	].include?(target.name) #list all affected target in the array
+	target.build_phases.each do |build_phases|
+		if build_phases.display_name == 'Frameworks'
+			file_ref = installer.pods_project.new(Xcodeproj::Project::Object::PBXFileReference)
+			file_ref.path = 'React.framework'
+			file_ref.source_tree = 'BUILT_PRODUCTS_DIR'
+			build_phases.add_file_reference(file_ref)
+		end
+	end
+end
+
+end
+end
+
+# if you yet get error in Xcode 'RCTBridgeModule.h file not found'
+# this is the way to fix the error : https://www.youtube.com/watch?v=JnZS5MoYKCY&ab_channel=FreeLearning

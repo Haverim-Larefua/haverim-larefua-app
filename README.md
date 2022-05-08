@@ -67,6 +67,24 @@ ignite-project
 
 ```
 
+### Running on iOS
+
+1. Make sure you are using the `Legacy Build System`.
+   Can be found in Xcode File -> Workspace Settings... -> Build System and select `Legacy Build System`
+2. In case you are experiencing `RCTDefines.h file not found` issue, follow these instructions:
+    1. Go to Project navigator -> Libraries -> RNMinimizeApp.xcodeproj
+    2. Click on `Build Settings` and then the first item under Targets
+    3. Scroll down to `Search Paths`
+    4. Double click to edit the `Header Search Paths`
+    5. Add the following entry (click ‘+’): ${SRCROOT}/../../../ios/Pods/Headers. Make sure to set it to `recursive`.
+    6. Clean (cmd + shift + K) and re-build (cmd + B).
+
+### Running simulators with local server
+
+At file `api-config.ts` -> inside `DEFAULT_API_CONFIG` obj -> set `url` field to:<br />
+- **iOS:**  your local host e.g. `http://localhost:3001`<br />
+- **Android:**  Android special alias i.e. `http://10.0.2.2`
+
 ### ./app directory
 
 Included in an Ignite boilerplate project is the `app` directory. This is a directory you would normally have to create when using vanilla React Native.

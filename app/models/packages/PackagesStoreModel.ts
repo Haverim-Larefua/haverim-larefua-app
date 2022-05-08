@@ -1,4 +1,4 @@
-import { types, Instance, SnapshotOut, getRoot } from "mobx-state-tree"
+import { getRoot, Instance, SnapshotOut, types } from "mobx-state-tree"
 import { withEnvironment } from "../extensions"
 import { PackageData, PackageStatusAPI } from "../../screens/packagesList/types"
 
@@ -7,7 +7,19 @@ export const PackagesStoreModel = types
   .props({
     packages: types.optional(types.frozen<PackageData[]>(), [])
   })
-  .views(self => ({}))
+  .views(self => {
+    return {
+      get deliveredPackages() {
+        return self.packages.filter(p => PackageStatusAPI[p.parcelTrackingStatus] === PackageStatusAPI.delivered)
+      },
+      get inDistribution() {
+        return self.packages.filter(p => PackageStatusAPI[p.parcelTrackingStatus] === PackageStatusAPI.distribution)
+      },
+      get readyToPickUp() {
+        return self.packages.filter(p => PackageStatusAPI[p.parcelTrackingStatus] === PackageStatusAPI.assigned)
+      },
+    }
+  })
   .extend(withEnvironment)
   .actions(self => ({
     setPackages(packages) {
@@ -39,11 +51,23 @@ export const PackagesStoreModel = types
     }
   }))
   .actions(self => ({
-    async addSignature(packageId: string, signature: string) {
+    async addSignature(packageId: string, signature: string, notes: string) {
       const rootStore = getRoot(self)
       // @ts-ignore
       const userId = rootStore.profileModel.profile.id
-      const response = await self.environment.api.addSignatureToPackage(packageId, userId, signature)
+      const response = await self.environment.api.addSignatureToPackage(packageId, userId, signature, notes)
+      if (response.ok) {
+        await self.getAllPackages()
+      }
+      return response
+    }
+  }))
+  .actions(self => ({
+    async reportProblem(packageId: string, problem: string) {
+      const rootStore = getRoot(self)
+      // @ts-ignore
+      const userId = rootStore.profileModel.profile.id
+      const response = await self.environment.api.reportPackageProblem(packageId, userId, problem)
       if (response.ok) {
         await self.getAllPackages()
       }

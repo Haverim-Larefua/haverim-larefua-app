@@ -13,7 +13,7 @@ export interface PopupProps {
 export const ThankYouPopup: FC<PopupProps> = (props) => {
   const { onPress, visible } = props
   return (
-    <Modal animated animationType={"fade"} transparent visible={visible}>
+    <Modal animated={false} transparent visible={visible}>
       <View style={styles.container}>
         <View style={styles.contentContainer}>
           <View style={styles.topSection}>

@@ -2,7 +2,7 @@ import * as React from "react"
 import { Person } from "./types"
 import { Icon, Text } from "../../components"
 import { StyleSheet, View } from "react-native"
-import {spacing} from "../../theme";
+import { spacing } from "../../theme";
 
 interface WelcomeUserViewProps {
     userDetails: Person

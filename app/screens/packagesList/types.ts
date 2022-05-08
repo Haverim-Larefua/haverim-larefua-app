@@ -1,3 +1,4 @@
+
 export interface PackageData {
     id: string
     destination: Address
@@ -7,6 +8,7 @@ export interface PackageData {
     city: string
     comments: string
     phone: string
+    lastUpdateDate: any
 }
 
 export interface Address {
@@ -17,21 +19,21 @@ export interface Address {
 }
 
 export enum PackageStatus {
-    ready = 'מוכנה לחלוקה',
+    assigned = 'מוכנה לחלוקה',
     distribution = 'בחלוקה',
     delivered = 'נמסרה',
     whileDelivering = 'מסירת חבילה'
 }
 
 export enum PackageStatusAPI {
-    ready = 'ready',
+    assigned = 'assigned',
     distribution = 'distribution',
     delivered = 'delivered',
     whileDelivering = 'whileDelivering'
 }
 
-/* export interface Person {
+export interface Person {
     firstName: string,
     lastName: string,
     id: string
-} */
+}

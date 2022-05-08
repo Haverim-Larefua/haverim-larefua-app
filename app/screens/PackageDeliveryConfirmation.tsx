@@ -1,5 +1,5 @@
 import React, { FC, ReactElement, useMemo, useState } from "react"
-import { SafeAreaView, StyleSheet, TextInput, View } from "react-native"
+import { StyleSheet, TextInput, View, SafeAreaView } from "react-native"
 import { NavigationInjectedProps } from "react-navigation"
 import { Button, Header, Screen, Text, ThankYouPopup } from "../components"
 import SignatureCapture from "react-native-signature-capture"
@@ -38,7 +38,7 @@ export const PackageDeliveryConfirmationScreen: FC<NavigationInjectedProps<Packa
             showBorder={false}
             onDragEvent={(isDragging) => { !isSignature && setIsSignature(isDragging) }}
             onSaveEvent={async(base64Image) => {
-              const response = await addSignature(packageData.id, base64Image.encoded)
+              const response = await addSignature(packageData.id, base64Image.encoded, notes)
               if (response.ok) {
                 setShowPopUP(true)
               }
@@ -68,7 +68,9 @@ export const PackageDeliveryConfirmationScreen: FC<NavigationInjectedProps<Packa
       <ThankYouPopup
         visible={showPopUp}
         onPress={() => {
-          props.navigation.navigate('packagesList')
+          setTimeout(() => {
+            props.navigation.navigate('packagesTabList')
+          }, 0)
           setShowPopUP(false)
         }}
       />

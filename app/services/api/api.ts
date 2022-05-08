@@ -46,33 +46,38 @@ export class Api {
   }
 
   setTokenHeader(token) {
-    this.apisauce.setHeader('Authorization', `Bearer ${token}`)
+    this.apisauce.setHeader('Authorization', `Bearer ${token}`);
   }
 
-  async login(username: string, password: string) {
-    const response: ApiResponse<any> = await this.apisauce.post(`/auth/user`, { username, password })
-    return response
+  async login(username: string, password: string): Promise<ApiResponse<Types.IAuthUserResponse>> {
+    const response: ApiResponse<Types.IAuthUserResponse> = await this.apisauce.post(`/auth/user`, { username, password });
+    return response;
   }
 
-  async updatePushToken(userId: string, token: string) {
-    const response: ApiResponse<any> = await this.apisauce.put(`/push-token/update/${userId}`, token)
-    return response
+  async updatePushToken(userId: string, token: string): Promise<ApiResponse<any>> {
+    const response: ApiResponse<any> = await this.apisauce.put(`/push-token/update/${userId}`, { token });
+    return response;
   }
 
-  async getPackages(userId: string) {
+  async getPackages(userId: string): Promise<ApiResponse<any>> {
     // eslint-disable-next-line @typescript-eslint/camelcase
-    const response: ApiResponse<any> = await this.apisauce.get(`parcels/user/${userId}`, { last_statuses: 'ready,distribution,delivered' })
-    return response
+    const response: ApiResponse<any> = await this.apisauce.get(`parcels/user/${userId}`, { last_statuses: 'assigned,distribution,delivered' });
+    return response;
   }
 
-  async updatePackagesStatus(packages: string[], userId: string, newStatus: PackageStatusAPI) {
-    const response: ApiResponse<any> = await this.apisauce.put(`parcels/user/${userId}/${newStatus}`, { parcels: packages })
-    return response
+  async updatePackagesStatus(packages: string[], userId: string, newStatus: PackageStatusAPI): Promise<ApiResponse<any>> {
+    const response: ApiResponse<any> = await this.apisauce.put(`parcels/user/${userId}/${newStatus}`, { parcels: packages });
+    return response;
   }
 
-  async addSignatureToPackage(parcelId: string, userId: string, signature: string) {
-    const response: ApiResponse<any> = await this.apisauce.put(`parcels/${parcelId}/signature/${userId}`, { signature })
-    return response
+  async addSignatureToPackage(parcelId: string, userId: string, signature: string, notes: string): Promise<ApiResponse<any>> {
+    const response: ApiResponse<any> = await this.apisauce.put(`parcels/${parcelId}/signature/${userId}`, { signature, comment: notes });
+    return response;
+  }
+
+  async reportPackageProblem(parcelId: string, userId: string, problem: string): Promise<ApiResponse<any>> {
+    const response: ApiResponse<any> = await this.apisauce.put(`parcels/${parcelId}/exception`, { exception: problem });
+    return response;
   }
 
   /**
@@ -80,12 +85,12 @@ export class Api {
    */
   async getUsers(): Promise<Types.GetUsersResult> {
     // make the api call
-    const response: ApiResponse<any> = await this.apisauce.get(`/users`)
+    const response: ApiResponse<any> = await this.apisauce.get(`/users`);
 
     // the typical ways to die when calling an api
     if (!response.ok) {
-      const problem = getGeneralApiProblem(response)
-      if (problem) return problem
+      const problem = getGeneralApiProblem(response);
+      if (problem) return problem;
     }
 
     const convertUser = raw => {
@@ -97,11 +102,11 @@ export class Api {
 
     // transform the data into the format we are expecting
     try {
-      const rawUsers = response.data
-      const resultUsers: Types.User[] = rawUsers.map(convertUser)
-      return { kind: "ok", users: resultUsers }
+      const rawUsers = response.data;
+      const resultUsers: Types.User[] = rawUsers.map(convertUser);
+      return { kind: "ok", users: resultUsers };
     } catch {
-      return { kind: "bad-data" }
+      return { kind: "bad-data" };
     }
   }
 
@@ -111,12 +116,12 @@ export class Api {
 
   async getUser(id: string): Promise<Types.GetUserResult> {
     // make the api call
-    const response: ApiResponse<any> = await this.apisauce.get(`/users/${id}`)
+    const response: ApiResponse<any> = await this.apisauce.get(`/users/${id}`);
 
     // the typical ways to die when calling an api
     if (!response.ok) {
-      const problem = getGeneralApiProblem(response)
-      if (problem) return problem
+      const problem = getGeneralApiProblem(response);
+      if (problem) return problem;
     }
 
     // transform the data into the format we are expecting
@@ -125,9 +130,24 @@ export class Api {
         id: response.data.id,
         name: response.data.name,
       }
-      return { kind: "ok", user: resultUser }
+      return { kind: "ok", user: resultUser };
     } catch {
-      return { kind: "bad-data" }
+      return { kind: "bad-data" };
     }
+  }
+
+  async resetPassword(id: string, password: string): Promise<any> {
+    const response: ApiResponse<any> = await this.apisauce.put(`/users/${id}/resetPassword`, { password });
+
+    if (!response.ok) {
+      const problem = getGeneralApiProblem(response);
+      if (problem) return problem;
+    }
+
+    return response;
+  }
+
+  async forgotPassword(phoneNumber: string): Promise<ApiResponse<any>> {
+    return await this.apisauce.put(`/auth/forgotPassword`, { phoneNumber });
   }
 }

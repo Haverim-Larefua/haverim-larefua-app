@@ -1,6 +1,6 @@
 import * as React from "react"
 import { TouchableOpacity, TextStyle, ViewStyle } from "react-native"
-import { Icon, Text} from "../"
+import { Icon, Text } from "../"
 import { spacing } from "../../theme"
 import { CheckboxProps } from "./checkbox.props"
 import { mergeAll, flatten } from "ramda"
@@ -26,8 +26,8 @@ export function Checkbox(props: CheckboxProps) {
       onPress={onPress}
       style={rootStyle}
     >
-      <Icon icon={props.value ? "checkboxOn" : "checkboxOff"} />
-      <Text text={props.text} tx={props.tx} numberOfLines={numberOfLines} style={LABEL} />
+      <Icon style={props.iconsStyle} icon={props.value ? "checkboxOn" : "checkboxOff"} />
+      {!!props.text && <Text text={props.text} tx={props.tx} numberOfLines={numberOfLines} style={LABEL} />}
     </TouchableOpacity>
   )
 }

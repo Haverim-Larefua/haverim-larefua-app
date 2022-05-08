@@ -13,8 +13,9 @@
     "sourceMap": true,
     "target": "es2015",
     "lib": ["es7"],
-    "skipLibCheck": true
+	"skipLibCheck": true,
+	"noEmit": true
   },
-  "exclude": ["node_modules"],
+  "exclude": ["node_modules", "android", "ios"],
   "include": ["index.js", "app", "test", "storybook"]
 }
