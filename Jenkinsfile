@@ -143,15 +143,14 @@ node ("Dev") {
 
             // Copy the APK file to the prod server.
             String command = String.format(
-                "scp -i /home/${ffh_username}/.ssh/id_rsa.prod %s ${ffh_username}@%s:/tmp/",
+                "scp %s ${ffh_username}@%s:/tmp/",
                 apkFile,
                 prodServerIpAddress
             )
 
             sh "${command}"
 
-            command =  "ssh -i /home/${ffh_username}/.ssh/id_rsa.prod"
-            command += " ${ffh_username}@" + prodServerIpAddress
+            command =  "ssh ${ffh_username}@" + prodServerIpAddress
             command += " docker cp /tmp/app-release.apk"
             command += " ffh_server:/opt/app/hl/dist/assets/downloads/FFH.apk"
             print("Command = [${command}]")
