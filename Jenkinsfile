@@ -2,14 +2,15 @@
 // +-------------------------+
 // | Hard coded variables    |
 // +-------------------------+
-serversMap   = ["Dev": "20.242.32.133", "Prod": "20.122.155.192"]
 apkFile      = "android/app/build/outputs/apk/release/app-release.apk"
+serversMap   = ["Dev": "20.242.32.133", "Prod": "20.122.155.192"]
 ffh_username = "ffh_user"
+node_version = "10.24.1"
+
 
 // +-------------------------+
 // | Pipeline Parameters     |
 // +-------------------------+
-
 // Set the build parameters
 properties([
     parameters([
@@ -98,7 +99,7 @@ node ("Dev") {
         },
         ReactNative: {
             sh """
-                export PATH=/home/${ffh_username}/.nvm/versions/node/v10.24.1/bin:${PATH}
+                export PATH=/home/${ffh_username}/.nvm/versions/node/v${node_version}/bin:${PATH}
                 npm -version
                 npm ci
             """
@@ -118,12 +119,15 @@ node ("Dev") {
             sh """
                 export SDK_ROOT=/usr/lib/android-sdk
                 export ANDROID_SDK_ROOT=/usr/lib/android-sdk
-                export PATH=\${PATH}:\${ANDROID_SDK_ROOT}/tools/bin:\${ANDROID_SDK_ROOT}/cmdline-tools/tools/bin
+                export PATH=\${PATH}:\${ANDROID_SDK_ROOT}/tools/bin
+                export PATH=\${PATH}:\${ANDROID_SDK_ROOT}/cmdline-tools/tools/bin
+                export PATH=\${PATH}:\${ANDROID_SDK_ROOT}/cmdline-tools/latest/cmdline-tools/bin
+                export PATH=\${PATH}:/home/ffh_user/.nvm/versions/node/v${node_version}/bin
 
                 # Accept the Android licenses
                 mkdir -p /home/${ffh_username}/.android
                 touch /home/${ffh_username}/.android/repositories.cfg
-                yes | sdkmanager --sdk_root=$SDK_ROOT --licenses
+                yes | sdkmanager --sdk_root=\$SDK_ROOT --licenses
 
                 ./gradlew clean assembleRelease
             """
