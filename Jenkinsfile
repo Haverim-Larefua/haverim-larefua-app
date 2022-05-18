@@ -80,6 +80,7 @@ node ("Dev") {
         IP = serversMap[prmEnvironmentName]
 
         sh "sed -i -e 's/API_URL=.*/API_URL=http:\\/\\/${IP}:3001/' .env"
+        sh "cat .env"
         sh """
             if [ -d "node_modules" ]; then
                 mv node_modules deleteMe
