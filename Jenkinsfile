@@ -3,6 +3,7 @@
 // | Hard coded variables    |
 // +-------------------------+
 apkFile      = "android/app/build/outputs/apk/release/app-release.apk"
+dockerApk    = "/opt/app/hl/dist/assets/downloads/FFH.apk"
 serversMap   = ["Dev": "20.242.32.133", "Prod": "20.122.155.192"]
 ffh_username = "ffh_user"
 node_version = "10.24.1"
@@ -138,6 +139,9 @@ node ("Dev") {
 
 
     stage("Archive"){
+
+        banner(env.STAGE_NAME)
+
         if (prmEnvironmentName == "Prod") {
 
             String prodServerIpAddress = serversMap["Prod"]
@@ -153,12 +157,48 @@ node ("Dev") {
 
             command =  "ssh ${ffh_username}@" + prodServerIpAddress
             command += " docker cp /tmp/app-release.apk"
-            command += " ffh_server:/opt/app/hl/dist/assets/downloads/FFH.apk"
+            command += " ffh_server:${dockerApk}"
             print("Command = [${command}]")
             sh "${command}"
         }
         else {
-            sh "docker cp ${apkFile} ffh_server:/opt/app/hl/dist/assets/downloads/FFH.apk"
+            sh "docker cp ${apkFile} ffh_server:${dockerApk}"
+        }
+    }
+
+
+
+    stage("Validate"){
+
+        banner(env.STAGE_NAME)
+
+        String localCksum
+        String remoteCksum
+
+        if (prmEnvironmentName == "Prod") {
+
+            String prodServerIpAddress = serversMap["Prod"]
+
+            command = "ssh ${ffh_username}@" + prodServerIpAddress
+            command += " docker exec ffh_server cksum ${dockerApk} | awk '{print \$1}'"
+
+            // Get the local APK checksum
+            localCksum  = sh(returnStdout: true, script:"cksum ${apkFile} | awk '{print \$1}'").trim()
+            remoteCksum = sh(returnStdout: true, script:command).trim()
+        }
+        else {
+            localCksum  = sh(returnStdout: true, script:"cksum ${apkFile} | awk '{print \$1}'").trim()
+            remoteCksum = sh(returnStdout: true, script:"docker exec ffh_server cksum ${dockerApk} | awk '{print \$1}'").trim()
+        }
+
+        // Validate the checksums
+        if (localCksum == remoteCksum) {
+            print("Identiacal checksums - OK.")
+        }
+        else {
+            print("Local checksum : " + localCksum)
+            print("Remote checksum: " + remoteCksum)
+            error("Not identical checksums. Please validate.")
         }
     }
 } // Node
