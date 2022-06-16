@@ -4,7 +4,7 @@
 // +-------------------------+
 apkFile      = "android/app/build/outputs/apk/release/app-release.apk"
 dockerApk    = "/opt/app/hl/dist/assets/downloads/FFH.apk"
-serversMap   = ["Dev": "20.242.32.133", "Prod": "20.122.155.192"]
+serversMap   = ["Dev": "20.246.104.250", "Prod": "20.122.155.192"]
 ffh_username = "ffh_user"
 node_version = "10.24.1"
 
