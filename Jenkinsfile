@@ -121,10 +121,10 @@ node ("Dev") {
             sh """
                 export SDK_ROOT=/usr/lib/android-sdk
                 export ANDROID_SDK_ROOT=/usr/lib/android-sdk
-                export PATH=\${PATH}:\${ANDROID_SDK_ROOT}/tools/bin
-                export PATH=\${PATH}:\${ANDROID_SDK_ROOT}/cmdline-tools/tools/bin
-                export PATH=\${PATH}:\${ANDROID_SDK_ROOT}/cmdline-tools/latest/cmdline-tools/bin
-                export PATH=\${PATH}:/home/ffh_user/.nvm/versions/node/v${node_version}/bin
+                export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+
+                # PATH
+                export PATH=${JAVA_HOME}/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin:/usr/lib/android-sdk/tools/bin:/usr/lib/android-sdk/cmdline-tools/tools/bin:/usr/lib/android-sdk/cmdline-tools/latest/cmdline-tools/bin:/home/ffh_user/.nvm/versions/node/v10.24.1/bin
 
                 # Accept the Android licenses
                 mkdir -p /home/${ffh_username}/.android
